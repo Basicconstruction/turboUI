@@ -1,0 +1,8 @@
+<div *ngIf="isLogin" class="loginBox text-white d-flex justify-content-center align-items-center" >
+    你已经登录
+</div>
+<div *ngIf="!isLogin" class="loginBox d-flex justify-content-center align-items-center"
+    >
+    <button nz-button nzType="primary" [routerLink]="'/login'">去登录</button>
+</div>
+

@@ -1,0 +1,9 @@
+<nz-select ngModel="lucy" class="rounded-5 select m-3" [(ngModel)]="model" nzMode="default"
+    (ngModelChange)="onSelectChange($event)">
+    <nz-option-group nzLabel="chat">
+        <nz-option *ngFor="let chat of chatStreamChildren" [nzLabel]="chat" [nzValue]="chat"></nz-option>
+    </nz-option-group>
+    <nz-option-group nzLabel="image">
+        <nz-option *ngFor="let image of imageChildren" [nzLabel]="image" [nzValue]="image"></nz-option>
+    </nz-option-group>
+</nz-select>

@@ -1,0 +1,23 @@
+.chat-box {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  /*border: 1px solid #ccc;*/
+}
+
+.chat-content {
+  flex: 1;
+  margin-left: 16px; /* 适当的间距 */
+}
+
+.centered {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 800px) {
+  .centered {
+    max-width: unset;
+    margin: unset;
+  }
+}

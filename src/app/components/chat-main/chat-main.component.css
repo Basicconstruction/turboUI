@@ -1,0 +1,41 @@
+.center-input{
+  margin: auto;
+  width: 80%;
+}
+.center{
+  margin:  4px auto;
+}
+.fs-mini{
+  font-size: 12px;
+}
+.ask-box{
+  font-size: 16px;
+  scrollbar-width: none;
+  border: none;
+  outline: none;
+}
+.ask-box:hover,.ask-box:active{
+  border: none;
+  outline: none;
+}
+.ask-box::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px; /* 滚动条宽度 */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent; /* 滚动条背景色 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* 滚动条滑块颜色 */
+  border-radius: 3px; /* 滑块圆角 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa; /* 鼠标悬停时滑块颜色 */
+}

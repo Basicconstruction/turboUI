@@ -1,0 +1,12 @@
+
+.sidebar {
+  width: 260px;
+}
+
+.sidebar.d-none {
+  display: none;
+}
+
+.scrollbar-y-none::-webkit-scrollbar {
+    display: none; /* WebKit (Chrome, Safari) */
+}

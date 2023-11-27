@@ -1,0 +1,27 @@
+<div class="d-flex h-100 w-100">
+  <div class="sidebar p-0 m-0 d-flex flex-column" [ngClass]="{'d-none': isSidebarClosed}">
+
+    <div class="bg-dark overflow-y-scroll scrollbar-y-none flex-grow-1">
+      <!-- 历史记录标记 -->
+      <app-chat-history [chatHistoryTitle]="historyTitles"></app-chat-history>
+    </div>
+    <div class="bg-dark sticky-bottom">
+      <!-- 登录标记 -->
+      <div class="w-100">
+        <button class="rounded-5 m-2" nz-button
+                routerLink="/chat/settings"
+        ><span nz-icon nzType="edit" nzTheme="outline"></span></button>
+        <app-login-label></app-login-label>
+      </div>
+    </div>
+  </div>
+  <div class="content bg-info col position-relative p-0 flex-grow-1">
+    <span class="position-absolute top-50 translate-middle-y z-1"
+          nz-icon style="left: 30px;" (click)="toggleSidebar()"
+          [nzType]="isSidebarClosed?'right':'left'"
+          nzTheme="outline"></span>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
