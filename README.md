@@ -8,10 +8,10 @@ release有打包好的exe
 
 使用方式  
 ## 小白级别
-下载最大的UI.zip ， all in one 
+下载最大的UI.rar ， all in one 
 目录结构是
 ![img.png](img.png)  
-turbo 包含了,子托管的前端服务器turbo-pool，后端解析服务器
+turbo-server 包含了,子托管的前端服务器turbo-pool，后端解析服务器
 turbo-proxy
 ![img_1.png](img_1.png)
 打开turbo
@@ -21,7 +21,7 @@ turbo-proxy
 进程id
 然后在浏览器中访问即可
 ## 无依赖最小方式
-下载default.zip 中间大小
+下载default.rar 中间大小
 也就是all in one的turbo-server文件夹
 ![img_1.png](img_1.png)
 直接启动两个服务  
@@ -52,7 +52,8 @@ python install -r requirements.txt
 python main.py
 ```
 ### 前端
-直接部署到nginx或者iis等服务器软件上
+下载解压 browser.rar 仅包含编译的前端代码
+直接编译部署到nginx或者iis等服务器软件上
 参考
 https://angular.cn/guide/deployment
 
