@@ -1,3 +1,11 @@
+
+# 绝对依赖
+后端解析服务器 https://github.com/Basicconstruction/turboUI
+release有打包好的exe  
+也可以直接使用python main.py 启动后端服务器
+
+
+
 # TurboUI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
