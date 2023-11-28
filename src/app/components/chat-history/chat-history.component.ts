@@ -19,6 +19,7 @@ export class ChatHistoryComponent implements OnChanges
               @Inject(LastSessionToken) private lastSession: LastSessionModel
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
+      console.log("aware subscribe "+historyTitle.dataId)
       this.changeSession(historyTitle.dataId)
     })
   }

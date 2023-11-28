@@ -1,6 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ConfigurationService} from "../../../share-datas/configuration.service";
 import {GPTType} from "../../../models/chat.interface";
+import {configurationChangeSubject} from "../../../share-datas/datas.module";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-model-selector',
@@ -11,9 +13,14 @@ export class ModelSelectorComponent {
   chatStreamChildren: string[] = [];
   imageChildren :string[] = [];
   model: string | undefined;
-  constructor(private configurationService: ConfigurationService) {
+  constructor(private configurationService: ConfigurationService,
+              @Inject(configurationChangeSubject) private configurationObservable: Subject<boolean>) {
     this.buildSelector();
     this.model = this.configurationService.configuration?.model;
+    this.configurationObservable.subscribe((ele: boolean)=>{
+      this.buildSelector();
+      this.model = this.configurationService.configuration?.model;
+    })
   }
   buildSelector(){
     this.chatStreamChildren.length = 0;

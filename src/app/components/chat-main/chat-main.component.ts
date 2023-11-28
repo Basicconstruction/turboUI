@@ -151,8 +151,7 @@ export class ChatMainComponent {
           })
           this.nextSubjection = false;
         }
-      });// 更新数据
-      // 更新 chat-page 的历史
+      });
 
     },
       complete:()=>{
@@ -171,8 +170,7 @@ export class ChatMainComponent {
             })
             this.nextSubjection = false;
           }
-        });// 更新数据
-        // 更新 chat-page 的历史
+        });
 
       }
     });
@@ -202,10 +200,6 @@ export class ChatMainComponent {
     }
   }
   async buttonControlGPT(){
-    // this.chatHistoryModel?.chatList!.chatModel?.push(new ChatModel('user',
-    //   '[{"revised_prompt": "Prompt", "url": "image-url", "b64_json": "base64"}]' ,8,GPTType.Image))
-    //
-    // await this.chatDataService.putHistory(this.chatHistoryModel!)
     if(this.answering){
       this.answering = false;
       if (this.subscription) {
@@ -243,5 +237,14 @@ export class ChatMainComponent {
   clearContext() {
     this.backContextPointer = undefined;
     this.notification.success("清空上下文","清除成功")
+  }
+
+  enableTouch() {
+    // 正在回复 | 没有在回复，内容不为空
+    return this.answering || (!this.answering && this.inputText!='');
+  }
+
+  isFade() {
+    return !this.enableTouch();
   }
 }

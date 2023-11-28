@@ -1,7 +1,9 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject, OnChanges, SimpleChanges} from '@angular/core';
 import {ConfigurationService} from "../../share-datas/configuration.service";
 import {ConfigurationModel} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {configurationChangeSubject} from "../../share-datas/datas.module";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-settings',
@@ -27,7 +29,8 @@ export class SettingsComponent {
 
 
     constructor(private configurationService: ConfigurationService,
-                private notification: NzNotificationService) {
+                private notification: NzNotificationService,
+                @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
         this.configuration = this.configurationService.configuration!;
     }
 
@@ -40,6 +43,7 @@ export class SettingsComponent {
                 '重置成功',
                 '参数重置成功'
             );
+        this.configurationObserver.next(true);
     }
 
 
