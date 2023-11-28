@@ -1,6 +1,6 @@
 
 # 绝对依赖
-后端解析服务器 https://github.com/Basicconstruction/turboUI
+后端解析服务器 https://github.com/Basicconstruction/turbo-proxy
 release有打包好的exe  
 也可以直接使用python main.py 启动后端服务器
 
