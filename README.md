@@ -1,4 +1,5 @@
-
+效果
+![img.png](turbo-screen.png)
 # 绝对依赖
 后端解析服务器 https://github.com/Basicconstruction/turbo-proxy
 release有打包好的exe  
