@@ -1,0 +1,42 @@
+https://platform.openai.com/docs/api-reference/audio/createSpeech
+
+from pathlib import Path
+from openai import OpenAI
+client = OpenAI()
+
+speech_file_path = Path(__file__).parent / "speech.mp3"
+response = client.audio.speech.create(
+  model="tts-1",
+  voice="alloy",
+  input="Today is a wonderful day to build something people love!"
+)
+
+response.stream_to_file(speech_file_path)
+
+
+response_format
+string Optional Defaults to mp3
+The format to audio in. Supported formats are mp3, opus, aac, and flac.
+
+speed number
+Defaults to 1
+The speed of the generated audio. Select a value from 0.25 to 4.0. 1.0 is the default.
+
+input string Required
+The text to generate audio for. The maximum length is 4096 characters.
+
+model
+tts-1-hd
+tts-1
+
+voice
+alloy、echo、fable、onyx、nova和shimmer
+
+output
+默认响应格式为“mp3”，但也可以使用“opus”、“aac”或“flac”等其他格式。
+Opus：用于互联网流媒体和通信，低延迟。
+AAC：用于数字音频压缩，YouTube、Android、iOS 首选。
+FLAC：用于无损音频压缩，受到音频爱好者存档的青睐。
+
+语音 API 使用块传输编码提供对实时音频流的支持。这意味着可以在生成完整文件并可供访问之前播放音频。
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding

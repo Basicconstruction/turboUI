@@ -1,5 +1,5 @@
 import {Component, Inject, OnChanges, SimpleChanges} from '@angular/core';
-import {ConfigurationService} from "../../share-datas/configuration.service";
+import {ConfigurationService} from "../../share-datas";
 import {ConfigurationModel} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {configurationChangeSubject} from "../../share-datas/datas.module";

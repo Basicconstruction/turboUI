@@ -1,8 +1,9 @@
 import {Inject, Injectable} from "@angular/core";
 import {Db, DbService} from "./db.service";
-import {ChatHistoryModel} from "../models/chatHistory.model";
+import {ChatHistoryModel, ImageList} from "../models";
 import {Chat, ChatListModel, ChatModel} from "../models";
-import {GPTType, ImageList} from "../models/chat.interface";
+
+import {GPTType} from "../models/GPTType";
 
 @Injectable()
 export class ChatDataService{

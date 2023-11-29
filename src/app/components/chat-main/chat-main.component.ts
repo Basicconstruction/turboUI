@@ -5,12 +5,12 @@ import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {ChatDataService, HistoryTitleService} from "../../share-datas";
-import {ChatHistoryModel} from "../../models/chatHistory.model";
-import {Message} from "../../models/message.model";
-import {ConfigurationService} from "../../share-datas/configuration.service";
-import {GPTType} from "../../models/chat.interface";
+import {ChatHistoryModel} from "../../models";
+import {Message} from "../../models";
+import {ConfigurationService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {GPTType} from "../../models/GPTType";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',

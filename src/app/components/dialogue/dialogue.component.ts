@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {ChatModel} from "../../models";
+import {ChatModel, DallImage, ImageList} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {DomSanitizer} from "@angular/platform-browser";
-import {DallImage, GPTType, ImageList} from "../../models/chat.interface";
+
+import {GPTType} from "../../models/GPTType";
 
 @Component({
   selector: 'app-dialogue',

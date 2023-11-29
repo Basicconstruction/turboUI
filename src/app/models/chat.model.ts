@@ -1,4 +1,4 @@
-import {GPTType} from "./chat.interface";
+import {GPTType} from "./GPTType";
 
 export const UserRole = "user";
 export const AssistantRole = "assistant";

@@ -1,8 +1,8 @@
 import {Component, Inject} from '@angular/core';
-import {ConfigurationService} from "../../../share-datas/configuration.service";
-import {GPTType} from "../../../models/chat.interface";
+import {ConfigurationService} from "../../../share-datas";
 import {configurationChangeSubject} from "../../../share-datas/datas.module";
 import {Subject} from "rxjs";
+import {GPTType} from "../../../models/GPTType";
 
 @Component({
   selector: 'app-model-selector',

@@ -1,7 +1,7 @@
 import {Injectable, InjectionToken} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel} from "../models";
-import {CONFIGURATION, GPTType, ImageList} from "../models/chat.interface";
+import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel, ImageList} from "../models";
+import {CONFIGURATION} from "../models/configuration.interface";
 export const Db = new InjectionToken("db-service");
 @Injectable()
 export class DbService{

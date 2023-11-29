@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ConfigurationService} from "../share-datas/configuration.service";
 import {Message} from "../models/message.model";
-import {GPTType} from "../models/chat.interface";
+
+import {GPTType} from "../models/GPTType";
 
 @Injectable({
   providedIn: 'root'
@@ -93,20 +94,4 @@ export class OpenaiService {
       });
     }
 }
-// use
-// receivedData = '';
-// message: string = '';
-// constructor(private openaiService: OpenaiService) {
-// }
-// easyAsk(): void {
-//   this.receivedData = ''
-//   this.openaiService.fetchData(this.message).subscribe({
-//     next: (data: any) => {
-//       this.message = '';
-//       this.receivedData += data;
-//     },
-//     error: (error: any) => {
-//       console.error('Error fetching data:', error);
-//     }
-//   });
-// }
+
