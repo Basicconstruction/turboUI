@@ -1,6 +1,14 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {NzUploadFile} from "ng-zorro-antd/upload";
-import {ChatHistoryTitle, ChatModel, LastSessionModel} from "../../models";
+import {
+  ChatHistoryTitle,
+  ChatModel,
+  ChatPacket,
+  ImagePacket,
+  LastSessionModel,
+  SpeechPacket,
+  TranscriptionPacket
+} from "../../models";
 import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
@@ -105,7 +113,7 @@ export class ChatMainComponent {
       this.backContextPointer = userModel.dataId;
     }
     let type = this.configurationService.configuration?.type!;
-    let param: Message[] | string = this.resolveContext(type);
+    let param: ChatPacket | ImagePacket | SpeechPacket | TranscriptionPacket = this.resolveContext(type);
     const model = new ChatModel("assistant");
     model.finish = false;
     this.chatModels.push(model);
@@ -122,10 +130,24 @@ export class ChatMainComponent {
         // 存储标头
       });
     }
-
     model.type = type;
     this.inputText = '';
-    this.subscription = this.openaiService.fetchData(param,type).subscribe({
+    let subject: Observable<string>;
+    switch (model.type){
+      case GPTType.ChatStream:
+        subject = this.openaiService.fetchChat(param as ChatPacket);
+        break;
+      case GPTType.Image:
+        subject = this.openaiService.fetchImage(param as ImagePacket);
+        break;
+      case GPTType.Speech:
+        subject = this.openaiService.fetchTTS(param as SpeechPacket);
+        break;
+      case GPTType.Transcriptions:
+        subject = this.openaiService.fetchSTT(param as TranscriptionPacket);
+        break;
+    }
+    this.subscription = subject!.subscribe({
     next: (data: any) => {
       this.receivedData += data;
       model.content = this.receivedData;
@@ -210,13 +232,14 @@ export class ChatMainComponent {
     }
   }
   // chatModels: ChatModel[],backContextPointer: number | undefined
-  resolveContext(type: GPTType = GPTType.ChatStream): Message[] | string{
+  resolveContext(type: GPTType = GPTType.ChatStream){
     if(this.chatModels===undefined){
       console.log("未知错误")
     }
     if(type===GPTType.Image){
-      return this.chatModels[this.chatModels.length-1].content;
+      return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
     }
+    // TODO 添加tts 和sst的上下文处理
     const back = this.backContextPointer!;
     let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
     let messages: Message[] = [];
@@ -231,7 +254,7 @@ export class ChatMainComponent {
         })
       }
     }
-    return messages;
+    return new ChatPacket(messages);
   }
 
   clearContext() {

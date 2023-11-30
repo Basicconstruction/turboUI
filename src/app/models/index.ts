@@ -13,3 +13,5 @@ export {Configuration,ImageConfiguration,ChatStreamConfiguration} from "./config
 export {Chat,ChatHistory,ChatHistoryTitle} from "./chat.interface";
 export {Speech} from "./speech.interface"
 export {Transcriptions} from "./speechscript.interface"
+
+export {ChatPacket,ImagePacket,SpeechPacket,TranscriptionPacket} from "./send.param.model"

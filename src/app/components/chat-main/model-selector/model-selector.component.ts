@@ -17,12 +17,15 @@ export class ModelSelectorComponent {
               @Inject(configurationChangeSubject) private configurationObservable: Subject<boolean>) {
     this.buildSelector();
     this.model = this.configurationService.configuration?.model;
+    // console.log("set "+this.model)
     this.configurationObservable.subscribe((ele: boolean)=>{
       this.buildSelector();
       this.model = this.configurationService.configuration?.model;
+      console.log("aware "+this.model)
     })
   }
   buildSelector(){
+    // console.log('build selector')
     this.chatStreamChildren.length = 0;
     this.imageChildren.length = 0;
     for(let model of this.configurationService.configuration?.chatConfiguration!.models!){

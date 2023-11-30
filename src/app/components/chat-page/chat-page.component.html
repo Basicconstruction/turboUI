@@ -9,7 +9,7 @@
       <!-- 登录标记 -->
       <div class="w-100">
         <button class="rounded-5 m-2" nz-button
-                routerLink="/chat/settings"
+                [routerLink]="dynamicTravel()"
         ><span nz-icon nzType="edit" nzTheme="outline"></span></button>
         <app-login-label></app-login-label>
       </div>

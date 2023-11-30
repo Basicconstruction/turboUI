@@ -32,12 +32,12 @@ export class ConfigurationService {
                   "gpt-4-0613",
                   "gpt-4-32k",
                   "gpt-4-32k-0613",],
+                6,
                 0.6,
+              0.6,
+              4900,
                 0.6,
-                4900,
-                0.6,
-                0.6,
-                6
+                0.6
             ),
             new ImageConfigurationModel(
                 ["dall-e-3"],

@@ -46,6 +46,7 @@ import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 
 @NgModule({
   imports: [
+    // AppRoutingModule,
     AuthModule, ComponentsRoutingModule, NzInputModule, FormsModule, NzButtonModule, NzCardModule
     , HttpClientModule, NzTypographyModule, HighlightModule, NgClass, NzIconModule,
     FetchModule,

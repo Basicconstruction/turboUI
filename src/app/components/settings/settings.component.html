@@ -20,10 +20,11 @@
         <div class="py-2">
           <span class="title">设置</span>
         </div>
+<!--        nz-popover nzPopoverTitle="立即存储"-->
+<!--        nzPopoverContent="你的更改会立即反映到数据库中,即使不使用该按钮,使用的参数已经更改,不过可能会随着应用关闭而丢失"-->
+<!--        old code 影响用户的视觉       -->
         <div class="d-flex flex-row-reverse setting-action">
           <button nz-button nzType="primary"
-                  nz-popover nzPopoverTitle="立即存储"
-                  nzPopoverContent="你的更改会立即反映到数据库中,即使不使用该按钮,使用的参数已经更改,不过可能会随着应用关闭而丢失"
                   (click)="applyChangeRightNow()"
           >
             <span nz-icon nzType="fall" nzTheme="outline"></span>
