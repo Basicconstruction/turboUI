@@ -1,24 +1,24 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {NzUploadFile} from "ng-zorro-antd/upload";
 import {
+  ChatHistoryModel,
   ChatHistoryTitle,
   ChatModel,
   ChatPacket,
   ImagePacket,
   LastSessionModel,
+  Message,
   SpeechPacket,
   TranscriptionPacket
 } from "../../models";
 import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
-import {ChatDataService, HistoryTitleService} from "../../share-datas";
-import {ChatHistoryModel} from "../../models";
-import {Message} from "../../models";
-import {ConfigurationService} from "../../share-datas";
+import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {GPTType} from "../../models/GPTType";
+
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -42,6 +42,7 @@ export class ChatMainComponent {
     this._chatHistoryModel = value;
     this.chatModels = this._chatHistoryModel?.chatList?.chatModel!;
   }
+
   chatModels: ChatModel[] = [];
   answering: boolean = false;
   nextSubjection: boolean = false;
@@ -49,6 +50,7 @@ export class ChatMainComponent {
   subscription: Subscription | undefined;
   backContextPointer: number | undefined;
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
+
   constructor(
     private openaiService: OpenaiService,
     private renderer: Renderer2,
@@ -59,35 +61,33 @@ export class ChatMainComponent {
     @Inject(LastSessionToken) private lastSession: LastSessionModel,
     private configurationService: ConfigurationService,
     private notification: NzNotificationService
-    ) {
+  ) {
     this.chatSessionObservable.subscribe(async (dataId) => {
       await this.sync(dataId).then();
     })
-    if(this.chatHistoryModel===undefined&&this.lastSession.sessionId){
+    if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
       this.sync(this.lastSession.sessionId).then();
     }
 
   }
-  async sync(dataId: number){
-    // console.log(this.lastSession.sessionId+" "+dataId)
-    if(dataId===this.lastSession.sessionId){
+
+  async sync(dataId: number) {
+    if (dataId === this.lastSession.sessionId) {
       // console.log("no need to update")//&&dataId==this.chatHistoryModel?.dataId
       // return;
-    }else{
-      console.log("will open by observer "+dataId)
+    } else {
+      console.log("will open by observer " + dataId)
     }
     try {
       const chatHistory = await this.chatDataService.getChatHistory(dataId);
-      if(chatHistory){
+      if (chatHistory) {
         this.chatHistoryModel = chatHistory;
         console.log("change session")
         this.lastSession.sessionId = dataId;
-      }else{
+      } else {
         console.log("not found, create one")
         this.chatHistoryModel = new ChatHistoryModel();
         this.lastSession.sessionId = this.chatHistoryModel.dataId;
-        // this.chatModels.push(...this.oldChatModels);
-        // console.log("test new session")
       }
     } catch (error) {
       console.error('Error fetching chat history:', error);
@@ -95,24 +95,26 @@ export class ChatMainComponent {
   }
 
   scrollToBottom(): void {
-    if(!this.chatPanel) return;
+    if (!this.chatPanel) return;
     try {
       this.renderer.setProperty(this.chatPanel.nativeElement, 'scrollTop', this.chatPanel.nativeElement.scrollHeight);
     } catch (err) {
       console.error(err);
     }
   }
+
   askGPT() {
-    if(this.chatHistoryModel===undefined){
+    if (this.chatHistoryModel === undefined) {
       this.chatHistoryModel = new ChatHistoryModel();
     }
     this.answering = true;
-    const userModel = new ChatModel("user",this.inputText);
+    const userModel = new ChatModel("user", this.inputText);
     this.chatModels.push(userModel);
-    if(this.backContextPointer===undefined){
+    if (this.backContextPointer === undefined) {
       this.backContextPointer = userModel.dataId;
     }
-    let type = this.configurationService.configuration?.type!;
+    let type = this.configurationService.configuration?.type!;// 制定当前请求的类型
+    // 确保输入框的文本没有被清空，
     let param: ChatPacket | ImagePacket | SpeechPacket | TranscriptionPacket = this.resolveContext(type);
     const model = new ChatModel("assistant");
     model.finish = false;
@@ -120,20 +122,20 @@ export class ChatMainComponent {
     this.scrollSubject = new Subject<boolean>();
     this.scrollSubscribe();
     this.receivedData = '';
-    if(this.chatHistoryModel?.title===''){
+    if (this.chatHistoryModel?.title === '') {
       this.chatHistoryModel.title = this.inputText;
       this.chatHistoryService.putHistoryTitles({
         dataId: this.chatHistoryModel.dataId!,
         title: this.chatHistoryModel.title
-      }).then(()=>{
+      }).then(() => {
         this.nextSubjection = true;
         // 存储标头
       });
     }
-    model.type = type;
-    this.inputText = '';
+    model.type = type;//
+    this.inputText = '';// URGENT
     let subject: Observable<string>;
-    switch (model.type){
+    switch (model.type) {
       case GPTType.ChatStream:
         subject = this.openaiService.fetchChat(param as ChatPacket);
         break;
@@ -148,96 +150,99 @@ export class ChatMainComponent {
         break;
     }
     this.subscription = subject!.subscribe({
-    next: (data: any) => {
-      this.receivedData += data;
-      model.content = this.receivedData;
-      this.nextSubscribe(true);
-    },
-    error: (error: any) => {
-      console.error('Error fetching data:', error);
-      model.content += `网络可能遇到了问题`;
-      model.finish = true;
-      this.nextSubscribe(false);
-
-      this.answering = false;
-      this.scrollSubject?.complete();
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
-      this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
-        console.log("add database "+r)
-        if(this.nextSubjection){
-          this.backHistoryObserver.next({
-            dataId: this.chatHistoryModel!.dataId!,
-            title: this.chatHistoryModel!.title
-          })
-          this.nextSubjection = false;
-        }
-      });
-
-    },
-      complete:()=>{
+      next: (data: any) => {
+        this.receivedData += data;
+        model.content = this.receivedData;
+        this.nextSubscribe(true);
+      },
+      error: (error: any) => {
+        console.error('Error fetching data:', error);
+        model.content += `网络可能遇到了问题`;
+        model.finish = true;
+        this.nextSubscribe(false);
+        this.answering = false;
+        this.finalizeResponse();
+      },
+      complete: () => {
         this.answering = false;
         model.finish = true;
-        this.scrollSubject?.complete();
-        if (this.subscription) {
-          this.subscription.unsubscribe();
-        }
-        this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
-          console.log("add database "+r)
-          if(this.nextSubjection){
-            this.backHistoryObserver.next({
-              dataId: this.chatHistoryModel!.dataId!,
-              title: this.chatHistoryModel!.title
-            })
-            this.nextSubjection = false;
-          }
-        });
-
+        this.finalizeResponse();
       }
     });
   }
-  nextSubscribe(data: boolean){
-    if(this.answering){
+  finalizeResponse(){
+    this.scrollSubject?.complete();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
+      console.log("add database " + r)
+      if (this.nextSubjection) {
+        this.backHistoryObserver.next({
+          dataId: this.chatHistoryModel!.dataId!,
+          title: this.chatHistoryModel!.title
+        })
+        this.nextSubjection = false;
+      }
+    });
+  }
+
+  nextSubscribe(data: boolean) {
+    if (this.answering) {
       this.scrollSubject?.next(data);
     }
   }
-  scrollSubscribe(){
+
+  scrollSubscribe() {
     this.scrollSubject?.subscribe({
-      next: (data: boolean)=>{
+      next: (data: boolean) => {
         this.scrollToBottom();
       }
     });
   }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-  async typeControlGPT(){
-    if(this.answering){
+
+  async typeControlGPT() {
+    if (this.answering) {
       return;
-    }else{
+    } else {
       this.askGPT();
     }
   }
-  async buttonControlGPT(){
-    if(this.answering){
+
+  async buttonControlGPT() {
+    if (this.answering) {
       this.answering = false;
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
-    }else{
+    } else {
       this.askGPT();
     }
   }
-  // chatModels: ChatModel[],backContextPointer: number | undefined
-  resolveContext(type: GPTType = GPTType.ChatStream){
-    if(this.chatModels===undefined){
+
+  resolveContext(type: GPTType = GPTType.ChatStream) {
+    if (this.chatModels === undefined) {
       console.log("未知错误")
     }
-    if(type===GPTType.Image){
-      return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
+    if (type === GPTType.Image) {
+      // return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
+      return new ImagePacket(this.inputText);
+    }
+    if (type === GPTType.Speech) {
+      return new SpeechPacket(this.inputText, this.fileList);
+    }
+    if (type === GPTType.Transcriptions) {
+      if(this.inputText!==''){
+        return new TranscriptionPacket(true,this.fileList,this.inputText);
+      }else{
+        return new TranscriptionPacket(true,this.fileList);
+      }
     }
     // TODO 添加tts 和sst的上下文处理
     const back = this.backContextPointer!;
@@ -245,10 +250,10 @@ export class ChatMainComponent {
     let messages: Message[] = [];
     const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
     const reversedArray = originalArray.reverse();
-    for(let chatModel of reversedArray){
-      if(messages.length>=sessionLength) break;
-      if(chatModel.dataId!>=back&&chatModel.type===GPTType.ChatStream){
-        messages.splice(0,0,{
+    for (let chatModel of reversedArray) {
+      if (messages.length >= sessionLength) break;
+      if (chatModel.dataId! >= back && chatModel.type === GPTType.ChatStream) {
+        messages.splice(0, 0, {
           role: chatModel.role,
           content: chatModel.content
         })
@@ -259,12 +264,12 @@ export class ChatMainComponent {
 
   clearContext() {
     this.backContextPointer = undefined;
-    this.notification.success("清空上下文","清除成功")
+    this.notification.success("清空上下文", "清除成功")
   }
 
   enableTouch() {
     // 正在回复 | 没有在回复，内容不为空
-    return this.answering || (!this.answering && this.inputText!='');
+    return this.answering || (!this.answering && this.inputText != '');
   }
 
   isFade() {
