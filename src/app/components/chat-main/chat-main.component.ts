@@ -182,7 +182,8 @@ export class ChatMainComponent {
     return res;
   }
   finalizeResponse(){
-    this.fileList.length = 0;
+    this.fileList = []  // Todo 需要取消注释，如果不是在调试
+
     this.scrollSubject?.complete();
     if (this.subscription) {
       this.subscription.unsubscribe();

@@ -13,9 +13,13 @@ export class TtsComponent {
   @Input()
   set content(value: string | undefined) {
     this._content = value;
-    if(value===undefined) return;
-    const blob = this.base64toBlob(value, 'audio/mpeg'); // 转换为 Blob
-    this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
+    if(this.chatModel?.content===undefined) return;
+    try{
+      const blob = this.base64toBlob(this.chatModel?.content, 'audio/mpeg');
+      this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
+    }catch (e){
+
+    }
   }
   @Input()
   set chatModel(value: ChatModel | undefined) {
@@ -31,8 +35,13 @@ export class TtsComponent {
     // 假设 chatModel?.content 包含 Base64 编码的音频数据
     const base64Data = this.chatModel?.content; // 获取 Base64 数据
     if(base64Data===undefined) return;
-    const blob = this.base64toBlob(base64Data, 'audio/mpeg'); // 转换为 Blob
-    this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
+    try{
+      const blob = this.base64toBlob(base64Data, 'audio/mpeg');
+      this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
+    }catch (e){
+
+    }
+
   }
 
   // 辅助函数，将 Base64 数据转换为 Blob URL

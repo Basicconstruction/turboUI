@@ -164,7 +164,7 @@ export class OpenaiService {
     }
     let requestBody: any;
     requestBody = {
-      type: GPTType.Image,
+      type: GPTType.Speech,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -186,11 +186,10 @@ export class OpenaiService {
     let authorizationToken = config?.accessKey; // 替换为你的授权令牌
     if (!authorizationToken) authorizationToken = '';
     const formData = new FormData();
-    const transcriptionPacket = stt;
-    if (transcriptionPacket.fileList && transcriptionPacket.fileList.length > 0) {
-      for (let i = 0; i < transcriptionPacket.fileList.length; i++) {
-        formData.append('files[]', transcriptionPacket.fileList[i].originFileObj as File);
-      }
+    if (stt.fileList) {
+      stt.fileList.forEach((file: any) => {
+        formData.append('files[]', file);
+      });
     }
     let requestBody: any;
     let body = {
@@ -201,12 +200,12 @@ export class OpenaiService {
       temperature: config?.transcriptionConfiguration.temperature,
     };
     requestBody = {
-      type: GPTType.Image,
+      type: GPTType.Transcriptions,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: body,
     }
-    formData.append('packet', requestBody);
+    formData.append('packet', JSON.stringify(requestBody));
     return this.fetchUpload(url, formData, authorizationToken);
   }
 }
