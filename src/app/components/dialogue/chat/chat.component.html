@@ -1,0 +1,15 @@
+<div class="w-100" *ngFor="let segment of separatedSegments">
+  <div  *ngIf="segment.isCode" class="w-100 d-flex flex-column">
+    <div class="d-flex flex-row-reverse">
+      <button class="rounded-5 border-0 bg-opacity-50 bg-dark text-white" (click)="copyCode(segment.content)">
+        <span nz-icon nzType="copy" nzTheme="outline"></span><span style="font-size: 12px;">Copy code</span>
+      </button>
+    </div>
+    <pre class="m-0 rounded-5 bg-light">
+          <code class="pb-0 rounded-3" [highlight]="segment.content"></code>
+        </pre>
+  </div>
+  <div *ngIf="!segment.isCode">
+    {{segment.content}}
+  </div>
+</div>

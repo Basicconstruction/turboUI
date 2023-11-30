@@ -43,6 +43,10 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzPopoverModule} from "ng-zorro-antd/popover";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+import { ImageComponent } from './dialogue/image/image.component';
+import { ChatComponent } from './dialogue/chat/chat.component';
+import { TtsComponent } from './dialogue/tts/tts.component';
+import { SttComponent } from './dialogue/stt/stt.component';
 
 @NgModule({
   imports: [
@@ -62,7 +66,11 @@ import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
     ChatMainComponent,
     DialogueComponent,
     SettingsComponent,
-    ModelSelectorComponent
+    ModelSelectorComponent,
+    ImageComponent,
+    ChatComponent,
+    TtsComponent,
+    SttComponent
   ],
   exports: [
     ChatPageComponent

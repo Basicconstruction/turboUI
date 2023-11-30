@@ -108,12 +108,15 @@ export class ChatMainComponent {
       this.chatHistoryModel = new ChatHistoryModel();
     }
     this.answering = true;
-    const userModel = new ChatModel("user", this.inputText);
+    let type = this.configurationService.configuration?.type!;// 制定当前请求的类型
+    // 添加更多显示数据
+    const userModel = new ChatModel("user",this.buildFileList()+ this.inputText,
+      type===GPTType.ChatStream?type: GPTType.NotCareRequest);
     this.chatModels.push(userModel);
     if (this.backContextPointer === undefined) {
       this.backContextPointer = userModel.dataId;
     }
-    let type = this.configurationService.configuration?.type!;// 制定当前请求的类型
+
     // 确保输入框的文本没有被清空，
     let param: ChatPacket | ImagePacket | SpeechPacket | TranscriptionPacket = this.resolveContext(type);
     const model = new ChatModel("assistant");
@@ -170,7 +173,16 @@ export class ChatMainComponent {
       }
     });
   }
+  buildFileList(){
+    let res = "";
+    let i = 0;
+    for(let file of this.fileList){
+      res += `文件 ${i++}: ${file.name}\n`;
+    }
+    return res;
+  }
   finalizeResponse(){
+    this.fileList.length = 0;
     this.scrollSubject?.complete();
     if (this.subscription) {
       this.subscription.unsubscribe();

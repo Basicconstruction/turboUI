@@ -1,0 +1,15 @@
+<div *ngIf="imageList!==undefined">
+  <div *ngFor="let image of imageList!.images">
+
+    <img nz-image width="300" height="300"
+         [nzFallback]="fallback"
+         [nzSrc]="autoShow(image)" alt="图片"/>
+    <div>{{image.revised_prompt}}</div>
+  </div>
+</div>
+<div *ngIf="errors()">
+  {{chatModel?.content}} error.
+</div>
+<div *ngIf="loading()">
+  <nz-spin nzSize="large" nzSimple></nz-spin>
+</div>

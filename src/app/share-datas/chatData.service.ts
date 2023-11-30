@@ -1,7 +1,6 @@
 import {Inject, Injectable} from "@angular/core";
 import {Db, DbService} from "./db.service";
-import {ChatHistoryModel, ImageList} from "../models";
-import {Chat, ChatListModel, ChatModel} from "../models";
+import {Chat, ChatHistoryModel, ChatListModel, ChatModel, ImageList} from "../models";
 
 import {GPTType} from "../models/GPTType";
 
@@ -15,11 +14,13 @@ export class ChatDataService{
       const data = await this.dbService.getHistory(dataId);
       if(!data) return undefined;
       let list = (data!.chatList.map(async (c) => {
-        if (c.type === GPTType.ChatStream) {
+        if (c.type === GPTType.ChatStream || c.type === GPTType.Speech || c.type === GPTType.Transcriptions) {
           return new ChatModel(c.role, c.content, c.dataId, c.type);
-        } else {
+        } else if(c.type===GPTType.Image){
           let content = JSON.stringify(await this.dbService.getImage(c.dataId!));
           return new ChatModel(c.role, content, c.dataId, c.type);
+        }else{
+          return new ChatModel(c.role, c.content, c.dataId, c.type);
         }
       }));
 
@@ -43,22 +44,29 @@ export class ChatDataService{
   async putHistory(history: ChatHistoryModel){
     if(!history) return;
     let chatList = history.chatList!.chatModel!.map(async h => {
-      if (h.type === GPTType.ChatStream) {
+      if (h.type === GPTType.ChatStream || h.type === GPTType.Speech || h.type === GPTType.Transcriptions) {
         return {
-          dataId: h.dataId!, // 之前是 h.dateId，这里改为 h.dataId
+          dataId: h.dataId!,
           role: h.role,
           content: h.content,
-          type: GPTType.ChatStream
+          type: h.type
         }
-      } else {
+      } else if(h.type===GPTType.Image){
         let imageList: ImageList = JSON.parse(h.content);
         imageList.dataId = h.dataId!;
         let add = await this.dbService.addOrUpdateImage(imageList);
         return {
-          dataId: h.dataId!, // 之前是 h.dateId，这里改为 h.dataId
+          dataId: h.dataId!,
           role: h.role,
           content: '',
-          type: GPTType.Image
+          type: h.type
+        }
+      }else{// 其他的 请求，不希望这些影响上下文
+        return {
+          dataId: h.dataId!,
+          role: h.role,
+          content: h.content,
+          type: h.type
         }
       }
     });
