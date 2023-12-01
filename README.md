@@ -1,5 +1,7 @@
 效果
 ![img.png](turbo-screen.png)
+![img_4.png](img_4.png)
+1.00 版本会 预留文件（发送文件）的位置，目前没有添加ui，已经添加其余的逻辑
 相关项目：  
 静态文件服务器 和 桌面UI
 https://github.com/Basicconstruction/turbo
