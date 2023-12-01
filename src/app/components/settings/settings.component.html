@@ -143,6 +143,7 @@
             <nz-col>
               <nz-input-number
                 [nzMin]="0"
+                [nzStep]="0.01"
                 [nzMax]="1"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.chatConfiguration!.temperature"
@@ -168,6 +169,7 @@
             <nz-col>
               <nz-input-number
                 [nzMin]="0"
+                [nzStep]="0.01"
                 [nzMax]="1"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.chatConfiguration.top_p"
@@ -194,6 +196,7 @@
             <nz-col>
               <nz-input-number
                 [nzMin]="0"
+                [nzStep]="0.01"
                 [nzMax]="1"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.chatConfiguration.presence_penalty"
@@ -219,6 +222,7 @@
             <nz-col>
               <nz-input-number
                 [nzMin]="0"
+                [nzStep]="0.01"
                 [nzMax]="1"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.chatConfiguration.frequency_penalty"
@@ -424,6 +428,7 @@
               <nz-input-number
                 [nzMin]="0.25"
                 [nzMax]="4"
+                [nzStep]="0.25"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.speechConfiguration.speed"
               ></nz-input-number>
@@ -455,6 +460,7 @@
               <nz-input-number
                 [nzMin]="0"
                 [nzMax]="1"
+                [nzStep]="0.01"
                 [ngStyle]="{ marginLeft: '16px' }"
                 [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
               ></nz-input-number>
