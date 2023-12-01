@@ -1,0 +1,36 @@
+<nz-row class="align-items-center my-1">
+  <nz-col>
+    <nz-col class="mx-1">
+      音色
+    </nz-col>
+    <nz-col>
+
+    </nz-col>
+  </nz-col>
+  <nz-col>
+    <nz-col class="mx-1">
+      转录/翻译
+    </nz-col>
+    <nz-col>
+      <nz-select class="select big"  [(ngModel)]="configuration?.transcriptionConfiguration!.transcription">
+        <nz-option [nzValue]="true" [nzLabel]="'转录'"></nz-option>
+        <nz-option [nzValue]="false" [nzLabel]="'翻译'"></nz-option>
+      </nz-select>
+    </nz-col>
+  </nz-col>
+  <nz-col *ngIf="configuration?.transcriptionConfiguration!.transcription!==false">
+    <nz-col class="mx-1">
+      language
+    </nz-col>
+    <nz-col class="select big">
+      <nz-select nzShowSearch nzAllowClear class="select big" [(ngModel)]="configuration?.transcriptionConfiguration!.language">
+        <nz-option *ngFor="let language of languages" [nzLabel]="language"
+          [nzValue]="language"
+        ></nz-option>
+      </nz-select>
+    </nz-col>
+  </nz-col>
+  <nz-col>
+    支持的文件格式 flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+  </nz-col>
+</nz-row>

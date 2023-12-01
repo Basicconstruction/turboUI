@@ -3,7 +3,7 @@ import {NgModule} from "@angular/core";
 import {ChatPageComponent} from "./chat-page/chat-page.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {ChatMainComponent} from "./chat-main/chat-main.component";
-import {ConfigurationResolver} from "../share-datas/configuration.resolver";
+import {ConfigurationResolver} from "../share-datas";
 
 const routes: Routes = [
   {

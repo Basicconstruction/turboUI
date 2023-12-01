@@ -54,7 +54,7 @@ export class ConfigurationService {
               1
             ),
             new TranscriptionConfigurationModel(
-              ["whisper-1"]
+              ["whisper-1"],
             ),
             "http://localhost:8888",
             "",

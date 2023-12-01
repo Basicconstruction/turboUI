@@ -4,6 +4,14 @@ import {ConfigurationModel} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {configurationChangeSubject} from "../../share-datas/datas.module";
 import {Subject} from "rxjs";
+import {
+  image_response_formats,
+  qualities,
+  sizes,
+  speech_response_formats,
+  styles,
+  human_voices, woman_voices
+} from '../../models/type.data';
 
 @Component({
     selector: 'app-settings',
@@ -12,25 +20,17 @@ import {Subject} from "rxjs";
 })
 export class SettingsComponent {
     configuration: ConfigurationModel;
-    sizes: string[] = [
-        "1024x1024",
-        "1024x1792",
-        "1792x1024"
-    ];
-    response_formats: string[] = [
-      "url","b64_json"
-    ];
-    qualities: string[] = [
-      "hd","standard"
-    ];
-    styles: string[] = [
-      "vivid","natural"
-    ]
-
-
+    sizes: string[] = sizes;
+    image_response_formats: string[] = image_response_formats;
+    qualities: string[] = qualities;
+    styles: string[] = styles;
+    humanVoices: string[] = human_voices;
+    womanVoices: string[] = woman_voices;
+    speech_response_formats: string[] = speech_response_formats
     constructor(private configurationService: ConfigurationService,
                 private notification: NzNotificationService,
                 @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
+
         this.configuration = this.configurationService.configuration!;
     }
 

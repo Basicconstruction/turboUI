@@ -47,6 +47,9 @@ import { ImageComponent } from './dialogue/image/image.component';
 import { ChatComponent } from './dialogue/chat/chat.component';
 import { TtsComponent } from './dialogue/tts/tts.component';
 import { SttComponent } from './dialogue/stt/stt.component';
+import { StaticRequestComponent } from './dialogue/static-request/static-request.component';
+import { TtsBannerComponent } from './chat-main/tts-banner/tts-banner.component';
+import { SttBannerComponent } from './chat-main/stt-banner/stt-banner.component';
 
 @NgModule({
   imports: [
@@ -70,7 +73,10 @@ import { SttComponent } from './dialogue/stt/stt.component';
     ImageComponent,
     ChatComponent,
     TtsComponent,
-    SttComponent
+    SttComponent,
+    StaticRequestComponent,
+    TtsBannerComponent,
+    SttBannerComponent
   ],
   exports: [
     ChatPageComponent

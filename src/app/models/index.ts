@@ -1,4 +1,4 @@
-export {ChatModel} from "./chat.model";
+export {ChatInterface,ChatModel,FileInChat} from "./chat.model";
 export {ConfigurationModel,
   ImageConfigurationModel,
   ChatStreamConfigurationModel,
@@ -10,7 +10,7 @@ export {Message} from "./message.model"
 
 export {ImageList,DallImage} from "./image.interface"
 export {Configuration,ImageConfiguration,ChatStreamConfiguration} from "./configuration.interface"
-export {Chat,ChatHistory,ChatHistoryTitle} from "./chat.interface";
+export {ChatHistory,ChatHistoryTitle} from "./chat.interface";
 export {Speech} from "./speech.interface"
 export {Transcriptions} from "./speechscript.interface"
 

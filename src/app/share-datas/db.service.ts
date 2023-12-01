@@ -1,7 +1,8 @@
 import {Injectable, InjectionToken} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel, ImageList} from "../models";
+import {ChatHistory, ChatHistoryTitle, ChatModel, Configuration, ConfigurationModel, ImageList} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
+import {ChatInterface} from "../models/chat.model";
 export const Db = new InjectionToken("db-service");
 @Injectable()
 export class DbService{
@@ -27,22 +28,30 @@ export class DbService{
         if (!db.objectStoreNames.contains("configuration")) {
           db.createObjectStore("configuration")
         }
-        if(!db.objectStoreNames.contains("chatImage")){
-          db.createObjectStore("chatImage",{
+        if(!db.objectStoreNames.contains("chatInterface")){
+          db.createObjectStore("chatInterface",{
             keyPath: 'dataId'
           })
         }
       },
     });
   }
-  async getImage(dataId: number){
-    return this.idbDb?.get("chatImage",dataId);
+  async checkChatModelExists(dataId: number){
+    const tx = this.idbDb?.transaction('chatInterface', 'readonly');
+    if(!tx){
+      return false;
+    }
+    const store = tx.objectStore("chatInterface");
+    return await store.count(dataId) === 1;
   }
-  async addOrUpdateImage(imageList: ImageList){
-    return this.idbDb?.put("chatImage",imageList)
+  async putChatInterface(chat: ChatInterface){
+    return this.idbDb?.put("chatInterface",chat);
   }
-  async deleteImage(dataId: number){
-    return this.idbDb?.delete("chatImage",dataId);
+  async deleteChatInterface(dataId: number){
+    return this.idbDb?.delete("chatInterface",dataId);
+  }
+  async getChatInterface(dataId: number){
+    return this.idbDb?.get("chatInterface",dataId);
   }
   async getHistoryTitles(){
     return this.idbDb?.getAll('chatHistoryTitles');
@@ -94,8 +103,12 @@ interface ChatDb extends DBSchema{
     key: string,
     value: Configuration,
   },
-  chatImage:{
+  // chatImage:{
+  //   key: number,
+  //   value: ImageList
+  // },
+  chatInterface:{
     key: number,
-    value: ImageList
+    value: ChatInterface
   }
 }

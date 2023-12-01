@@ -12,7 +12,7 @@ export class ImageComponent {
   public imageList: ImageList | undefined;
   @Input()
   set content(value: string | undefined) {
-    this._content = value;
+    this._content = value;// value 是一个json串
     this.segmentsImage();
   }
 

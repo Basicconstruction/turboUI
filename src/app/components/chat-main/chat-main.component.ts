@@ -4,7 +4,7 @@ import {
   ChatHistoryModel,
   ChatHistoryTitle,
   ChatModel,
-  ChatPacket,
+  ChatPacket, ConfigurationModel,
   ImagePacket,
   LastSessionModel,
   Message,
@@ -13,11 +13,12 @@ import {
 } from "../../models";
 import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
-import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
+import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {GPTType} from "../../models/GPTType";
+import {FileInChat} from "../../models";
 
 @Component({
   selector: 'app-chat-main',
@@ -25,10 +26,36 @@ import {GPTType} from "../../models/GPTType";
   styleUrl: './chat-main.component.css'
 })
 export class ChatMainComponent {
-  beforeUpload = (file: NzUploadFile): boolean => {
-    this.fileList = this.fileList.concat(file);
-    return false;
-  };
+  constructor(
+    private openaiService: OpenaiService,
+    private renderer: Renderer2,
+    private chatDataService: ChatDataService,
+    @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
+    private chatHistoryService: HistoryTitleService,
+    @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
+    @Inject(LastSessionToken) private lastSession: LastSessionModel,
+    private configurationService: ConfigurationService,
+    private notification: NzNotificationService,
+    @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
+
+    this.configurationObserver.subscribe((change)=>{
+      if(change){
+        // 响应更改
+        this.configuration = this.configurationService.configuration!;
+      }
+    });
+    // 初始化configuration
+    this.configuration = this.configurationService.configuration!;
+    this.chatSessionObservable.subscribe(async (dataId) => {
+      await this.sync(dataId).then();
+    })
+    if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
+      this.sync(this.lastSession.sessionId).then();
+    }
+
+  }
+
+  configuration: ConfigurationModel | undefined;
   fileList: NzUploadFile[] = [];
   inputText: string = '';
   scrollSubject: Subject<boolean> | undefined;
@@ -51,25 +78,6 @@ export class ChatMainComponent {
   backContextPointer: number | undefined;
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
 
-  constructor(
-    private openaiService: OpenaiService,
-    private renderer: Renderer2,
-    private chatDataService: ChatDataService,
-    @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
-    private chatHistoryService: HistoryTitleService,
-    @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
-    @Inject(LastSessionToken) private lastSession: LastSessionModel,
-    private configurationService: ConfigurationService,
-    private notification: NzNotificationService
-  ) {
-    this.chatSessionObservable.subscribe(async (dataId) => {
-      await this.sync(dataId).then();
-    })
-    if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
-      this.sync(this.lastSession.sessionId).then();
-    }
-
-  }
 
   async sync(dataId: number) {
     if (dataId === this.lastSession.sessionId) {
@@ -109,9 +117,11 @@ export class ChatMainComponent {
     }
     this.answering = true;
     let type = this.configurationService.configuration?.type!;// 制定当前请求的类型
+    let fileList: FileInChat[] | undefined;
+    fileList = this.buildFileList()
     // 添加更多显示数据
-    const userModel = new ChatModel("user",this.buildFileList()+ this.inputText,
-      type===GPTType.ChatStream?type: GPTType.NotCareRequest);
+    const userModel = new ChatModel("user", this.inputText,
+      fileList, GPTType.NotCareRequest);
     this.chatModels.push(userModel);
     if (this.backContextPointer === undefined) {
       this.backContextPointer = userModel.dataId;
@@ -135,7 +145,7 @@ export class ChatMainComponent {
         // 存储标头
       });
     }
-    model.type = type;//
+    model.type = type;
     this.inputText = '';// URGENT
     let subject: Observable<string>;
     switch (model.type) {
@@ -173,15 +183,21 @@ export class ChatMainComponent {
       }
     });
   }
-  buildFileList(){
-    let res = "";
-    let i = 0;
-    for(let file of this.fileList){
-      res += `文件 ${i++}: ${file.name}\n`;
+
+  buildFileList() {
+    let res: FileInChat[] = [];
+    for (let file of this.fileList) {
+      let afile: FileInChat = {
+        fileName: file.name,
+        type: file.type,
+        fileSize: file.size,
+        content: ""// 如果是图片，添加图片的内容
+      }
     }
     return res;
   }
-  finalizeResponse(){
+
+  finalizeResponse() {
     this.fileList = []  // Todo 需要取消注释，如果不是在调试
 
     this.scrollSubject?.complete();
@@ -251,10 +267,10 @@ export class ChatMainComponent {
       return new SpeechPacket(this.inputText, this.fileList);
     }
     if (type === GPTType.Transcriptions) {
-      if(this.inputText!==''){
-        return new TranscriptionPacket(true,this.fileList,this.inputText);
-      }else{
-        return new TranscriptionPacket(true,this.fileList);
+      if (this.inputText !== '') {
+        return new TranscriptionPacket(true, this.fileList, this.inputText);
+      } else {
+        return new TranscriptionPacket(true, this.fileList);
       }
     }
     // TODO 添加tts 和sst的上下文处理
@@ -282,10 +298,20 @@ export class ChatMainComponent {
 
   enableTouch() {
     // 正在回复 | 没有在回复，内容不为空
-    return this.answering || (!this.answering && this.inputText != '');
+    return this.answering || (!this.answering && this.inputText != '') ||
+      ((
+        this.configurationService.configuration?.type === GPTType.Transcriptions ||
+        this.configurationService.configuration?.type === GPTType.Speech
+      ) && this.fileList.length > 0);
   }
 
   isFade() {
     return !this.enableTouch();
   }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    return false;
+  };
+  protected readonly GPTType = GPTType;
 }

@@ -1,8 +1,6 @@
 import {Inject, Injectable} from "@angular/core";
 import {Db, DbService} from "./db.service";
-import {Chat, ChatHistoryModel, ChatListModel, ChatModel, ImageList} from "../models";
-
-import {GPTType} from "../models/GPTType";
+import {ChatHistory, ChatHistoryModel, ChatListModel, ChatModel} from "../models";
 
 @Injectable()
 export class ChatDataService{
@@ -14,22 +12,26 @@ export class ChatDataService{
       const data = await this.dbService.getHistory(dataId);
       if(!data) return undefined;
       let list = (data!.chatList.map(async (c) => {
-        if (c.type === GPTType.ChatStream || c.type === GPTType.Speech || c.type === GPTType.Transcriptions) {
-          return new ChatModel(c.role, c.content, c.dataId, c.type);
-        } else if(c.type===GPTType.Image){
-          let content = JSON.stringify(await this.dbService.getImage(c.dataId!));
-          return new ChatModel(c.role, content, c.dataId, c.type);
-        }else{
-          return new ChatModel(c.role, c.content, c.dataId, c.type);
-        }
+        const id = c;
+        let chatInterface = await this.dbService.getChatInterface(id);
+        if(chatInterface === undefined) return undefined;
+        return new ChatModel(
+          chatInterface.role,
+          chatInterface.content,
+          chatInterface.fileList,
+          chatInterface.dataId,
+          chatInterface.type,
+          chatInterface.finish
+        )
       }));
 
       return await Promise.all(list).then(chatModels=>{
+        const list: ChatModel[] = chatModels.filter(d => d !== undefined) as ChatModel[];
         return new ChatHistoryModel(
           data.title,
           new ChatListModel(
             data.dataId,
-            chatModels
+            list
           ),
           data.dataId
         );
@@ -44,39 +46,29 @@ export class ChatDataService{
   async putHistory(history: ChatHistoryModel){
     if(!history) return;
     let chatList = history.chatList!.chatModel!.map(async h => {
-      if (h.type === GPTType.ChatStream || h.type === GPTType.Speech || h.type === GPTType.Transcriptions) {
-        return {
-          dataId: h.dataId!,
-          role: h.role,
-          content: h.content,
-          type: h.type
-        }
-      } else if(h.type===GPTType.Image){
-        let imageList: ImageList = JSON.parse(h.content);
-        imageList.dataId = h.dataId!;
-        let add = await this.dbService.addOrUpdateImage(imageList);
-        return {
-          dataId: h.dataId!,
-          role: h.role,
-          content: '',
-          type: h.type
-        }
-      }else{// 其他的 请求，不希望这些影响上下文
-        return {
-          dataId: h.dataId!,
-          role: h.role,
-          content: h.content,
-          type: h.type
-        }
+      const chat = h;
+      let exist = await this.dbService.checkChatModelExists(chat.dataId!);
+      if(exist){
+        return chat.dataId;
+      }else{
+        await this.dbService.putChatInterface({
+          role: chat.role,
+          content: chat.content,
+          fileList: chat.fileList,
+          dataId: chat.dataId!,
+          type: chat.type,
+          finish: chat.finish
+        });
+        return chat.dataId;
       }
     });
     return await Promise.all(chatList)
-      .then(async (completedChatList: Chat[]) => {
+      .then(async (completedChatList) => {
         try {
-          return await this.dbService.addOrUpdateHistory({
+          return await this.dbService.addOrUpdateHistory(<ChatHistory>{
             title: history.title,
             dataId: history.dataId!,
-            chatList: completedChatList!
+            chatList: completedChatList
           });
         } catch (e) {
           console.log(e)

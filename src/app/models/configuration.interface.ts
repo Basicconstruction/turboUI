@@ -41,5 +41,6 @@ export interface TranscriptionConfiguration{
   language?: string;// ISO-639-1 format
   // response_format 默认提供json
   temperature?: number;
+  transcription?: boolean;
 }
 

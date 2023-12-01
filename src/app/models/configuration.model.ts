@@ -52,6 +52,7 @@ export class TranscriptionConfigurationModel {
     public models: string[],
     public temperature?: number,
     public language?: string,
+    public transcription?: boolean
     // public response_format: string = 'json',
   ) {}
 }

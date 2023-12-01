@@ -315,7 +315,7 @@
             <nz-col>
               <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.response_format">
                 <nz-option-group nzLabel="请求类型">
-                  <nz-option *ngFor="let response_format of response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
+                  <nz-option *ngFor="let response_format of image_response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
                 </nz-option-group>
               </nz-select>
             </nz-col>
@@ -356,6 +356,108 @@
                   <nz-option *ngFor="let style of styles" [nzValue]="style" [nzLabel]="style"></nz-option>
                 </nz-option-group>
               </nz-select>
+            </nz-col>
+          </nz-row>
+        </div>
+      </nz-card>
+      <nz-card class="m-2 rounded-4">
+        <div class="py-2">
+          <span class="title">文字转语音属性(TTS)</span>
+        </div>
+        <div class="d-flex justify-content-between  m-1">
+          <div>
+            <div>
+              <span class="title">使用谁的声音(voice)</span>
+            </div>
+            <div>
+              <span class="follow">不同人的音色不一样</span>
+            </div>
+          </div>
+          <nz-row>
+            <nz-col>
+              <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.voice">
+                <nz-option-group nzLabel="男声">
+                  <nz-option *ngFor="let voice of humanVoices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
+                </nz-option-group>
+                <nz-option-group nzLabel="女声">
+                  <nz-option *ngFor="let voice of womanVoices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
+                </nz-option-group>
+              </nz-select>
+            </nz-col>
+          </nz-row>
+        </div>
+        <div class="d-flex justify-content-between  m-1">
+          <div>
+            <div>
+              <span class="title">返回的文件格式(response_format)</span>
+            </div>
+            <div>
+              <span class="follow">返回的文件的格式,播放的时候你可能无法判断格式，可能会产生损失</span>
+            </div>
+          </div>
+          <nz-row>
+            <nz-col>
+              <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.response_format">
+                <nz-option-group nzLabel="文件格式">
+                  <nz-option *ngFor="let response_format of speech_response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
+                </nz-option-group>
+              </nz-select>
+            </nz-col>
+          </nz-row>
+        </div>
+        <div class="d-flex justify-content-between  m-1">
+          <div>
+            <div>
+              <span class="title">语速(speed)</span>
+            </div>
+            <div>
+              <span class="follow">使用1.0是标准语速</span>
+            </div>
+          </div>
+          <nz-row>
+            <nz-col>
+              <nz-slider class="slider" [(ngModel)]="configuration!.speechConfiguration.speed"
+                         [nzStep]="0.25" [nzMin]="0.25" [nzMax]="4"
+              ></nz-slider>
+            </nz-col>
+            <nz-col>
+              <nz-input-number
+                [nzMin]="0.25"
+                [nzMax]="4"
+                [ngStyle]="{ marginLeft: '16px' }"
+                [(ngModel)]="configuration!.speechConfiguration.speed"
+              ></nz-input-number>
+            </nz-col>
+          </nz-row>
+        </div>
+
+      </nz-card>
+      <nz-card class="m-2 rounded-4">
+        <div class="py-2">
+          <span class="title">语音转文字属性(STT)</span>
+        </div>
+        <div class="d-flex justify-content-between  m-1">
+          <div>
+            <div>
+              <span class="title">STT 采样温度(temperature)</span>
+            </div>
+            <div>
+              <span class="follow">The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hi</span>
+            </div>
+          </div>
+          <nz-row>
+            <nz-col>
+              <nz-slider class="slider" [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
+                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"
+              ></nz-slider>
+            </nz-col>
+            <nz-col>
+              <nz-input-number
+                [nzMin]="0"
+                [nzMax]="1"
+                [ngStyle]="{ marginLeft: '16px' }"
+                [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
+              ></nz-input-number>
             </nz-col>
           </nz-row>
         </div>

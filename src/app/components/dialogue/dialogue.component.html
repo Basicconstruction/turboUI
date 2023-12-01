@@ -18,7 +18,9 @@
       <div *ngSwitchCase="GPTType.Transcriptions">
         <app-stt [chatModel]="chatModel" [content]="chatModel?.content"></app-stt>
       </div>
-      <div *ngSwitchDefault>null</div>
+      <div *ngSwitchDefault>
+        <app-static-request [chatModel]="chatModel"></app-static-request>
+      </div>
     </div>
 
   </div>

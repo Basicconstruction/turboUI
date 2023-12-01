@@ -28,6 +28,18 @@
   <div>
     <div class="d-flex">
       <div class="center-input rounded-2" style="border: 1px solid #ccc;">
+        <div [ngSwitch]="configuration?.type">
+          <div *ngSwitchCase="GPTType.Speech">
+            <app-tts-banner [configuration]="configuration"></app-tts-banner>
+          </div>
+          <div *ngSwitchCase="GPTType.Transcriptions">
+            <app-stt-banner [configuration]="configuration"></app-stt-banner>
+          </div>
+          <div *ngSwitchDefault>
+
+          </div>
+        </div>
+<!--         选择文件 清空上下文-->
         <div class="d-flex flex-row align-items-center">
           <nz-upload class="flex-grow-0 rounded-2"
                      [nzMultiple]="true"
@@ -46,8 +58,8 @@
             <span nz-icon nzType="fall" nzTheme="outline"></span>
           </button>
         </div>
+<!--        输入框，提交按钮-->
         <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
-          <!-- TextArea Component -->
           <textarea nz-input
                     placeholder="Message ChatGPT..."
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
