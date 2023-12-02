@@ -5,19 +5,30 @@
   </div>
   <div class="flex-grow-1 centered px-5 my-2 w-100">
 <!--    <app-stt [chatModel]="chatModel" [content]="chatModel?.content"></app-stt>-->
-    <div [ngSwitch]="type">
-      <div *ngSwitchCase="GPTType.ChatStream">
+    <div [ngSwitch]="getDisplayType(type)">
+      <div *ngSwitchCase="DisplayType.staticRequestOrResult">
+        <app-static-request [chatModel]="chatModel"></app-static-request>
+      </div>
+      <div *ngSwitchCase="DisplayType.staticImageResult">
+        <app-static-image [chatModel]="chatModel"></app-static-image>
+      </div>
+      <div *ngSwitchCase="DisplayType.staticSpeechResult">
+        <app-static-image [chatModel]="chatModel"></app-static-image>
+      </div>
+
+      <div *ngSwitchCase="DisplayType.dynamicChatResult">
         <app-chat [chatModel]="chatModel" [content]="chatModel?.content"></app-chat>
       </div>
-      <div *ngSwitchCase="GPTType.Image">
+      <div *ngSwitchCase="DisplayType.dynamicImageResult">
         <app-image [chatModel]="chatModel" [content]="chatModel?.content"></app-image>
       </div>
-      <div *ngSwitchCase="GPTType.Speech">
+      <div *ngSwitchCase="DisplayType.dynamicSpeechResult">
         <app-tts [chatModel]="chatModel" [content]="chatModel?.content"></app-tts>
       </div>
-      <div *ngSwitchCase="GPTType.Transcriptions">
+      <div *ngSwitchCase="DisplayType.dynamicTranscriptionResult">
         <app-stt [chatModel]="chatModel" [content]="chatModel?.content"></app-stt>
       </div>
+
       <div *ngSwitchDefault>
         <app-static-request [chatModel]="chatModel"></app-static-request>
       </div>

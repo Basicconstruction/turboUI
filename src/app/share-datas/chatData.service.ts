@@ -11,16 +11,15 @@ export class ChatDataService{
     try {
       const data = await this.dbService.getHistory(dataId);
       if(!data) return undefined;
-      let list = (data!.chatList.map(async (c) => {
-        const id = c;
-        let chatInterface = await this.dbService.getChatInterface(id);
+      let list = (data!.chatList.map(async (chatModelId) => {
+        let chatInterface = await this.dbService.getChatInterface(chatModelId);
         if(chatInterface === undefined) return undefined;
         return new ChatModel(
           chatInterface.role,
           chatInterface.content,
           chatInterface.fileList,
           chatInterface.dataId,
-          chatInterface.type,
+          chatInterface.showType,
           chatInterface.finish
         )
       }));
@@ -56,7 +55,7 @@ export class ChatDataService{
           content: chat.content,
           fileList: chat.fileList,
           dataId: chat.dataId!,
-          type: chat.type,
+          showType: chat.showType,
           finish: chat.finish
         });
         return chat.dataId;

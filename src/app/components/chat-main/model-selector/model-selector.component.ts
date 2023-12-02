@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {ConfigurationService} from "../../../share-datas";
 import {configurationChangeSubject} from "../../../share-datas/datas.module";
 import {Subject} from "rxjs";
-import {GPTType} from "../../../models/GPTType";
+import {RequestType} from "../../../models";
 
 @Component({
   selector: 'app-model-selector',
@@ -47,14 +47,17 @@ export class ModelSelectorComponent {
   }
   async onSelectChange($event: string) {
     this.configurationService!.configuration!.model! = this.model!;
-    if(this.model!.startsWith("gpt")){
-      this.configurationService.configuration!.type! = GPTType.ChatStream;
+    if(this.model!.includes("vision")){
+      this.configurationService.configuration!.requestType! = RequestType.ChatVision;
+    }
+    else if(this.model!.startsWith("gpt")){
+      this.configurationService.configuration!.requestType! = RequestType.Chat;
     }else if(this.model!.startsWith("dall")){
-      this.configurationService.configuration!.type! = GPTType.Image;
+      this.configurationService.configuration!.requestType! = RequestType.Image;
     }else if(this.model?.startsWith("tts")){
-      this.configurationService.configuration!.type! = GPTType.Speech;
+      this.configurationService.configuration!.requestType! = RequestType.Speech;
     }else if(this.model?.startsWith("whisper")){
-      this.configurationService.configuration!.type! = GPTType.Transcriptions;
+      this.configurationService.configuration!.requestType! = RequestType.Transcription;
     }
     await this.configurationService.setConfigurationLocal();
   }

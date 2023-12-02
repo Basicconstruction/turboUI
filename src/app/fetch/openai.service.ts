@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
-import {filter, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ConfigurationService} from "../share-datas";
-import {Message} from "../models";
+import {ChatVisionPacket, Message, RequestType, VisionMessage} from "../models";
 
-import {GPTType} from "../models/GPTType";
 import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {ChatPacket, ImagePacket, SpeechPacket, TranscriptionPacket} from "../models";
-import {SymbolBuilder} from "@angular/compiler-cli/src/ngtsc/typecheck/src/template_symbol_builder";
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +12,8 @@ import {SymbolBuilder} from "@angular/compiler-cli/src/ngtsc/typecheck/src/templ
 export class OpenaiService {
   constructor(private configurationService: ConfigurationService, private http: HttpClient) {
   }
-
   fetchChat(mp: ChatPacket): Observable<string> {
-    const messages: Message[] = mp.message;
+    const messages: Message[] = mp.messages;
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
     url += "/chat";
@@ -24,7 +21,7 @@ export class OpenaiService {
     if (!authorizationToken) authorizationToken = '';
     let requestBody: any;
     requestBody = {
-      type: GPTType.ChatStream,
+      type: RequestType.Chat,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -38,8 +35,33 @@ export class OpenaiService {
         top_p: config?.chatConfiguration.top_p
       }
     };
-    // console.log(JSON.stringify(requestBody))
+    // console.log(requestBody)
+    return this.fetchChatBase(url,requestBody,authorizationToken);
+  }
+  fetchChatVision(mp: ChatVisionPacket): Observable<string> {
+    const messages:VisionMessage[] = mp.messages;
+    let config = this.configurationService.configuration;
+    let url = config?.endpoint!;
+    url += "/vision";
+    let authorizationToken = config?.accessKey; // 替换为你的授权令牌
+    if (!authorizationToken) authorizationToken = '';
+    let requestBody: any;
+    requestBody = {
+      type: RequestType.Chat,
+      baseUrl: config?.baseUrl + '/v1',
+      apiKey: config?.apiKey,
+      body: {
+        messages: messages,
+        model: config?.model,
+        max_tokens: config?.chatConfiguration.max_tokens,
+        stream: true,
+        temperature: config?.chatConfiguration.temperature,
+      }
+    };
+    return this.fetchChatBase(url,requestBody,authorizationToken);
 
+  }
+  fetchChatBase(url: string,requestBody: any,authorizationToken: string): Observable<string>{
     return new Observable<string>(observer => {
       fetch(url, {
         method: 'POST',
@@ -134,7 +156,7 @@ export class OpenaiService {
     if (!authorizationToken) authorizationToken = '';
     let requestBody: any;
     requestBody = {
-      type: GPTType.Image,
+      type: RequestType.Image,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -164,7 +186,7 @@ export class OpenaiService {
     }
     let requestBody: any;
     requestBody = {
-      type: GPTType.Speech,
+      type: RequestType.Speech,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -200,7 +222,7 @@ export class OpenaiService {
       temperature: config?.transcriptionConfiguration.temperature,
     };
     requestBody = {
-      type: GPTType.Transcriptions,
+      type: RequestType.Transcription,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: body,

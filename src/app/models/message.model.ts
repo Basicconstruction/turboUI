@@ -3,3 +3,6 @@ export class Message{
 
   }
 }
+export class VisionMessage{
+
+}

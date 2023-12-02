@@ -1,11 +1,27 @@
-export enum GPTType {
-  ChatStream,
+export enum ShowType{
+  staticChatRequest,
+  staticVisionRequest,
+  staticImageRequest,
+  staticSpeechRequest,
+  staticTranscriptionRequest,
+
+  staticChat,// 包含static vision的请求和响应(已经完成的)
+  staticVision,
+  staticImage,
+  staticSpeech,
+  staticTranscription,
+
+  promiseChat,
+  promiseVision,
+  promiseImage,
+  promiseSpeech,
+  promiseTranscription
+}
+// 用于储存当前的状态，用于发起请求时区分
+export enum RequestType{
+  Chat,
   Image,
-  Speech,        // file
-  Transcriptions, // file
-  NotCareRequest,// 用于区分上下文，只有chatStream使用上下文
-  visionRequest,
-  ImageRequest,
-  SpeechRequest,
-  TranscriptionRequest
+  Speech,
+  Transcription,// 包含翻译和转录
+  ChatVision,
 }

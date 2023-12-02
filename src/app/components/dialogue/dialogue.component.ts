@@ -1,10 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {ChatModel, DallImage, ImageList} from "../../models";
+import {ChatModel, ShowType} from "../../models";
 import {UserRole} from "../../models/chat.model";
-import {NzNotificationService} from "ng-zorro-antd/notification";
-import {DomSanitizer} from "@angular/platform-browser";
 
-import {GPTType} from "../../models/GPTType";
 
 @Component({
   selector: 'app-dialogue',
@@ -12,10 +9,6 @@ import {GPTType} from "../../models/GPTType";
   styleUrl: './dialogue.component.css'
 })
 export class DialogueComponent {
-  constructor(
-              private sanitizer: DomSanitizer,) {
-  }
-
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
   @Input()
@@ -33,11 +26,56 @@ export class DialogueComponent {
   }
 
   protected readonly UserRole = UserRole;
-  get type(): GPTType | undefined{
-    return this._chatModel?.type===undefined?undefined: this._chatModel?.type;
+
+  get type(): ShowType | undefined {
+    return this._chatModel?.showType === undefined ? undefined : this._chatModel?.showType;
   }
 
-  protected readonly GPTType = GPTType;
 
+  getDisplayType(type: ShowType | undefined): DisplayType {
+    if (type === undefined) return DisplayType.default;
+    switch (type) {
+      case ShowType.staticChatRequest:
+      case ShowType.staticVisionRequest:
+      case ShowType.staticImageRequest:
+      case ShowType.staticSpeechRequest:
+      case ShowType.staticTranscriptionRequest:
+      case ShowType.staticChat:
+      case ShowType.staticVision:
+      case ShowType.staticTranscription:
+        return DisplayType.staticRequestOrResult;
 
+      case ShowType.promiseChat:
+      case ShowType.promiseVision:
+        return DisplayType.dynamicChatResult;
+      case ShowType.promiseSpeech:
+        return DisplayType.dynamicSpeechResult;
+      case ShowType.promiseImage:
+        return DisplayType.dynamicImageResult;
+      case ShowType.promiseTranscription:
+        return DisplayType.dynamicTranscriptionResult;
+
+      case ShowType.staticImage:
+        return DisplayType.staticImageResult;
+      case ShowType.staticSpeech:
+        return DisplayType.staticSpeechResult;
+      default:
+        return DisplayType.default;
+
+    }
+  }
+
+  protected readonly DisplayType = DisplayType;
+}
+
+enum DisplayType {
+  staticRequestOrResult,
+  staticImageResult,
+  staticSpeechResult,
+
+  dynamicChatResult,
+  dynamicImageResult,
+  dynamicSpeechResult,
+  dynamicTranscriptionResult,
+  default,
 }

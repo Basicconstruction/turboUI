@@ -1,8 +1,8 @@
-import {GPTType} from "./GPTType";
+import {RequestType} from "./GPTType";
 
 export interface Configuration{
   model: string;
-  type: GPTType,
+  requestType: RequestType,
   chatConfiguration: ChatStreamConfiguration;
   imageConfiguration: ImageConfiguration;
   speechConfiguration: SpeechConfiguration,

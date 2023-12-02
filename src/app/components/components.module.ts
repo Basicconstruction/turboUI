@@ -50,6 +50,8 @@ import { SttComponent } from './dialogue/stt/stt.component';
 import { StaticRequestComponent } from './dialogue/static-request/static-request.component';
 import { TtsBannerComponent } from './chat-main/tts-banner/tts-banner.component';
 import { SttBannerComponent } from './chat-main/stt-banner/stt-banner.component';
+import { StaticImageComponent } from './dialogue/static-image/static-image.component';
+import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
 
 @NgModule({
   imports: [
@@ -76,7 +78,9 @@ import { SttBannerComponent } from './chat-main/stt-banner/stt-banner.component'
     SttComponent,
     StaticRequestComponent,
     TtsBannerComponent,
-    SttBannerComponent
+    SttBannerComponent,
+    StaticImageComponent,
+    StaticTtsComponent,
   ],
   exports: [
     ChatPageComponent

@@ -1,18 +1,18 @@
-import {GPTType} from "./GPTType";
+import {ShowType} from "./GPTType";
 
 export const UserRole = "user";
 export const AssistantRole = "assistant";
 export const SystemRole = "system";
 export interface FileInChat{
   fileName: string;
-  type?: string;
+  fileType?: string;
   fileSize?: number;
-  content?: string;//bs64
+  fileContent?: string;//bs64
 }
 export class ChatModel {
 
   // 查找id删除某条对话
-  constructor(public role: string = 'user', public content: string = '',public fileList?:FileInChat[],public dataId?: number,public type: GPTType = GPTType.ChatStream,public finish: boolean = true) {
+  constructor(public role: string = 'user', public content: string = '', public fileList?:FileInChat[], public dataId?: number, public showType: ShowType = ShowType.staticChat, public finish: boolean = true) {
     if(dataId==null){
       this.dataId = Date.now();
     }
@@ -23,6 +23,6 @@ export interface ChatInterface{
   content?: string
   fileList?: FileInChat[];
   dataId: number;
-  type: GPTType;
+  showType: ShowType;
   finish: boolean;
 }

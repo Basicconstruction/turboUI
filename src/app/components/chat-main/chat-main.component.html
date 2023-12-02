@@ -28,11 +28,11 @@
   <div>
     <div class="d-flex">
       <div class="center-input rounded-2" style="border: 1px solid #ccc;">
-        <div [ngSwitch]="configuration?.type">
-          <div *ngSwitchCase="GPTType.Speech">
+        <div [ngSwitch]="configuration?.requestType">
+          <div *ngSwitchCase="RequestType.Speech">
             <app-tts-banner [configuration]="configuration"></app-tts-banner>
           </div>
-          <div *ngSwitchCase="GPTType.Transcriptions">
+          <div *ngSwitchCase="RequestType.Transcription">
             <app-stt-banner [configuration]="configuration"></app-stt-banner>
           </div>
           <div *ngSwitchDefault>

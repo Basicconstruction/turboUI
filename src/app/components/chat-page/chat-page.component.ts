@@ -19,7 +19,7 @@ export class ChatPageComponent implements OnInit {
   }
 
   historyTitles: ChatHistoryTitle[] | undefined;
-  chat: boolean | undefined;
+  chat: boolean = true;
   constructor(private historyTitleService: HistoryTitleService,
               @Inject(Db) private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,

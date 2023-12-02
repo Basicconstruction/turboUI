@@ -1,4 +1,4 @@
-import {GPTType} from "./GPTType";
+import {RequestType} from "./GPTType";
 
 export class ChatStreamConfigurationModel {
   constructor(
@@ -27,7 +27,7 @@ export class ImageConfigurationModel {
 export class ConfigurationModel {
   constructor(
     public model: string,
-    public type: GPTType,
+    public requestType: RequestType,
     public chatConfiguration: ChatStreamConfigurationModel,
     public imageConfiguration: ImageConfigurationModel,
     public speechConfiguration: SpeechConfigurationModel,

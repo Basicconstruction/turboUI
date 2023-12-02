@@ -1,9 +1,12 @@
 import {Inject, Injectable} from "@angular/core";
 import {Db, DbService} from "./db.service";
-import {Configuration, ConfigurationModel} from "../models";
-import {ChatStreamConfigurationModel, ImageConfigurationModel} from "../models";
-
-import {GPTType} from "../models/GPTType";
+import {
+  ChatStreamConfigurationModel,
+  Configuration,
+  ConfigurationModel,
+  ImageConfigurationModel,
+  RequestType
+} from "../models";
 import {SpeechConfigurationModel, TranscriptionConfigurationModel} from "../models/configuration.model";
 
 @Injectable()
@@ -20,7 +23,7 @@ export class ConfigurationService {
     public default_configuration(){
         return new ConfigurationModel(
             "gpt-3.5-turbo-0613",
-            GPTType.ChatStream,
+            RequestType.Chat,
             new ChatStreamConfigurationModel(
                 ["gpt-3.5-turbo-1106",
                   "gpt-3.5-turbo",
@@ -101,7 +104,7 @@ export class ConfigurationService {
         );
         return new ConfigurationModel(
             configuration.model,
-            configuration.type,
+            configuration.requestType,
             chatConfig,
             imageConfig,
             speechConfig,
@@ -119,7 +122,7 @@ export class ConfigurationService {
         if (!configuration) return;
         let config: Configuration = {
             model: configuration.model,
-            type: configuration.type,
+            requestType: configuration.requestType,
             chatConfiguration: {
                 models: configuration.chatConfiguration.models,
                 top_p: configuration.chatConfiguration.top_p,

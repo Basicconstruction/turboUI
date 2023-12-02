@@ -4,10 +4,15 @@ import {
   ChatHistoryModel,
   ChatHistoryTitle,
   ChatModel,
-  ChatPacket, ConfigurationModel,
+  ChatPacket,
+  ChatVisionPacket,
+  ConfigurationModel,
+  FileInChat,
   ImagePacket,
   LastSessionModel,
   Message,
+  RequestType,
+  ShowType,
   SpeechPacket,
   TranscriptionPacket
 } from "../../models";
@@ -17,8 +22,6 @@ import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} 
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {GPTType} from "../../models/GPTType";
-import {FileInChat} from "../../models";
 
 @Component({
   selector: 'app-chat-main',
@@ -26,6 +29,288 @@ import {FileInChat} from "../../models";
   styleUrl: './chat-main.component.css'
 })
 export class ChatMainComponent {
+
+  askGPT() {
+    if (this.chatHistoryModel === undefined) {
+      this.chatHistoryModel = new ChatHistoryModel();
+    }
+    this.answering = true;
+    // 获取当前的请求类型
+    let type = this.configurationService.configuration?.requestType!;
+    // console.log(type)
+    //构建请求文件列表
+    let fileList: FileInChat[] | undefined;
+    fileList = this.buildFileList();
+    // 添加用户请求
+    const userRequestShowType = this.getSendMessageType(type);
+    const userModel = new ChatModel("user", this.inputText,
+      fileList, userRequestShowType);
+    this.chatModels.push(userModel);
+    // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
+    if (this.backContextPointer === undefined) {
+      this.backContextPointer = userModel.dataId;
+    }
+
+    // 构建请求 todo 添加vision的请求包
+    let param: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
+      = this.resolveContext(type);
+    // 添加返回的 聊天信息模型
+    const model = new ChatModel("assistant");
+    model.finish = false;
+    this.chatModels.push(model);
+    //  构建新的滚动 订阅
+    this.scrollSubject = new Subject<boolean>();
+    this.scrollSubscribe();
+    this.receivedData = '';// 清空接收数据字符串对象
+    // 如果当前的聊天历史模型的标题为空，说明使用的是刚创建的，还没有消息，存储到数据库，
+    // 设置nextSubjection为true表示将会推送一个新的历史记录
+    if (this.chatHistoryModel?.title === '') {
+      this.chatHistoryModel.title = this.inputText;
+      this.chatHistoryService.putHistoryTitles({
+        dataId: this.chatHistoryModel.dataId!,
+        title: this.chatHistoryModel.title
+      }).then(() => {
+        this.nextSubjection = true;
+        // 存储标头
+      });
+    }
+    model.showType = this.getPromiseReceiveType(type); // 设置返回模型的展示类型
+    this.inputText = '';// 清空输入框
+    let subject: Observable<string>;// 构建请求数据
+    switch (type) {
+      case RequestType.Chat:
+        subject = this.openaiService.fetchChat(param as ChatPacket);
+        break;
+      case RequestType.Image:
+        subject = this.openaiService.fetchImage(param as ImagePacket);
+        break;
+      case RequestType.Speech:
+        subject = this.openaiService.fetchTTS(param as SpeechPacket);
+        break;
+      case RequestType.Transcription:
+        subject = this.openaiService.fetchSTT(param as TranscriptionPacket);
+        break;
+      case RequestType.ChatVision:
+        subject = this.openaiService.fetchChatVision(param as ChatVisionPacket);
+        break;
+    }
+    // 订阅返回的数据
+    this.subscription = subject!.subscribe({
+      next: (data: any) => {
+        this.receivedData += data;
+        model.content = this.receivedData;
+        this.nextSubscribe(true);
+      },
+      error: (error: any) => {
+        console.error('Error fetching data:', error);
+        model.content += `网络可能遇到了问题`;
+        model.finish = true;
+        this.nextSubscribe(false);
+        this.answering = false;
+        model.showType = this.getStaticResponseType(type);
+        this.finalizeResponse();
+      },
+      complete: () => {
+        this.answering = false;
+        model.finish = true;
+        model.showType = this.getStaticResponseType(type);
+        this.finalizeResponse();
+      }
+    });
+  }
+
+
+  buildFileList() {
+    let res: FileInChat[] = [];
+    for (let file of this.fileList) {
+      let afile: FileInChat = {
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+        fileContent: ""// 如果是图片，添加图片的内容
+      }
+    }
+    return res;
+  }
+
+  finalizeResponse() {
+    this.fileList = []  // Todo 需要取消注释，如果不是在调试
+
+    this.scrollSubject?.complete();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
+      console.log("add database " + r)
+      if (this.nextSubjection) {
+        this.backHistoryObserver.next({
+          dataId: this.chatHistoryModel!.dataId!,
+          title: this.chatHistoryModel!.title
+        })
+        this.nextSubjection = false;
+      }
+    });
+  }
+
+  nextSubscribe(data: boolean) {
+    if (this.answering) {
+      this.scrollSubject?.next(data);
+    }
+  }
+
+  scrollSubscribe() {
+    this.scrollSubject?.subscribe({
+      next: () => {
+        this.scrollToBottom();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  async typeControlGPT() {
+    if (this.answering) {
+      return;
+    } else {
+      this.askGPT();
+    }
+  }
+
+  async buttonControlGPT() {
+    if (this.answering) {
+      this.answering = false;
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    } else {
+      this.askGPT();
+    }
+  }
+
+  resolveContext(requestType: RequestType = RequestType.Chat) {
+    if (this.chatModels === undefined) {
+      console.log("未知错误")
+    }
+    if (requestType === RequestType.Image) {
+      // return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
+      return new ImagePacket(this.inputText);
+    }
+    if (requestType === RequestType.Speech) {
+      return new SpeechPacket(this.inputText, this.fileList);
+    }
+    if (requestType === RequestType.Transcription) {
+      if (this.inputText !== '') {
+        return new TranscriptionPacket(true, this.fileList, this.inputText);
+      } else {
+        return new TranscriptionPacket(true, this.fileList);
+      }
+    }
+    if(requestType===RequestType.ChatVision){
+      return new ChatVisionPacket([]);// todo
+    }
+    // normal chat 的上下文处理
+    const back = this.backContextPointer!;
+    let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
+    let messages: Message[] = [];
+    const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
+    const reversedArray = originalArray.reverse();
+    for (let chatModel of reversedArray) {
+      if (messages.length >= sessionLength) break;
+      if (chatModel.dataId! >= back &&
+        (chatModel.showType === ShowType.staticChat
+          || chatModel.showType === ShowType.promiseChat
+          || chatModel.showType === ShowType.staticChatRequest
+        )) {
+        // 添加promiseChat是为了容错，避免没有及时的转为静态类型
+        messages.splice(0, 0, {
+          role: chatModel.role,
+          content: chatModel.content
+        })
+      }
+    }
+    return new ChatPacket(messages);
+  }
+  async sync(dataId: number) {
+    if (dataId === this.lastSession.sessionId) {
+    } else {
+      console.log("will open by observer " + dataId)
+    }
+    try {
+      const chatHistory = await this.chatDataService.getChatHistory(dataId);
+      if (chatHistory) {
+        this.chatHistoryModel = chatHistory;
+        console.log("change session")
+        this.lastSession.sessionId = dataId;
+      } else {
+        console.log("not found, create one")
+        this.chatHistoryModel = new ChatHistoryModel();
+        this.lastSession.sessionId = this.chatHistoryModel.dataId;
+      }
+    } catch (error) {
+      console.error('Error fetching chat history:', error);
+    }
+  }
+
+  scrollToBottom(): void {
+    if (!this.chatPanel) return;
+    try {
+      this.renderer.setProperty(this.chatPanel.nativeElement, 'scrollTop', this.chatPanel.nativeElement.scrollHeight);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  getSendMessageType(type: RequestType): ShowType{
+    switch (type){
+      case RequestType.Chat:
+        return ShowType.staticChatRequest;
+      case RequestType.Image:
+        return ShowType.staticImageRequest;
+      case RequestType.Speech:
+        return ShowType.staticSpeechRequest;
+      case RequestType.Transcription:
+        return ShowType.staticTranscriptionRequest;
+      case RequestType.ChatVision:
+        return ShowType.staticVisionRequest;
+      default:
+        return ShowType.staticChatRequest;
+    }
+  }
+  getPromiseReceiveType(type: RequestType): ShowType{
+    switch (type){
+      case RequestType.Chat:
+        return ShowType.promiseChat;
+      case RequestType.Image:
+        return ShowType.promiseImage;
+      case RequestType.Speech:
+        return ShowType.promiseSpeech;
+      case RequestType.Transcription:
+        return ShowType.promiseTranscription;
+      case RequestType.ChatVision:
+        return ShowType.promiseVision;
+      default:
+        return ShowType.staticChatRequest;
+    }
+  }
+  getStaticResponseType(type: RequestType): ShowType{
+    switch (type){
+      case RequestType.Chat:
+        return ShowType.staticChat;
+      case RequestType.Image:
+        return ShowType.staticImage;
+      case RequestType.Speech:
+        return ShowType.staticSpeech;
+      case RequestType.Transcription:
+        return ShowType.staticTranscription;
+      case RequestType.ChatVision:
+        return ShowType.staticVision;
+      default:
+        return ShowType.staticChatRequest;
+    }
+  }
   constructor(
     private openaiService: OpenaiService,
     private renderer: Renderer2,
@@ -78,230 +363,17 @@ export class ChatMainComponent {
   backContextPointer: number | undefined;
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
 
-
-  async sync(dataId: number) {
-    if (dataId === this.lastSession.sessionId) {
-      // console.log("no need to update")//&&dataId==this.chatHistoryModel?.dataId
-      // return;
-    } else {
-      console.log("will open by observer " + dataId)
-    }
-    try {
-      const chatHistory = await this.chatDataService.getChatHistory(dataId);
-      if (chatHistory) {
-        this.chatHistoryModel = chatHistory;
-        console.log("change session")
-        this.lastSession.sessionId = dataId;
-      } else {
-        console.log("not found, create one")
-        this.chatHistoryModel = new ChatHistoryModel();
-        this.lastSession.sessionId = this.chatHistoryModel.dataId;
-      }
-    } catch (error) {
-      console.error('Error fetching chat history:', error);
-    }
-  }
-
-  scrollToBottom(): void {
-    if (!this.chatPanel) return;
-    try {
-      this.renderer.setProperty(this.chatPanel.nativeElement, 'scrollTop', this.chatPanel.nativeElement.scrollHeight);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  askGPT() {
-    if (this.chatHistoryModel === undefined) {
-      this.chatHistoryModel = new ChatHistoryModel();
-    }
-    this.answering = true;
-    let type = this.configurationService.configuration?.type!;// 制定当前请求的类型
-    let fileList: FileInChat[] | undefined;
-    fileList = this.buildFileList()
-    // 添加更多显示数据
-    const userModel = new ChatModel("user", this.inputText,
-      fileList, GPTType.NotCareRequest);
-    this.chatModels.push(userModel);
-    if (this.backContextPointer === undefined) {
-      this.backContextPointer = userModel.dataId;
-    }
-
-    // 确保输入框的文本没有被清空，
-    let param: ChatPacket | ImagePacket | SpeechPacket | TranscriptionPacket = this.resolveContext(type);
-    const model = new ChatModel("assistant");
-    model.finish = false;
-    this.chatModels.push(model);
-    this.scrollSubject = new Subject<boolean>();
-    this.scrollSubscribe();
-    this.receivedData = '';
-    if (this.chatHistoryModel?.title === '') {
-      this.chatHistoryModel.title = this.inputText;
-      this.chatHistoryService.putHistoryTitles({
-        dataId: this.chatHistoryModel.dataId!,
-        title: this.chatHistoryModel.title
-      }).then(() => {
-        this.nextSubjection = true;
-        // 存储标头
-      });
-    }
-    model.type = type;
-    this.inputText = '';// URGENT
-    let subject: Observable<string>;
-    switch (model.type) {
-      case GPTType.ChatStream:
-        subject = this.openaiService.fetchChat(param as ChatPacket);
-        break;
-      case GPTType.Image:
-        subject = this.openaiService.fetchImage(param as ImagePacket);
-        break;
-      case GPTType.Speech:
-        subject = this.openaiService.fetchTTS(param as SpeechPacket);
-        break;
-      case GPTType.Transcriptions:
-        subject = this.openaiService.fetchSTT(param as TranscriptionPacket);
-        break;
-    }
-    this.subscription = subject!.subscribe({
-      next: (data: any) => {
-        this.receivedData += data;
-        model.content = this.receivedData;
-        this.nextSubscribe(true);
-      },
-      error: (error: any) => {
-        console.error('Error fetching data:', error);
-        model.content += `网络可能遇到了问题`;
-        model.finish = true;
-        this.nextSubscribe(false);
-        this.answering = false;
-        this.finalizeResponse();
-      },
-      complete: () => {
-        this.answering = false;
-        model.finish = true;
-        this.finalizeResponse();
-      }
-    });
-  }
-
-  buildFileList() {
-    let res: FileInChat[] = [];
-    for (let file of this.fileList) {
-      let afile: FileInChat = {
-        fileName: file.name,
-        type: file.type,
-        fileSize: file.size,
-        content: ""// 如果是图片，添加图片的内容
-      }
-    }
-    return res;
-  }
-
-  finalizeResponse() {
-    this.fileList = []  // Todo 需要取消注释，如果不是在调试
-
-    this.scrollSubject?.complete();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
-      console.log("add database " + r)
-      if (this.nextSubjection) {
-        this.backHistoryObserver.next({
-          dataId: this.chatHistoryModel!.dataId!,
-          title: this.chatHistoryModel!.title
-        })
-        this.nextSubjection = false;
-      }
-    });
-  }
-
-  nextSubscribe(data: boolean) {
-    if (this.answering) {
-      this.scrollSubject?.next(data);
-    }
-  }
-
-  scrollSubscribe() {
-    this.scrollSubject?.subscribe({
-      next: (data: boolean) => {
-        this.scrollToBottom();
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  async typeControlGPT() {
-    if (this.answering) {
-      return;
-    } else {
-      this.askGPT();
-    }
-  }
-
-  async buttonControlGPT() {
-    if (this.answering) {
-      this.answering = false;
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-      }
-    } else {
-      this.askGPT();
-    }
-  }
-
-  resolveContext(type: GPTType = GPTType.ChatStream) {
-    if (this.chatModels === undefined) {
-      console.log("未知错误")
-    }
-    if (type === GPTType.Image) {
-      // return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
-      return new ImagePacket(this.inputText);
-    }
-    if (type === GPTType.Speech) {
-      return new SpeechPacket(this.inputText, this.fileList);
-    }
-    if (type === GPTType.Transcriptions) {
-      if (this.inputText !== '') {
-        return new TranscriptionPacket(true, this.fileList, this.inputText);
-      } else {
-        return new TranscriptionPacket(true, this.fileList);
-      }
-    }
-    // TODO 添加tts 和sst的上下文处理
-    const back = this.backContextPointer!;
-    let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
-    let messages: Message[] = [];
-    const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
-    const reversedArray = originalArray.reverse();
-    for (let chatModel of reversedArray) {
-      if (messages.length >= sessionLength) break;
-      if (chatModel.dataId! >= back && chatModel.type === GPTType.ChatStream) {
-        messages.splice(0, 0, {
-          role: chatModel.role,
-          content: chatModel.content
-        })
-      }
-    }
-    return new ChatPacket(messages);
-  }
-
   clearContext() {
     this.backContextPointer = undefined;
     this.notification.success("清空上下文", "清除成功")
   }
 
   enableTouch() {
-    // 正在回复 | 没有在回复，内容不为空
+    // 正在回复 | 没有在回复，内容不为空 |  模型为转录或者tts，且添加了文件
     return this.answering || (!this.answering && this.inputText != '') ||
       ((
-        this.configurationService.configuration?.type === GPTType.Transcriptions ||
-        this.configurationService.configuration?.type === GPTType.Speech
+        this.configurationService.configuration?.requestType === RequestType.Transcription ||
+        this.configurationService.configuration?.requestType === RequestType.Speech
       ) && this.fileList.length > 0);
   }
 
@@ -313,5 +385,5 @@ export class ChatMainComponent {
     this.fileList = this.fileList.concat(file);
     return false;
   };
-  protected readonly GPTType = GPTType;
+    protected readonly RequestType = RequestType;
 }

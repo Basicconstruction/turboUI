@@ -1,8 +1,8 @@
 import {Injectable, InjectionToken} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, ChatModel, Configuration, ConfigurationModel, ImageList} from "../models";
+import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
-import {ChatInterface} from "../models/chat.model";
+import {ChatInterface} from "../models";
 export const Db = new InjectionToken("db-service");
 @Injectable()
 export class DbService{
@@ -15,24 +15,32 @@ export class DbService{
     // 没有检查
   }
   async initDb(){
-    this.idbDb = await openDB('chatDb-v1', 1, {
+    this.idbDb = await openDB('chatDb-v1', 2, {
       upgrade(db) {
-        if (!db.objectStoreNames.contains("chatHistories")) {
-          db.createObjectStore("chatHistories",
-            { keyPath: 'dataId'});
+        // 删除所有旧版本的数据（与本版本有关联的数据表）
+        if (db.objectStoreNames.contains("chatHistories")) {
+          db.deleteObjectStore("chatHistories");
         }
-        if (!db.objectStoreNames.contains("chatHistoryTitles")) {
-          db.createObjectStore("chatHistoryTitles",
-            { keyPath: 'dataId' });
+        db.createObjectStore("chatHistories",
+          { keyPath: 'dataId'});
+
+        if (db.objectStoreNames.contains("chatHistoryTitles")) {
+          db.deleteObjectStore("chatHistoryTitles");
         }
-        if (!db.objectStoreNames.contains("configuration")) {
-          db.createObjectStore("configuration")
+        db.createObjectStore("chatHistoryTitles",
+          { keyPath: 'dataId' });
+
+        if (db.objectStoreNames.contains("configuration")) {
+          db.deleteObjectStore("configuration")
         }
-        if(!db.objectStoreNames.contains("chatInterface")){
-          db.createObjectStore("chatInterface",{
-            keyPath: 'dataId'
-          })
+        db.createObjectStore("configuration")
+
+        if(db.objectStoreNames.contains("chatInterface")){
+          db.deleteObjectStore("chatInterface")
         }
+        db.createObjectStore("chatInterface",{
+          keyPath: 'dataId'
+        })
       },
     });
   }
@@ -103,10 +111,6 @@ interface ChatDb extends DBSchema{
     key: string,
     value: Configuration,
   },
-  // chatImage:{
-  //   key: number,
-  //   value: ImageList
-  // },
   chatInterface:{
     key: number,
     value: ChatInterface
