@@ -14,7 +14,8 @@ export class ChatModel {
   // 查找id删除某条对话
   constructor(public role: string = 'user', public content: string = '', public fileList?:FileInChat[], public dataId?: number, public showType: ShowType = ShowType.staticChat, public finish: boolean = true) {
     if(dataId==null){
-      this.dataId = Date.now();
+      // this.dataId = Date.now();
+      this.dataId = Date.now() * 1000 + Math.floor(Math.random() * 1000) + 1;
     }
   }
 }

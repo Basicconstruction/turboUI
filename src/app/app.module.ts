@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ComponentsModule} from "./components/components.module";
 import {HighlightModule} from "ngx-highlightjs";
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(zh);
 
@@ -28,12 +27,6 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     ComponentsModule,
     HighlightModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

@@ -43,8 +43,10 @@ export class ChatMainComponent {
     fileList = this.buildFileList();
     // 添加用户请求
     const userRequestShowType = this.getSendMessageType(type);
+    const randomId = Date.now()*1000 + Math.floor(Math.random() * 1000) + 1;
     const userModel = new ChatModel("user", this.inputText,
-      fileList, userRequestShowType);
+      fileList, randomId,userRequestShowType,true);
+
     this.chatModels.push(userModel);
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
     if (this.backContextPointer === undefined) {
@@ -120,6 +122,9 @@ export class ChatMainComponent {
   }
 
 
+  isBase64Image(fileType: string): boolean {
+    return fileType.startsWith("image");
+  }
   buildFileList() {
     let res: FileInChat[] = [];
     for (let file of this.fileList) {
@@ -127,25 +132,26 @@ export class ChatMainComponent {
 
       reader.onload = () => {
         let fileContent: string | ArrayBuffer | null = reader.result;
-        if(fileContent==null){
-          fileContent = ''
+        if(fileContent==null || fileContent instanceof ArrayBuffer){
+          return;
         }
+        let isImg = this.isBase64Image(file.type!);
+        // console.log(file.type)
         let afile: FileInChat = {
           fileName: file.name,
           fileType: file.type,
           fileSize: file.size,
-          fileContent: fileContent as string
+          fileContent: isImg? (fileContent as string): ''
         };
-
         res.push(afile);
-
-        // 如果需要执行其他操作，可以在这里处理 res 数组中的文件数据
       };
 
       if (file) {
-        reader.readAsDataURL(file.originFileObj as File);
+        // @ts-ignore
+        reader.readAsDataURL(file as File);
       }
     }
+    console.log(res)
     return res;
   }
 
