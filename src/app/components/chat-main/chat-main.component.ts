@@ -123,11 +123,27 @@ export class ChatMainComponent {
   buildFileList() {
     let res: FileInChat[] = [];
     for (let file of this.fileList) {
-      let afile: FileInChat = {
-        fileName: file.name,
-        fileType: file.type,
-        fileSize: file.size,
-        fileContent: ""// 如果是图片，添加图片的内容
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        let fileContent: string | ArrayBuffer | null = reader.result;
+        if(fileContent==null){
+          fileContent = ''
+        }
+        let afile: FileInChat = {
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: file.size,
+          fileContent: fileContent as string
+        };
+
+        res.push(afile);
+
+        // 如果需要执行其他操作，可以在这里处理 res 数组中的文件数据
+      };
+
+      if (file) {
+        reader.readAsDataURL(file.originFileObj as File);
       }
     }
     return res;
