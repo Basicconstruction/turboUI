@@ -9,7 +9,7 @@ export class ChatStreamConfigurationModel {
     public max_tokens?: number,
     public presence_penalty?: number,
     public frequency_penalty?: number,
-
+    public detail?: string,
   ) {}
 }
 
@@ -32,11 +32,16 @@ export class ConfigurationModel {
     public imageConfiguration: ImageConfigurationModel,
     public speechConfiguration: SpeechConfigurationModel,
     public transcriptionConfiguration: TranscriptionConfigurationModel,
+    public displayConfiguration: DisplayConfigurationModel,
     public endpoint: string,
     public accessKey?: string,
     public baseUrl?: string,
     public apiKey?: string
   ) {}
+}
+export class DisplayConfigurationModel{
+  constructor(public fontSize?: string) {
+  }
 }
 export class SpeechConfigurationModel {
   constructor(

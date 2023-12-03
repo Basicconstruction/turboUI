@@ -52,6 +52,8 @@ import { TtsBannerComponent } from './chat-main/tts-banner/tts-banner.component'
 import { SttBannerComponent } from './chat-main/stt-banner/stt-banner.component';
 import { StaticImageComponent } from './dialogue/static-image/static-image.component';
 import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
+import { VisionBannerComponent } from './chat-main/vision-banner/vision-banner.component';
+import {NzBackTopModule} from "ng-zorro-antd/back-top";
 
 @NgModule({
   imports: [
@@ -60,7 +62,7 @@ import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
     , HttpClientModule, NzTypographyModule, HighlightModule, NgClass, NzIconModule,
     FetchModule,
     NgIf, NzUploadModule, NzRadioModule, NgForOf, NzImageModule, NzImageModule, NgOptimizedImage,
-    DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule, NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault, NzSpinModule, NzPopconfirmModule
+    DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule, NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault, NzSpinModule, NzPopconfirmModule, NzBackTopModule
   ],
   declarations: [
     ChatPageComponent,
@@ -81,6 +83,7 @@ import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
     SttBannerComponent,
     StaticImageComponent,
     StaticTtsComponent,
+    VisionBannerComponent,
   ],
   exports: [
     ChatPageComponent

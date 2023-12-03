@@ -1,1 +1,29 @@
 <p>{{message}}</p>
+<nz-upload class="flex-grow-0 rounded-2"
+           [nzMultiple]="true"
+           [(nzFileList)]="fileList"
+           [nzBeforeUpload]="beforeUpload">
+  <button nz-button>
+    <span nz-icon nzType="upload"></span>
+    选择文件
+  </button>
+</nz-upload>
+<div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
+          <textarea nz-input
+                    placeholder="Message ChatGPT..."
+                    [nzAutosize]="{minRows: 2,maxRows: 6}"
+                    class="flex-grow-1 ask-box bg-transparent"></textarea>
+  <div class="d-flex flex-column-reverse">
+    <button nz-button class="rounded-5 bg-dark"
+            (click)="submit()"
+            [nzSize]="'small'">
+                            <span data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"
+                                                                              fill="none"
+                                                                              class="text-white dark:text-black"><path
+                              d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2"
+                              stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+    </button>
+  </div>
+
+</div>
+

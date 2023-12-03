@@ -35,6 +35,9 @@
           <div *ngSwitchCase="RequestType.Transcription">
             <app-stt-banner [configuration]="configuration"></app-stt-banner>
           </div>
+          <div *ngSwitchCase="RequestType.ChatVision">
+            <app-vision-banner [configuration]="configuration"></app-vision-banner>
+          </div>
           <div *ngSwitchDefault>
 
           </div>

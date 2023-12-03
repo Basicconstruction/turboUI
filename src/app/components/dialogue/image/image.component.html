@@ -1,7 +1,7 @@
 <div *ngIf="imageList!==undefined">
   <div *ngFor="let image of imageList!.images">
 
-    <img nz-image width="300" height="300"
+    <img nz-image class="show"
          [nzFallback]="fallback"
          [nzSrc]="autoShow(image)" alt="图片"/>
     <div>{{image.revised_prompt}}</div>

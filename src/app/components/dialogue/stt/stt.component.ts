@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
+import {ConfigurationService} from "../../../share-datas";
 
 @Component({
   selector: 'app-stt',
@@ -7,6 +8,7 @@ import {ChatModel, ImageList} from "../../../models";
   styleUrl: './stt.component.css'
 })
 export class SttComponent {
+
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
   public imageList: ImageList | undefined;

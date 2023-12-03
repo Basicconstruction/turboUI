@@ -1,4 +1,5 @@
 import {RequestType} from "./GPTType";
+import {DisplayConfigurationModel} from "./configuration.model";
 
 export interface Configuration{
   model: string;
@@ -7,10 +8,14 @@ export interface Configuration{
   imageConfiguration: ImageConfiguration;
   speechConfiguration: SpeechConfiguration,
   transcriptionConfiguration: TranscriptionConfiguration,
+  displayConfiguration: DisplayConfigurationModel,
   endpoint: string;
   accessKey?: string;
   baseUrl?: string;
   apiKey?: string;
+}
+export interface DisplayConfiguration{
+  fontSize?: string;
 }
 export const CONFIGURATION = "CONFIGURATION";
 export interface ChatStreamConfiguration{
@@ -21,6 +26,7 @@ export interface ChatStreamConfiguration{
   presence_penalty?: number;
   frequency_penalty?: number;
   historySessionLength: number;
+  detail?: string;
 }
 export interface ImageConfiguration{
   models: string[];

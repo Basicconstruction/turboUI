@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, ShowType} from "../../models";
 import {UserRole} from "../../models/chat.model";
+import {ConfigurationService} from "../../share-datas";
 
 
 @Component({
@@ -11,6 +12,11 @@ import {UserRole} from "../../models/chat.model";
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
+  constructor(private configurationService: ConfigurationService) {
+  }
+  getFontSize() {
+    return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
+  }
   @Input()
   set content(value: string | undefined) {
     this._content = value;
@@ -66,6 +72,30 @@ export class DialogueComponent {
   }
 
   protected readonly DisplayType = DisplayType;
+
+  getIcon(role: string | undefined, type: ShowType | undefined) {
+    if(role===undefined) return "assets/";
+    if(role===UserRole){
+      return 'assets/programmer.png';
+    }
+    if(type===undefined) return 'assets/chat-gpt.png';
+    switch (type){
+      case ShowType.promiseVision:
+      case ShowType.staticVision:
+        return "assets/vision.svg";
+      case ShowType.staticImage:
+      case ShowType.promiseImage:
+        return "assets/dall.svg";
+      case ShowType.staticSpeech:
+      case ShowType.promiseSpeech:
+        return "assets/tts.svg";
+      case ShowType.staticTranscription:
+      case ShowType.promiseTranscription:
+        return "assets/stt.png";
+
+    }
+    return "assets/chat-gpt.png";
+  }
 }
 
 enum DisplayType {

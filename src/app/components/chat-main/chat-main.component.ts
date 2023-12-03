@@ -14,7 +14,7 @@ import {
   RequestType,
   ShowType,
   SpeechPacket,
-  TranscriptionPacket
+  TranscriptionPacket, VisionMessage
 } from "../../models";
 import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
@@ -22,6 +22,7 @@ import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} 
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {ImageContent, TextContent} from "../../models/message.model";
 
 @Component({
   selector: 'app-chat-main',
@@ -29,23 +30,22 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
   styleUrl: './chat-main.component.css'
 })
 export class ChatMainComponent {
-
-  askGPT() {
+  chatFileList: FileInChat[] = [];
+  async askGPT() {
     if (this.chatHistoryModel === undefined) {
       this.chatHistoryModel = new ChatHistoryModel();
     }
     this.answering = true;
     // 获取当前的请求类型
     let type = this.configurationService.configuration?.requestType!;
-    // console.log(type)
     //构建请求文件列表
-    let fileList: FileInChat[] | undefined;
-    fileList = this.buildFileList();
+    await this.buildFileList();
+
     // 添加用户请求
     const userRequestShowType = this.getSendMessageType(type);
     const randomId = Date.now()*1000 + Math.floor(Math.random() * 1000) + 1;
     const userModel = new ChatModel("user", this.inputText,
-      fileList, randomId,userRequestShowType,true);
+      this.chatFileList, randomId,userRequestShowType,true);
 
     this.chatModels.push(userModel);
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
@@ -53,7 +53,6 @@ export class ChatMainComponent {
       this.backContextPointer = userModel.dataId;
     }
 
-    // 构建请求 todo 添加vision的请求包
     let param: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
       = this.resolveContext(type);
     // 添加返回的 聊天信息模型
@@ -67,7 +66,16 @@ export class ChatMainComponent {
     // 如果当前的聊天历史模型的标题为空，说明使用的是刚创建的，还没有消息，存储到数据库，
     // 设置nextSubjection为true表示将会推送一个新的历史记录
     if (this.chatHistoryModel?.title === '') {
-      this.chatHistoryModel.title = this.inputText;
+      if(this.inputText===''){
+        if(this.chatFileList.length>=1){
+          this.chatHistoryModel.title = this.chatFileList[0].fileName;
+        }else{
+          this.chatHistoryModel.title = "哪里出现了问题";
+        }
+      }else{
+        this.chatHistoryModel.title = this.inputText;
+      }
+
       this.chatHistoryService.putHistoryTitles({
         dataId: this.chatHistoryModel.dataId!,
         title: this.chatHistoryModel.title
@@ -125,38 +133,46 @@ export class ChatMainComponent {
   isBase64Image(fileType: string): boolean {
     return fileType.startsWith("image");
   }
-  buildFileList() {
-    let res: FileInChat[] = [];
-    for (let file of this.fileList) {
-      const reader = new FileReader();
+  async buildFileList() {
+    const promises = this.fileList.map((file) => this.readFile(file));
+    await Promise.all(promises);
+  }
 
+  readFile(file: NzUploadFile): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const reader = new FileReader();
       reader.onload = () => {
-        let fileContent: string | ArrayBuffer | null = reader.result;
-        if(fileContent==null || fileContent instanceof ArrayBuffer){
-          return;
+        const isImg = this.isBase64Image(file.type!);
+        let fileContent: string | ArrayBuffer | null;
+        if (isImg) {
+          fileContent = reader.result;
+          if (fileContent == null || fileContent instanceof ArrayBuffer) {
+            reject(new Error('File content error'));
+            return;
+          }
+        } else {
+          fileContent = '';
         }
-        let isImg = this.isBase64Image(file.type!);
-        // console.log(file.type)
-        let afile: FileInChat = {
+        const afile: FileInChat = {
           fileName: file.name,
           fileType: file.type,
           fileSize: file.size,
-          fileContent: isImg? (fileContent as string): ''
+          fileContent: fileContent,
         };
-        res.push(afile);
+        this.chatFileList.push(afile);
+        resolve();
       };
 
       if (file) {
         // @ts-ignore
-        reader.readAsDataURL(file as File);
+        reader.readAsDataURL(file);
       }
-    }
-    console.log(res)
-    return res;
+    });
   }
 
   finalizeResponse() {
-    this.fileList = []  // Todo 需要取消注释，如果不是在调试
+    this.fileList = []
+    this.chatFileList = []
 
     this.scrollSubject?.complete();
     if (this.subscription) {
@@ -232,7 +248,53 @@ export class ChatMainComponent {
       }
     }
     if(requestType===RequestType.ChatVision){
-      return new ChatVisionPacket([]);// todo
+      const back = this.backContextPointer!;
+      let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
+      let messages: VisionMessage[] = [];
+      const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
+      const reversedArray = originalArray.reverse();
+      for (let chatModel of reversedArray) {
+        if (messages.length >= sessionLength) break;
+        if (chatModel.dataId! >= back &&
+          (chatModel.showType === ShowType.staticChat
+            || chatModel.showType === ShowType.promiseChat
+            || chatModel.showType === ShowType.staticChatRequest
+            || chatModel.showType === ShowType.staticVision
+            || chatModel.showType === ShowType.staticVisionRequest
+            || chatModel.showType === ShowType.promiseVision
+          )) {
+          let content: (TextContent | ImageContent)[] = [];
+          if(chatModel.showType === ShowType.staticVision
+            || chatModel.showType === ShowType.staticVisionRequest
+            || chatModel.showType === ShowType.promiseVision){
+            content.push({
+              type: "text",
+              text: chatModel.content
+            });
+            const detail = this.configuration?.chatConfiguration.detail;
+            chatModel.fileList?.forEach(file=>{
+              content.push({
+                type: "image_url",
+                image_url: {
+                  url: file.fileContent!,
+                  detail: detail
+                }
+              })
+            })
+          }else{
+            content.push({
+              type: "text",
+              text: chatModel.content
+            });
+          }
+          messages.splice(0, 0, {
+            role: chatModel.role,
+            content: content
+          })
+        }
+      }
+      console.log(messages)
+      return new ChatVisionPacket(messages);// todo
     }
     // normal chat 的上下文处理
     const back = this.backContextPointer!;
@@ -246,6 +308,9 @@ export class ChatMainComponent {
         (chatModel.showType === ShowType.staticChat
           || chatModel.showType === ShowType.promiseChat
           || chatModel.showType === ShowType.staticChatRequest
+          || chatModel.showType === ShowType.staticVision
+          || chatModel.showType === ShowType.staticVisionRequest
+          || chatModel.showType === ShowType.promiseVision
         )) {
         // 添加promiseChat是为了容错，避免没有及时的转为静态类型
         messages.splice(0, 0, {
@@ -265,10 +330,10 @@ export class ChatMainComponent {
       const chatHistory = await this.chatDataService.getChatHistory(dataId);
       if (chatHistory) {
         this.chatHistoryModel = chatHistory;
-        console.log("change session")
+        // console.log("change session")
         this.lastSession.sessionId = dataId;
       } else {
-        console.log("not found, create one")
+        // console.log("not found, create one")
         this.chatHistoryModel = new ChatHistoryModel();
         this.lastSession.sessionId = this.chatHistoryModel.dataId;
       }

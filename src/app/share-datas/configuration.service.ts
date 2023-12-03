@@ -7,7 +7,11 @@ import {
   ImageConfigurationModel,
   RequestType
 } from "../models";
-import {SpeechConfigurationModel, TranscriptionConfigurationModel} from "../models/configuration.model";
+import {
+  DisplayConfigurationModel,
+  SpeechConfigurationModel,
+  TranscriptionConfigurationModel
+} from "../models/configuration.model";
 
 @Injectable()
 export class ConfigurationService {
@@ -59,6 +63,9 @@ export class ConfigurationService {
             new TranscriptionConfigurationModel(
               ["whisper-1"],
             ),
+            new DisplayConfigurationModel(
+              "14"
+            ),
             "http://localhost:8888",
             "",
             "",
@@ -81,6 +88,7 @@ export class ConfigurationService {
             configuration.chatConfiguration.max_tokens,
             configuration.chatConfiguration.presence_penalty,
             configuration.chatConfiguration.frequency_penalty,
+            configuration.chatConfiguration.detail,
         );
 
         const imageConfig = new ImageConfigurationModel(
@@ -102,6 +110,9 @@ export class ConfigurationService {
           configuration.transcriptionConfiguration.temperature,
           configuration.transcriptionConfiguration.language
         );
+        const display = new DisplayConfigurationModel(
+          configuration.displayConfiguration.fontSize
+        );
         return new ConfigurationModel(
             configuration.model,
             configuration.requestType,
@@ -109,6 +120,7 @@ export class ConfigurationService {
             imageConfig,
             speechConfig,
             transcription,
+            display,
             configuration.endpoint,
           configuration.accessKey,
           configuration.baseUrl,
@@ -131,6 +143,7 @@ export class ConfigurationService {
                 presence_penalty: configuration.chatConfiguration.presence_penalty,
                 frequency_penalty: configuration.chatConfiguration.frequency_penalty,
                 historySessionLength: configuration.chatConfiguration.historySessionLength,
+                detail: configuration.chatConfiguration.detail
             },
             imageConfiguration: {
                 models: configuration.imageConfiguration.models,
@@ -150,6 +163,9 @@ export class ConfigurationService {
               models: configuration.transcriptionConfiguration.models,
               temperature: configuration.transcriptionConfiguration.temperature,
               language: configuration.transcriptionConfiguration.language
+            },
+            displayConfiguration:{
+              fontSize: configuration.displayConfiguration.fontSize
             },
             endpoint: configuration.endpoint,
             accessKey: configuration.accessKey,

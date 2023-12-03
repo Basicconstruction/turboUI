@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {ConfigurationService} from "../../../share-datas";
 
 @Component({
   selector: 'app-static-tts',
@@ -17,7 +18,9 @@ export class StaticTtsComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {
+  }
+
   audioSrc: SafeUrl | undefined;
   ngOnInit() {
     // 假设 chatModel?.content 包含 Base64 编码的音频数据

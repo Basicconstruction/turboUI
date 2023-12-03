@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, DallImage, ImageList} from "../../../models";
+import {ConfigurationService} from "../../../share-datas";
 
 @Component({
   selector: 'app-static-image',

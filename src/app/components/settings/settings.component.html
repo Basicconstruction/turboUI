@@ -1,474 +1,538 @@
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
-  <div class="overflow-auto flex-grow-1 position-relative">
-    <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
-      <div class="d-flex flex-column p-2 mx-2">
-        <div style="font-size: 20px;font-weight: bold;">
-          设置
+    <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
+        <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
+            <div class="d-flex flex-column p-2 mx-2">
+                <div style="font-size: 20px;font-weight: bold;">
+                    设置
+                </div>
+                <div style="font-size: 14px">
+                    设置默认属性
+                </div>
+            </div>
+            <div class="p-2 mx-0 my-auto px-4">
+                <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
+                    <span nz-icon nzType="close" nzTheme="outline"></span>
+                </button>
+            </div>
         </div>
-        <div style="font-size: 14px">
-          设置默认属性
+        <div class="w-100 d-flex flex-column" >
+            <button class="back-to-top text-center"
+                    (click)="scrollToTop()"
+                    nz-popover nzPopoverTitle="回到顶部"><span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+            </button>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">设置</span>
+                </div>
+                <div class="d-flex flex-row-reverse setting-action">
+                    <button nz-button nzType="primary"
+                            (click)="applyChangeRightNow()"
+                    >
+                        <span nz-icon nzType="fall" nzTheme="outline"></span>
+                        应用设置
+                    </button>
+                    <button nz-button nzType="primary"
+                            (click)="resetConfiguration()"
+                    >
+                        <span nz-icon nzType="undo" nzTheme="outline"></span>
+                        恢复默认设置
+                    </button>
+
+                </div>
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">显示效果</span>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <nz-col>
+                        字体大小
+                    </nz-col>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" nzMin="10" nzMax="32" nzStep="1"
+                                       [(ngModel)]="configuration.displayConfiguration.fontSize"
+                            >
+                            </nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="10"
+                                    [nzStep]="1"
+                                    [nzMax]="32"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration.displayConfiguration.fontSize">
+                            </nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex align-items-center justify-content-center m-1">
+                    <div [style]="'font-size: '+configuration.displayConfiguration.fontSize+'px;'">
+                        示例文本 AaBbCc
+                    </div>
+                </div>
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">连接信息</span>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">后端服务器地址</span>
+                        </div>
+                        <div>
+                            <span class="follow">符合标准的后端服务器地址</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input nz-input [(ngModel)]="configuration.endpoint">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">后端服务密钥(accessKey)</span>
+                        </div>
+                        <div>
+                            <span class="follow">填写认证密钥,不是必须的</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input nz-input [(ngModel)]="configuration.accessKey">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">Openai服务地址(baseUrl)</span>
+                        </div>
+                        <div>
+                            <span class="follow">符合Openai标准的服务器地址，示例https://api.open-test.com</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input nz-input [(ngModel)]="configuration.baseUrl">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">Openai密钥(apiKey)</span>
+                        </div>
+                        <div>
+                            <span class="follow">{{configuration.baseUrl === undefined || configuration.baseUrl === '' ? '符合Openai标准的服务器' : '特定于' + configuration.baseUrl}}
+                                的密钥</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input nz-input [(ngModel)]="configuration.apiKey">
+                    </div>
+                </div>
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">对话默认属性</span>
+                </div>
+
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">单次回复限制 (max_tokens)</span>
+                        </div>
+                        <div>
+                            <span class="follow">单次交互所用的最大 Token 数</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider big" [(ngModel)]="configuration!.chatConfiguration.max_tokens"
+                                       [nzStep]="1" [nzMin]="1" [nzMax]="32000"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="1"
+                                    [nzMax]="32000"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration.max_tokens"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+                <div class="d-flex justify-content-between m-1">
+                    <div>
+                        <div>
+                            <span class="title">随机性(temperature)</span>
+                        </div>
+                        <div>
+                            <span class="follow">值越大，回复越随机</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration!.temperature"
+                                       [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0"
+                                    [nzStep]="0.01"
+                                    [nzMax]="1"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration!.temperature"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">核采样 (top_p)</span>
+                        </div>
+                        <div>
+                            <span class="follow">与随机性类似，但不要和随机性一起更改</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.top_p"
+                                       [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0"
+                                    [nzStep]="0.01"
+                                    [nzMax]="1"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration.top_p"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">话题新鲜度 (presence_penalty)</span>
+                        </div>
+                        <div>
+                            <span class="follow">值越大，越有可能扩展到新话题</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.presence_penalty"
+                                       [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0"
+                                    [nzStep]="0.01"
+                                    [nzMax]="1"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration.presence_penalty"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">频率惩罚度 (frequency_penalty)</span>
+                        </div>
+                        <div>
+                            <span class="follow">值越大，越有可能降低重复字词</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.frequency_penalty"
+                                       [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0"
+                                    [nzStep]="0.01"
+                                    [nzMax]="1"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration.frequency_penalty"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">附带历史消息数</span>
+                        </div>
+                        <div>
+                            <span class="follow">每次请求携带的历史消息数,建议值4-10</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider big"
+                                       [(ngModel)]="configuration!.chatConfiguration.historySessionLength"
+                                       [nzStep]="1" [nzMin]="1" [nzMax]="100"></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="1"
+                                    [nzMax]="100"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.chatConfiguration.historySessionLength"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">低保真度或高保真度图像理解</span>
+                        </div>
+                        <div>
+                            <span class="follow">By controlling the detail parameter, which has three options, low, high, or auto.</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big" [(ngModel)]="configuration!.chatConfiguration.detail">
+                                <nz-option-group nzLabel="保真度">
+                                    <nz-option *ngFor="let detail of details" [nzValue]="detail"
+                                               [nzLabel]="detail"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+            </nz-card>
+
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">绘图默认属性</span>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">单次绘制图片数(n)</span>
+                        </div>
+                        <div>
+                            <span class="follow">建议值1-4,范围1-10</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.imageConfiguration.n"
+                                       [nzStep]="1" [nzMin]="1" [nzMax]="10"
+                            ></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="1"
+                                    [nzMax]="10"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.imageConfiguration.n"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">绘制图片大小(size)</span>
+                        </div>
+                        <div>
+                            <span class="follow">1024x1024...图片的大小</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select [(ngModel)]="configuration!.imageConfiguration.size">
+                                <nz-option-group nzLabel="图片大小">
+                                    <nz-option *ngFor="let size of sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">请求类型(response_format)</span>
+                        </div>
+                        <div>
+                            <span class="follow">url可能会失效</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big"
+                                       [(ngModel)]="configuration!.imageConfiguration.response_format">
+                                <nz-option-group nzLabel="请求类型">
+                                    <nz-option *ngFor="let response_format of image_response_formats"
+                                               [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">绘图质量(quality)</span>
+                        </div>
+                        <div>
+                            <span class="follow">绘图的质量</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.quality">
+                                <nz-option-group nzLabel="绘图质量">
+                                    <nz-option *ngFor="let quality of qualities" [nzValue]="quality"
+                                               [nzLabel]="quality"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">绘图风格(style)</span>
+                        </div>
+                        <div>
+                            <span class="follow">The style of the generated images.</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.style">
+                                <nz-option-group nzLabel="绘图风格">
+                                    <nz-option *ngFor="let style of styles" [nzValue]="style"
+                                               [nzLabel]="style"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">文字转语音属性(TTS)</span>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">使用谁的声音(voice)</span>
+                        </div>
+                        <div>
+                            <span class="follow">不同人的音色不一样</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.voice">
+                                <nz-option-group nzLabel="男声">
+                                    <nz-option *ngFor="let voice of humanVoices" [nzValue]="voice"
+                                               [nzLabel]="voice"></nz-option>
+                                </nz-option-group>
+                                <nz-option-group nzLabel="女声">
+                                    <nz-option *ngFor="let voice of womanVoices" [nzValue]="voice"
+                                               [nzLabel]="voice"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">返回的文件格式(response_format)</span>
+                        </div>
+                        <div>
+                            <span class="follow">返回的文件的格式,播放的时候你可能无法判断格式，可能会产生损失</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-select class="select big"
+                                       [(ngModel)]="configuration!.speechConfiguration.response_format">
+                                <nz-option-group nzLabel="文件格式">
+                                    <nz-option *ngFor="let response_format of speech_response_formats"
+                                               [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
+                                </nz-option-group>
+                            </nz-select>
+                        </nz-col>
+                    </nz-row>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">语速(speed)</span>
+                        </div>
+                        <div>
+                            <span class="follow">使用1.0是标准语速</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider" [(ngModel)]="configuration!.speechConfiguration.speed"
+                                       [nzStep]="0.25" [nzMin]="0.25" [nzMax]="4"
+                            ></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0.25"
+                                    [nzMax]="4"
+                                    [nzStep]="0.25"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.speechConfiguration.speed"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
+                <div class="py-2">
+                    <span class="title">语音转文字属性(STT)</span>
+                </div>
+                <div class="d-flex justify-content-between  m-1">
+                    <div>
+                        <div>
+                            <span class="title">STT 采样温度(temperature)</span>
+                        </div>
+                        <div>
+                            <span class="follow">The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hi</span>
+                        </div>
+                    </div>
+                    <nz-row>
+                        <nz-col>
+                            <nz-slider class="slider"
+                                       [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
+                                       [nzStep]="0.01" [nzMin]="0" [nzMax]="1"
+                            ></nz-slider>
+                        </nz-col>
+                        <nz-col>
+                            <nz-input-number
+                                    [nzMin]="0"
+                                    [nzMax]="1"
+                                    [nzStep]="0.01"
+                                    [ngStyle]="{ marginLeft: '16px' }"
+                                    [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
+                            ></nz-input-number>
+                        </nz-col>
+                    </nz-row>
+                </div>
+            </nz-card>
+
         </div>
-      </div>
-      <div class="p-2 mx-0 my-auto px-4">
-        <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
-          <span nz-icon nzType="close" nzTheme="outline"></span>
-        </button>
-      </div>
     </div>
-    <div class="w-100 d-flex flex-column">
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">设置</span>
-        </div>
-<!--        nz-popover nzPopoverTitle="立即存储"-->
-<!--        nzPopoverContent="你的更改会立即反映到数据库中,即使不使用该按钮,使用的参数已经更改,不过可能会随着应用关闭而丢失"-->
-<!--        old code 影响用户的视觉       -->
-        <div class="d-flex flex-row-reverse setting-action">
-          <button nz-button nzType="primary"
-                  (click)="applyChangeRightNow()"
-          >
-            <span nz-icon nzType="fall" nzTheme="outline"></span>
-            应用设置
-          </button>
-          <button nz-button nzType="primary"
-                  (click)="resetConfiguration()"
-          >
-            <span nz-icon nzType="undo" nzTheme="outline"></span>
-            恢复默认设置
-          </button>
-
-        </div>
-      </nz-card>
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">连接信息</span>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">后端服务器地址</span>
-            </div>
-            <div>
-              <span class="follow">符合标准的后端服务器地址</span>
-            </div>
-          </div>
-          <div>
-            <input nz-input [(ngModel)]="configuration.endpoint">
-          </div>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">后端服务密钥(accessKey)</span>
-            </div>
-            <div>
-              <span class="follow">填写认证密钥,不是必须的</span>
-            </div>
-          </div>
-          <div>
-            <input nz-input [(ngModel)]="configuration.accessKey">
-          </div>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">Openai服务地址(baseUrl)</span>
-            </div>
-            <div>
-              <span class="follow">符合Openai标准的服务器地址，示例https://api.open-test.com</span>
-            </div>
-          </div>
-          <div>
-            <input nz-input [(ngModel)]="configuration.baseUrl">
-          </div>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">Openai密钥(apiKey)</span>
-            </div>
-            <div>
-              <span class="follow">{{configuration.baseUrl===undefined || configuration.baseUrl===''?'符合Openai标准的服务器':'特定于'+configuration.baseUrl}}的密钥</span>
-            </div>
-          </div>
-          <div>
-            <input nz-input [(ngModel)]="configuration.apiKey">
-          </div>
-        </div>
-      </nz-card>
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">对话默认属性</span>
-        </div>
-
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">单次回复限制 (max_tokens)</span>
-            </div>
-            <div>
-              <span class="follow">单次交互所用的最大 Token 数</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider big" [(ngModel)]="configuration!.chatConfiguration.max_tokens"
-                         [nzStep]="1" [nzMin]="1" [nzMax]="32000"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="1"
-                [nzMax]="32000"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration.max_tokens"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-        <div class="d-flex justify-content-between m-1">
-          <div>
-            <div>
-              <span class="title">随机性(temperature)</span>
-            </div>
-            <div>
-              <span class="follow">值越大，回复越随机</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration!.temperature"
-                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0"
-                [nzStep]="0.01"
-                [nzMax]="1"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration!.temperature"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">核采样 (top_p)</span>
-            </div>
-            <div>
-              <span class="follow">与随机性类似，但不要和随机性一起更改</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.top_p"
-                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0"
-                [nzStep]="0.01"
-                [nzMax]="1"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration.top_p"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">话题新鲜度 (presence_penalty)</span>
-            </div>
-            <div>
-              <span class="follow">值越大，越有可能扩展到新话题</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.presence_penalty"
-                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0"
-                [nzStep]="0.01"
-                [nzMax]="1"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration.presence_penalty"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">频率惩罚度 (frequency_penalty)</span>
-            </div>
-            <div>
-              <span class="follow">值越大，越有可能降低重复字词</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.frequency_penalty"
-                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0"
-                [nzStep]="0.01"
-                [nzMax]="1"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration.frequency_penalty"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">附带历史消息数</span>
-            </div>
-            <div>
-              <span class="follow">每次请求携带的历史消息数,建议值4-10</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.chatConfiguration.historySessionLength"
-                         [nzStep]="1" [nzMin]="1" [nzMax]="100"></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="1"
-                [nzMax]="100"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.chatConfiguration.historySessionLength"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-      </nz-card>
-
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">绘图默认属性</span>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">单次绘制图片数(n)</span>
-            </div>
-            <div>
-              <span class="follow">建议值1-4,范围1-10</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.imageConfiguration.n"
-                         [nzStep]="1" [nzMin]="1" [nzMax]="10"
-              ></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="1"
-                [nzMax]="10"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.imageConfiguration.n"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">绘制图片大小(size)</span>
-            </div>
-            <div>
-              <span class="follow">1024x1024...图片的大小</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select [(ngModel)]="configuration!.imageConfiguration.size">
-                <nz-option-group nzLabel="图片大小">
-                  <nz-option *ngFor="let size of sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">请求类型(response_format)</span>
-            </div>
-            <div>
-              <span class="follow">url可能会失效</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.response_format">
-                <nz-option-group nzLabel="请求类型">
-                  <nz-option *ngFor="let response_format of image_response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">绘图质量(quality)</span>
-            </div>
-            <div>
-              <span class="follow">绘图的质量</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.quality">
-                <nz-option-group nzLabel="绘图质量">
-                  <nz-option *ngFor="let quality of qualities" [nzValue]="quality" [nzLabel]="quality"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">绘图风格(style)</span>
-            </div>
-            <div>
-              <span class="follow">The style of the generated images.</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.style">
-                <nz-option-group nzLabel="绘图风格">
-                  <nz-option *ngFor="let style of styles" [nzValue]="style" [nzLabel]="style"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-      </nz-card>
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">文字转语音属性(TTS)</span>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">使用谁的声音(voice)</span>
-            </div>
-            <div>
-              <span class="follow">不同人的音色不一样</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.voice">
-                <nz-option-group nzLabel="男声">
-                  <nz-option *ngFor="let voice of humanVoices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
-                </nz-option-group>
-                <nz-option-group nzLabel="女声">
-                  <nz-option *ngFor="let voice of womanVoices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">返回的文件格式(response_format)</span>
-            </div>
-            <div>
-              <span class="follow">返回的文件的格式,播放的时候你可能无法判断格式，可能会产生损失</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.response_format">
-                <nz-option-group nzLabel="文件格式">
-                  <nz-option *ngFor="let response_format of speech_response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
-                </nz-option-group>
-              </nz-select>
-            </nz-col>
-          </nz-row>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">语速(speed)</span>
-            </div>
-            <div>
-              <span class="follow">使用1.0是标准语速</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.speechConfiguration.speed"
-                         [nzStep]="0.25" [nzMin]="0.25" [nzMax]="4"
-              ></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0.25"
-                [nzMax]="4"
-                [nzStep]="0.25"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.speechConfiguration.speed"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-
-      </nz-card>
-      <nz-card class="m-2 rounded-4">
-        <div class="py-2">
-          <span class="title">语音转文字属性(STT)</span>
-        </div>
-        <div class="d-flex justify-content-between  m-1">
-          <div>
-            <div>
-              <span class="title">STT 采样温度(temperature)</span>
-            </div>
-            <div>
-              <span class="follow">The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hi</span>
-            </div>
-          </div>
-          <nz-row>
-            <nz-col>
-              <nz-slider class="slider" [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
-                         [nzStep]="0.01" [nzMin]="0" [nzMax]="1"
-              ></nz-slider>
-            </nz-col>
-            <nz-col>
-              <nz-input-number
-                [nzMin]="0"
-                [nzMax]="1"
-                [nzStep]="0.01"
-                [ngStyle]="{ marginLeft: '16px' }"
-                [(ngModel)]="configuration!.transcriptionConfiguration.temperature"
-              ></nz-input-number>
-            </nz-col>
-          </nz-row>
-        </div>
-      </nz-card>
-
-    </div>
-  </div>
 </div>

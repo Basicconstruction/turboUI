@@ -18,3 +18,26 @@
 .setting-action > *{
     margin: 0 10px;
 }
+
+.back-to-top {
+  border: none;
+  z-index: 2;
+  position: fixed;
+  right: 40px;
+  bottom: 200px;
+}
+
+.back-to-top {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  /*background-color: #1088e9;*/
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
+
+.back-to-top{
+  color: black;
+}

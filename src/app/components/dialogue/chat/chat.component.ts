@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {ConfigurationService} from "../../../share-datas";
 
 @Component({
   selector: 'app-chat',
@@ -13,6 +14,7 @@ export class ChatComponent {
   separatedSegments: { isCode: boolean; content: string; }[] | undefined;
   constructor(private notification: NzNotificationService) {
   }
+
   @Input()
   set content(value: string | undefined) {
     this._content = value;
