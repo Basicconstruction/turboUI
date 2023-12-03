@@ -12,7 +12,11 @@ export class ChatComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
   separatedSegments: { isCode: boolean; content: string; }[] | undefined;
-  constructor(private notification: NzNotificationService) {
+  constructor(private notification: NzNotificationService,
+              private configurationService: ConfigurationService) {
+  }
+  getFontSize() {
+    return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
   }
 
   @Input()

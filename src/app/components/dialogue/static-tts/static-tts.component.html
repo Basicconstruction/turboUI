@@ -1,3 +1,8 @@
-<div>
-  <audio controls [src]="audioSrc" *ngIf="audioSrc"></audio>
-</div>
+<nz-card class="rounded-4">
+  <div class="d-flex flex-row align-items-center">
+    <div class="music-player mx-2">
+      <img #musicIcon class="mx-2 music-icon" [class.playing]="isAudioPlaying" src="assets/audio_play.svg" width="50" height="50" alt="播放旋转的图片"/>
+    </div>
+    <audio #player class="mx-1" controls [src]="audioSrc" (play)="onAudioPlay()" (pause)="onAudioPause()"></audio>
+  </div>
+</nz-card>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ErrorPageComponent} from "./components/error-page/error-page.component";
-import {LoginPageComponent} from "./components/login-page/login-page.component";
 
 const routes: Routes = [
   {
@@ -10,9 +9,9 @@ const routes: Routes = [
   {
     path: "chat", loadChildren: () => import("./components/components.module").then(m=>m.ComponentsModule)
   },
-  {
-    path: "login", component: LoginPageComponent,
-  },
+  // {
+  //   path: "login", component: LoginPageComponent,
+  // },
   {
     path: "**", component: ErrorPageComponent
   },

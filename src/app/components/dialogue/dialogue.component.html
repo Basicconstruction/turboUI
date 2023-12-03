@@ -4,7 +4,6 @@
     <div class="mx-2">{{ chatModel?.role==UserRole?'You':'ChatGPT' }}</div>
   </div>
   <div class="flex-grow-1 centered px-5 my-2 w-100">
-<!--    <app-stt [chatModel]="chatModel" [content]="chatModel?.content"></app-stt>-->
     <div [ngSwitch]="getDisplayType(type)" [style]="getFontSize()">
       <div *ngSwitchCase="DisplayType.staticRequestOrResult">
         <app-static-request [chatModel]="chatModel"></app-static-request>
@@ -13,7 +12,7 @@
         <app-static-image [chatModel]="chatModel"></app-static-image>
       </div>
       <div *ngSwitchCase="DisplayType.staticSpeechResult">
-        <app-static-image [chatModel]="chatModel"></app-static-image>
+        <app-static-tts [chatModel]="chatModel"></app-static-tts>
       </div>
 
       <div *ngSwitchCase="DisplayType.dynamicChatResult">

@@ -4,6 +4,7 @@ import {ChatPageComponent} from "./chat-page/chat-page.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {ChatMainComponent} from "./chat-main/chat-main.component";
 import {ConfigurationResolver} from "../share-datas";
+import {LoginPageComponent} from "./login-page/login-page.component";
 
 const routes: Routes = [
   {
@@ -20,6 +21,9 @@ const routes: Routes = [
         resolve: {
           model: ConfigurationResolver
         }
+      },
+      {
+        path: "login", component: LoginPageComponent,
       }
     ]
   },

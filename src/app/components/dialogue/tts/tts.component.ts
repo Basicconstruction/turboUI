@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
@@ -9,6 +9,21 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 })
 export class TtsComponent {
   private _chatModel: ChatModel | undefined;
+  @ViewChild('player') player: ElementRef<HTMLAudioElement> | undefined;
+  @ViewChild('musicIcon') musicIcon: ElementRef<HTMLImageElement> | undefined;
+  isAudioPlaying: boolean = false;
+
+  onAudioPlay() {
+    this.isAudioPlaying = true;
+    if(!this.musicIcon) return;
+    this.musicIcon.nativeElement.classList.add('playing');
+  }
+
+  onAudioPause() {
+    this.isAudioPlaying = false;
+    if(!this.musicIcon) return;
+    this.musicIcon.nativeElement.classList.remove('playing');
+  }
   private _content: string | undefined;
   @Input()
   set content(value: string | undefined) {
