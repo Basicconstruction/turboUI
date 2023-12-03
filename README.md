@@ -1,7 +1,12 @@
 效果
 ![img.png](turbo-screen.png)
 ![img_4.png](img_4.png)
-1.00 版本会 预留文件（发送文件）的位置，目前没有添加ui，已经添加其余的逻辑
+上面为较初识版本的截图，最新版已经添加一些额外的ui元素。  
+支持gpt-3,gpt-4,gpt-4v,dall-3(不支持dall-2),tts,stt(speech to text)  
+可以在自己windows上运行，部署在服务器上时，所有设备均可以在浏览器中使用，但是
+没有适配移动端。  
+源码可以运行在电脑平台，不过需要 进行各自的平台编译。  
+源码支持 windows，macos，linux
 相关项目：  
 静态文件服务器 和 桌面UI
 https://github.com/Basicconstruction/turbo
