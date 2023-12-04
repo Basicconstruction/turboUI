@@ -42,7 +42,7 @@ export class ConfigurationService {
                 6,
                 0.6,
               0.6,
-              4900,
+              4000,
                 0.6,
                 0.6
             ),
