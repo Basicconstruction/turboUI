@@ -1,4 +1,3 @@
-
 <div class="w-100" *ngFor="let segment of separatedSegments">
   <div *ngIf="segment.isCode" [style]="getFontSize()" class="w-100 d-flex flex-column">
     <div class="d-flex flex-row-reverse">
@@ -10,7 +9,6 @@
           <code [style]="getFontSize()" class="pb-0 rounded-3" [highlight]="segment.content"></code>
         </pre>
   </div>
-  <div *ngIf="!segment.isCode">
-    {{segment.content}}
-  </div>
+  <app-markdown-root *ngIf="!segment.isCode" [content]="segment.content">
+  </app-markdown-root>
 </div>

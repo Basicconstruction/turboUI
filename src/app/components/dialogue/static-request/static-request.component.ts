@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ConfigurationService} from "../../../share-datas";
@@ -27,6 +27,9 @@ export class StaticRequestComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
+  @ViewChild('markdownContent', { read: ElementRef }) markdownContent: ElementRef|undefined;
+
+
   separatedSegments: { isCode: boolean; content: string; }[] | undefined;
   segmentsChat(){
     if (!this.chatModel) return;

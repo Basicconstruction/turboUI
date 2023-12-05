@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ConfigurationService} from "../../../share-datas";
@@ -23,6 +23,7 @@ export class ChatComponent {
   set content(value: string | undefined) {
     this._content = value;
     this.segmentsChat();
+
   }
 
   @Input()
@@ -34,6 +35,7 @@ export class ChatComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
+
   segmentsChat(){
     if (!this.chatModel) return;
     const segments: { content: string, isCode: boolean }[] = [];

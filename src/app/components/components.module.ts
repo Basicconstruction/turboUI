@@ -54,10 +54,12 @@ import { StaticImageComponent } from './dialogue/static-image/static-image.compo
 import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
 import { VisionBannerComponent } from './chat-main/vision-banner/vision-banner.component';
 import {NzBackTopModule} from "ng-zorro-antd/back-top";
+import {MarkdownModule} from "ngx-markdown";
+import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
 
 @NgModule({
   imports: [
-    // AppRoutingModule,
+    MarkdownModule.forRoot(),
     AuthModule, ComponentsRoutingModule, NzInputModule, FormsModule, NzButtonModule, NzCardModule
     , HttpClientModule, NzTypographyModule, HighlightModule, NgClass, NzIconModule,
     FetchModule,
@@ -84,14 +86,12 @@ import {NzBackTopModule} from "ng-zorro-antd/back-top";
     StaticImageComponent,
     StaticTtsComponent,
     VisionBannerComponent,
+    MarkdownRootComponent,
   ],
   exports: [
     ChatPageComponent
   ],
   providers: [
-    // {
-    //   provide: Clipboard,useValue: Clipboard
-    // },
     OpenaiService,
     {
       provide: HIGHLIGHT_OPTIONS,

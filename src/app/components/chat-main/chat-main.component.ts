@@ -293,7 +293,7 @@ export class ChatMainComponent {
           })
         }
       }
-      console.log(messages)
+      // console.log(messages)
       return new ChatVisionPacket(messages);// todo
     }
     // normal chat 的上下文处理

@@ -133,8 +133,8 @@ export class OpenaiService {
         next: (event: any) => {
           if (event instanceof HttpResponse) {
             observer.next(event.body); // Assuming you're expecting a body in the response
-            console.log("body: ")
-            console.log(event.body)
+            // console.log("body: ")
+            // console.log(event.body)
           }
         },
         error: error => {
