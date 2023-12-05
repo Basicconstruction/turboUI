@@ -1,5 +1,10 @@
 在csdn上阅读使用介绍和简要的设计目的  
 http://t.csdnimg.cn/6P2FF  
+预览或者体验：
+http://47.95.39.25/chat 
+![img_10.png](img_10.png)
+注意要修改后端地址为当前服务器地址并且填写自己的密钥和地址
+![img_11.png](img_11.png)
 效果
 gpt3.5 gpt4
 ![img_7.png](img_7.png)
