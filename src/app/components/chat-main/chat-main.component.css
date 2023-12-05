@@ -39,3 +39,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #aaa; /* 鼠标悬停时滑块颜色 */
 }
+
+.select-box{
+  max-width: 300px;
+
+}
