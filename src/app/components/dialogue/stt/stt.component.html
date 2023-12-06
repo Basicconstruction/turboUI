@@ -4,6 +4,4 @@
     <nz-spin nzSize="large" nzSimple></nz-spin>
   </div>
 </div>
-<div *ngIf="!loading()">
-  {{chatModel?.content}}
-</div>
+<app-markdown-root *ngIf="!loading()" [content]="chatModel?.content"></app-markdown-root>

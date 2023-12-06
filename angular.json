@@ -46,7 +46,8 @@
             "styles": [
               "src/theme.less",
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/highlight.js/styles/github-dark.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [

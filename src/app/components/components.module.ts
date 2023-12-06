@@ -54,10 +54,10 @@ import { StaticImageComponent } from './dialogue/static-image/static-image.compo
 import { StaticTtsComponent } from './dialogue/static-tts/static-tts.component';
 import { VisionBannerComponent } from './chat-main/vision-banner/vision-banner.component';
 import {NzBackTopModule} from "ng-zorro-antd/back-top";
-import {MarkdownModule} from "ngx-markdown";
+import {MarkdownModule, MARKED_OPTIONS, MarkedRenderer} from "ngx-markdown";
 import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
 import {ServicesModule} from "../services/services.module";
-
+import * as hljs from 'highlight.js';
 @NgModule({
   imports: [
     MarkdownModule.forRoot(),

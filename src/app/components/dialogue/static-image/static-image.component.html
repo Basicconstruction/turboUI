@@ -4,9 +4,10 @@
     <img nz-image class="show"
          [nzFallback]="fallback"
          [nzSrc]="autoShow(image)" alt="图片"/>
-    <div>{{image.revised_prompt}}</div>
+    <app-markdown-root [content]="chatModel?.content"></app-markdown-root>
   </div>
 </div>
 <div *ngIf="errors()">
-  {{chatModel?.content}} error.
+  <app-markdown-root [content]="chatModel?.content"></app-markdown-root>
+  error.
 </div>
