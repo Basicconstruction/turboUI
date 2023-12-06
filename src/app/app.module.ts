@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +17,8 @@ registerLocaleData(zh);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -27,6 +28,7 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     ComponentsModule,
     HighlightModule,
+
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

@@ -56,6 +56,7 @@ import { VisionBannerComponent } from './chat-main/vision-banner/vision-banner.c
 import {NzBackTopModule} from "ng-zorro-antd/back-top";
 import {MarkdownModule} from "ngx-markdown";
 import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
+import {ServicesModule} from "../services/services.module";
 
 @NgModule({
   imports: [
@@ -64,7 +65,10 @@ import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.co
     , HttpClientModule, NzTypographyModule, HighlightModule, NgClass, NzIconModule,
     FetchModule,
     NgIf, NzUploadModule, NzRadioModule, NgForOf, NzImageModule, NzImageModule, NgOptimizedImage,
-    DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule, NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault, NzSpinModule, NzPopconfirmModule, NzBackTopModule
+    DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
+    NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
+    NzSpinModule, NzPopconfirmModule, NzBackTopModule,
+    ServicesModule,
   ],
   declarations: [
     ChatPageComponent,
