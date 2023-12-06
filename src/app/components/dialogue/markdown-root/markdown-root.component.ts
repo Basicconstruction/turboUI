@@ -1,5 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, Input, SimpleChanges, ViewChild, ViewChildren} from '@angular/core';
-import {ConfigurationService} from "../../../share-datas";
+import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import * as hljs from 'highlight.js';
 import {NzNotificationService} from "ng-zorro-antd/notification";
 
@@ -49,9 +48,10 @@ export class MarkdownRootComponent implements AfterViewChecked{
         copyButton.style.fontSize = "12px";
         copyButton.style.padding = "6px 10px";
         copyButton.addEventListener('click', () => {
+          const text : string | undefined = pre.innerText;
+          if(text===undefined) return;
           // 处理拷贝逻辑
-          const textToCopy = pre.innerText;
-          navigator.clipboard.writeText(textToCopy)
+          navigator.clipboard.writeText(text)
             .then(() => {
               // 拷贝成功的逻辑
               this.notification.create(
