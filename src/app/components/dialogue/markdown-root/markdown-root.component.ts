@@ -48,7 +48,8 @@ export class MarkdownRootComponent implements AfterViewChecked{
         copyButton.style.fontSize = "12px";
         copyButton.style.padding = "6px 10px";
         copyButton.addEventListener('click', () => {
-          const text : string | undefined = pre.innerText;
+          const text : string | undefined = (existingCopyDiv.nextElementSibling?.nextElementSibling as HTMLPreElement).innerText;
+          // const text : string | undefined = pre.innerText;
           if(text===undefined) return;
           // 处理拷贝逻辑
           navigator.clipboard.writeText(text)
