@@ -1,1 +1,6 @@
-<markdown [data]="content" #markdownContent></markdown>
+<ng-template #buttonTemplate>
+  <button class="rounded-2 copied" (click)="onCopyToClipboard()">Copy code</button>
+</ng-template>
+<markdown class="" [data]="content" lineNumbers emoji katex mermaid clipboard
+          [clipboardButtonTemplate]="buttonTemplate"
+          ></markdown>
