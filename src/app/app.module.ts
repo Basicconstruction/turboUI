@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ComponentsModule} from "./components/components.module";
-import {HighlightModule} from "ngx-highlightjs";
 
 registerLocaleData(zh);
 
@@ -27,8 +26,6 @@ registerLocaleData(zh);
     HttpClientModule,
     BrowserAnimationsModule,
     ComponentsModule,
-    HighlightModule,
-
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

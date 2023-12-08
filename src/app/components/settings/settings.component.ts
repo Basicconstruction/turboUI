@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnChanges, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {ConfigurationService} from "../../share-datas";
 import {ConfigurationModel} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";

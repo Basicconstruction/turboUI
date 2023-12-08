@@ -7,9 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {HttpClientModule} from "@angular/common/http";
-import {OpenaiService} from "../fetch";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
-import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
 import {
   NgClass,
   NgForOf,
@@ -58,12 +56,9 @@ import {
   CLIPBOARD_OPTIONS,
   ClipboardButtonComponent,
   MarkdownModule,
-  MARKED_OPTIONS,
-  MarkedRenderer
 } from "ngx-markdown";
 import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
 import {ServicesModule} from "../services/services.module";
-import * as hljs from 'highlight.js';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzModalModule} from "ng-zorro-antd/modal";
@@ -79,7 +74,7 @@ import { ModelEditorComponent } from './chat-main/model-editor/model-editor.comp
       },
     }),
     AuthModule, ComponentsRoutingModule, NzInputModule, FormsModule, NzButtonModule, NzCardModule
-    , HttpClientModule, NzTypographyModule, HighlightModule, NgClass, NzIconModule,
+    , HttpClientModule, NzTypographyModule, NgClass, NzIconModule,
     FetchModule,
     NgIf, NzUploadModule, NzRadioModule, NgForOf, NzImageModule, NzImageModule, NgOptimizedImage,
     DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
@@ -114,13 +109,6 @@ import { ModelEditorComponent } from './chat-main/model-editor/model-editor.comp
     ChatPageComponent
   ],
   providers: [
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: {
-        lineNumbers: true,
-        fullLibraryLoader: () => import('highlight.js')
-      },
-    }
   ]
 })
 export class ComponentsModule{

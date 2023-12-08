@@ -60,6 +60,7 @@ export class ChatMainComponent {
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
     if (this.backContextPointer === undefined) {
       this.backContextPointer = userModel.dataId;
+      this.awareContextChange();
     }
 
     let param: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket

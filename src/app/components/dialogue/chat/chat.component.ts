@@ -1,5 +1,5 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {ChatModel, ImageList} from "../../../models";
+import {Component, Input} from '@angular/core';
+import {ChatModel} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 @Component({
   selector: 'app-chat',

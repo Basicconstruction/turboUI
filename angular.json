@@ -44,7 +44,6 @@
               "src/theme.less",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/highlight.js/styles/tokyo-night-dark.css",
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               "node_modules/prismjs/plugins/command-line/prism-command-line.css",
@@ -132,9 +131,6 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"
