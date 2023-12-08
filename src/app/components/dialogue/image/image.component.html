@@ -4,7 +4,7 @@
     <img nz-image class="show"
          [nzFallback]="fallback"
          [nzSrc]="autoShow(image)" alt="图片"/>
-    <app-markdown-root [content]="chatModel?.content"></app-markdown-root>
+    <app-markdown-root [content]="image.revised_prompt"></app-markdown-root>
   </div>
 </div>
 <div *ngIf="errors()">
