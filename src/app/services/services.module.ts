@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {SegmentsService} from "./segments.service";
-
+import {InjectionToken, NgModule} from "@angular/core";
+import {ContextMemoryService} from "./contextMemory.service";
+export const contextMemoryToken = new InjectionToken("context-memory-service");
 @NgModule({
   imports: [
 
@@ -9,7 +9,9 @@ import {SegmentsService} from "./segments.service";
 
   ],
   providers: [
-    SegmentsService
+    {
+      provide: contextMemoryToken, useValue: new ContextMemoryService()
+    }
   ],
   exports: [
 

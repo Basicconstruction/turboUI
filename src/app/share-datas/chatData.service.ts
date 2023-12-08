@@ -47,7 +47,8 @@ export class ChatDataService{
     let chatList = history.chatList!.chatModel!.map(async h => {
       const chat = h;
       let exist = await this.dbService.checkChatModelExists(chat.dataId!);
-      if(exist){
+      if(exist&& !chat.markAsChanged){
+        // 已经存在并且没有被标记为已经更改
         return chat.dataId;
       }else{
         await this.dbService.putChatInterface({

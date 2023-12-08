@@ -10,6 +10,7 @@ import {ConfigurationResolver} from "./configuration.resolver";
 export const chatSessionSubject = new InjectionToken("chat-session-subject");
 export const backChatHistorySubject = new InjectionToken("back-chat-history-subject");
 export const configurationChangeSubject = new InjectionToken("configuration-change");
+export const configurationServiceToken = new InjectionToken("configuration-service");
 @NgModule({
   imports:[
     ModelsModule,
@@ -23,7 +24,6 @@ export const configurationChangeSubject = new InjectionToken("configuration-chan
       useValue: new DbService()
     },
     ChatDataService,
-    ConfigurationService,
     HistoryTitleService,
     {
       provide: chatSessionSubject,useValue: new Subject<number>(),
@@ -33,6 +33,9 @@ export const configurationChangeSubject = new InjectionToken("configuration-chan
     },ConfigurationResolver,
     {
       provide: configurationChangeSubject, useValue: new Subject<boolean>()
+    },
+    {
+      provide: configurationServiceToken, useClass: ConfigurationService
     }
   ],
   exports: [

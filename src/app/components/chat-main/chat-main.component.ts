@@ -14,15 +14,25 @@ import {
   RequestType,
   ShowType,
   SpeechPacket,
-  TranscriptionPacket, VisionMessage
+  TaskType,
+  TranscriptionPacket,
+  UserTask,
+  VisionMessage
 } from "../../models";
 import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
-import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../share-datas/datas.module";
+import {
+  backChatHistorySubject,
+  chatSessionSubject,
+  configurationChangeSubject,
+  configurationServiceToken
+} from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ImageContent, TextContent} from "../../models/message.model";
+import {contextMemoryToken} from "../../services/services.module";
+import {ContextMemoryService} from "../../services";
 
 @Component({
   selector: 'app-chat-main',
@@ -43,10 +53,9 @@ export class ChatMainComponent {
 
     // 添加用户请求
     const userRequestShowType = this.getSendMessageType(type);
-    const randomId = Date.now()*1000 + Math.floor(Math.random() * 1000) + 1;
+    const randomId = Date.now()*1000 + Math.floor(Math.random() * 500) + 1;
     const userModel = new ChatModel("user", this.inputText,
       this.chatFileList, randomId,userRequestShowType,true);
-
     this.chatModels.push(userModel);
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
     if (this.backContextPointer === undefined) {
@@ -58,6 +67,7 @@ export class ChatMainComponent {
     // 添加返回的 聊天信息模型
     const model = new ChatModel("assistant");
     model.finish = false;
+    model.reRandom();
     this.chatModels.push(model);
     //  构建新的滚动 订阅
     this.scrollSubject = new Subject<boolean>();
@@ -399,6 +409,7 @@ export class ChatMainComponent {
     }
   }
   constructor(
+    @Inject(contextMemoryToken) private contextMemoryService: ContextMemoryService,
     private openaiService: OpenaiService,
     private renderer: Renderer2,
     private chatDataService: ChatDataService,
@@ -406,7 +417,7 @@ export class ChatMainComponent {
     private chatHistoryService: HistoryTitleService,
     @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
     @Inject(LastSessionToken) private lastSession: LastSessionModel,
-    private configurationService: ConfigurationService,
+    @Inject(configurationServiceToken) private configurationService: ConfigurationService,
     private notification: NzNotificationService,
     @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
 
@@ -419,10 +430,14 @@ export class ChatMainComponent {
     // 初始化configuration
     this.configuration = this.configurationService.configuration!;
     this.chatSessionObservable.subscribe(async (dataId) => {
-      await this.sync(dataId).then();
+      await this.sync(dataId).then(()=>{
+          this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+      });
     })
     if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
-      this.sync(this.lastSession.sessionId).then();
+      this.sync(this.lastSession.sessionId).then(()=>{
+        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+      });
     }
 
   }
@@ -452,7 +467,8 @@ export class ChatMainComponent {
 
   clearContext() {
     this.backContextPointer = undefined;
-    this.notification.success("清空上下文", "清除成功")
+    this.notification.success("清空上下文", "清除成功");
+    this.awareContextChange();
   }
 
   enableTouch() {
@@ -473,4 +489,53 @@ export class ChatMainComponent {
     return false;
   };
     protected readonly RequestType = RequestType;
+
+  isActive(chat: ChatModel) {
+    return this.backContextPointer !== undefined && chat.dataId! >= this.backContextPointer;
+  }
+  editModel: ChatModel | undefined;
+  awareContextChange(){
+    this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,this.backContextPointer);
+  }
+  handleUserTask($event: UserTask) {
+    switch ($event.task){
+      case TaskType.edit:
+        const i = this.chatHistoryModel?.chatList?.chatModel!.findIndex(item => item.dataId === $event.id);
+        if (i !== undefined) {
+          this.editModel = this.chatHistoryModel?.chatList?.chatModel![i];
+          this.showModal();
+        }
+        break;
+      case TaskType.asContext:
+        this.backContextPointer = $event.id;
+        this.awareContextChange();
+        break;
+      case TaskType.delete:
+        const index = this.chatHistoryModel?.chatList?.chatModel!.findIndex(item => item.dataId === $event.id);
+        if (index !== undefined) {
+          this.chatHistoryModel?.chatList?.chatModel!.splice(index, 1); // 删除符合条件的元素
+        }
+        this.chatDataService.putHistory(this.chatHistoryModel!).then((r)=>{
+
+        });
+        break;
+      default:
+        break;
+    }
+  }
+  isVisible: boolean = false;
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    this.editModel!.markAsChanged = true;
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+
 }

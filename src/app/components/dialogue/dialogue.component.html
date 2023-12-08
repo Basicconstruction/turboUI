@@ -1,7 +1,23 @@
-<div class="chat-box centered flex-column">
-  <div class="d-flex flex-row align-items-start w-100">
+<div class="chat-box centered flex-column" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <div class="d-flex flex-row align-items-center w-100">
     <img class="mx-2" nz-image [ngSrc]="getIcon(chatModel?.role,type)" [nzFallback]="'assets/programmer.png'" width="20" height="20" alt="图标"/>
     <div class="mx-2">{{ chatModel?.role==UserRole?'You':'ChatGPT' }}</div>
+    <div *ngIf="active" class="active rounded-4"></div>
+    <div class="d-flex flex-row" *ngIf="isHover">
+      <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2" nz-button>
+        <span nz-icon nzType="edit" nzTheme="outline"></span>
+      </button>
+      <button nz-tooltip (click)="triggerStartAsContext()" [nzTooltipTitle]="'从这里开始上下文'" class="rounded-4" nz-button>
+        <span nz-icon nzType="sort-ascending" nzTheme="outline"></span>
+      </button>
+      <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'删除 该条记录'" class="rounded-4 mx-2" nz-button>
+        <span nz-icon nzType="delete" nzTheme="outline"></span>      </button>
+    </div>
+    <div class="d-flex flex-row" *ngIf="!isHover">
+      <button class="rounded-4 mx-2" nz-button>
+        <span nz-icon nzType="fullscreen" nzTheme="outline"></span>
+      </button>
+    </div>
   </div>
   <div class="flex-grow-1 centered px-5 my-2 w-100">
     <div [ngSwitch]="getDisplayType(type)" [style]="getFontSize()">

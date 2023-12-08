@@ -1,0 +1,21 @@
+.editor{
+  /*width: 500px;*/
+  /*height: 300px;*/
+}
+::-webkit-scrollbar {
+  width: 6px; /* 滚动条宽度 */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent; /* 滚动条背景色 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* 滚动条滑块颜色 */
+  border-radius: 3px; /* 滑块圆角 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa; /* 鼠标悬停时滑块颜色 */
+}

@@ -1,3 +1,8 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <app-model-editor [chatModel]="editModel" ></app-model-editor>
+  </ng-container>
+</nz-modal>
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="overflow-y-scroll flex-grow-1" #chatPanel>
     <div class="sticky-top d-flex justify-content-between">
@@ -5,7 +10,7 @@
     </div>
     <div *ngIf="chatHistoryModel?.title?.length!=0">
       <div *ngFor="let chat of chatModels">
-        <app-dialogue [chatModel]="chat" [content]="chat.content"></app-dialogue>
+        <app-dialogue (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content" [active]="isActive(chat!)" ></app-dialogue>
       </div>
     </div>
     <div *ngIf="chatHistoryModel===undefined || chatHistoryModel?.title?.length==0" class="d-flex w-100 h-100 justify-content-center">
@@ -56,10 +61,8 @@
             </nz-upload>
           </div>
           <div class="d-flex flex-row h-100">
-            <button  class="mx-2 my-1 border-1 border-light rounded-2" nz-popconfirm
-                    nzPopconfirmTitle="确定清空上下文?"
-                    nzPopconfirmPlacement="top"
-                    (nzOnConfirm)="clearContext()"
+            <button  class="mx-2 my-1 border-1 border-light rounded-2"
+                    (click)="clearContext()"
                     nz-popover nzPopoverTitle="清空上下文">
               <img src="assets/clear.svg" width="30" height="20" alt="清空">
 <!--              <span nz-icon nzType="fall" nzTheme="outline"></span>-->

@@ -1,1 +1,1 @@
-export {SegmentsService} from "./segments.service";
+export {ContextMemoryService} from "./contextMemory.service";

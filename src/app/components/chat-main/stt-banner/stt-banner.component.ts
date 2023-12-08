@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ConfigurationModel} from "../../../models";
 import {languages} from "../../../models/type.data";
-import {ConfigurationService} from "../../../share-datas";
 
 @Component({
   selector: 'app-stt-banner',

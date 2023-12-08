@@ -64,6 +64,10 @@ import {
 import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
 import {ServicesModule} from "../services/services.module";
 import * as hljs from 'highlight.js';
+import {ClipboardModule} from "@angular/cdk/clipboard";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import { ModelEditorComponent } from './chat-main/model-editor/model-editor.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -81,7 +85,7 @@ import * as hljs from 'highlight.js';
     DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
     NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
-    ServicesModule,
+    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule
   ],
   declarations: [
     ChatPageComponent,
@@ -104,12 +108,12 @@ import * as hljs from 'highlight.js';
     StaticTtsComponent,
     VisionBannerComponent,
     MarkdownRootComponent,
+    ModelEditorComponent,
   ],
   exports: [
     ChatPageComponent
   ],
   providers: [
-    OpenaiService,
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {

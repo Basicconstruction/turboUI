@@ -1,9 +1,6 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {ConfigurationService} from "../../../share-datas";
-import {SegmentsService} from "../../../services";
-
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',

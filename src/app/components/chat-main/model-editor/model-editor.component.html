@@ -1,0 +1,16 @@
+<div *ngIf="chatModel===undefined">
+  <nz-spin nzSimple></nz-spin>
+</div>
+<div *ngIf="chatModel!==undefined">
+<!--  <div class="d-flex align-items-center flex-row-reverse">-->
+<!--    <button nz-button (click)="expand = !expand">-->
+<!--      <span *ngIf="!expand" nz-icon nzType="fullscreen" nzTheme="outline"></span>-->
+<!--      <span *ngIf="expand" nz-icon nzType="fullscreen-exit" nzTheme="outline"></span>-->
+<!--    </button>-->
+<!--  </div>-->
+  <textarea nz-input
+            [(ngModel)]="chatModel!.content"
+            rows="10" cols="20"
+            class="p-0 m-0 overflow-y-scroll">
+  </textarea>
+</div>

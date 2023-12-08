@@ -1,5 +1,5 @@
 import {
-  Component, Input
+  Component, ElementRef, Input, QueryList, ViewChild, ViewChildren
 } from '@angular/core';
 import {NzNotificationService} from "ng-zorro-antd/notification";
 
@@ -23,7 +23,6 @@ export class MarkdownRootComponent
   }
 
   private _content: string | undefined;
-
   onCopyToClipboard() {
     this.notification.success("复制成功","");
   }

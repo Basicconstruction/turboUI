@@ -1,8 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {ConfigurationService} from "../../../share-datas";
-import {SegmentsService} from "../../../services";
 
 @Component({
   selector: 'app-static-request',

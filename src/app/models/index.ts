@@ -7,6 +7,7 @@ export {ChatHistoryModel} from "./chatHistory.model"
 export {ChatListModel} from "./chatList.model"
 export {LastSessionModel} from "./lastSession.model";
 export {Message,VisionMessage} from "./message.model"
+export {UserTask, TaskType} from "./userTask.model";
 
 export {ImageList,DallImage} from "./image.interface"
 export {Configuration,ImageConfiguration,ChatStreamConfiguration} from "./configuration.interface"

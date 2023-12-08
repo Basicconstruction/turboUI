@@ -11,13 +11,19 @@ export interface FileInChat{
 }
 export class ChatModel {
 
-  // 查找id删除某条对话
+  public markAsChanged = false;
   constructor(public role: string = 'user', public content: string = '', public fileList?:FileInChat[], public dataId?: number, public showType: ShowType = ShowType.staticChat, public finish: boolean = true) {
     if(dataId==null){
       // this.dataId = Date.now();
-      this.dataId = Date.now() * 1000 + Math.floor(Math.random() * 1000) + 1;
+      this.dataId = Date.now() * 1000 + Math.floor(Math.random() * 500) ;
     }
   }
+  public reRandom(){
+    const id = Math.floor(this.dataId! / 1000) * 1000;
+    const random = Math.floor(Math.random()*500);
+    this.dataId = id + (random <500 ? 500 : 499+random);
+  }
+
 }
 export interface ChatInterface{
   role: string;

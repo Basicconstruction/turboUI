@@ -1,3 +1,11 @@
+.active{
+  width: 10px;
+  height: 10px;
+  background: #79c0ff;
+}
+.mini-button{
+  width: 25px;
+}
 .chat-box {
   display: flex;
   align-items: center;

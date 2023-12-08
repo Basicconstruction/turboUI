@@ -13,7 +13,7 @@
     <button nz-button class="mx-2 bg-dark rounded-3 d-flex justify-content-between text-white text-start border-0"
             [class.button-hovered]="selectId===history.dataId"
             *ngFor="let history of chatHistoryTitle" (click)="changeSession(history.dataId)">
-      <span class="">{{history.title}}</span>
+      <span class="overflow-hidden">{{history.title}}</span>
       <span *ngIf="selectId===history.dataId" nz-icon class="mx-2 py-1" nzType="dash" nzTheme="outline"></span>
     </button>
 </div>

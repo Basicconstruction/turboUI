@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {ChatModel, ShowType} from "../../models";
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
+import {configurationServiceToken} from '../../share-datas/datas.module';
 
 
 @Component({
@@ -12,7 +13,7 @@ import {ConfigurationService} from "../../share-datas";
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
-  constructor(private configurationService: ConfigurationService) {
+  constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService) {
   }
   getFontSize() {
     return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
@@ -21,11 +22,16 @@ export class DialogueComponent {
   set content(value: string | undefined) {
     this._content = value;
   }
+  @Input()
+  active: boolean = false;
 
   @Input()
   set chatModel(value: ChatModel | undefined) {
     this._chatModel = value;
   }
+
+  @Output()
+  userTask = new EventEmitter<UserTask>();
 
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
@@ -95,6 +101,30 @@ export class DialogueComponent {
 
     }
     return "assets/chat-gpt.png";
+  }
+  isHover: boolean = false;
+
+  onMouseEnter() {
+    this.isHover = true;
+  }
+
+  onMouseLeave() {
+    this.isHover = false;
+  }
+
+  triggerEdit() {
+    if(!this.chatModel) return;
+    this.userTask.emit(new UserTask(TaskType.edit, this.chatModel?.dataId!));
+  }
+
+  triggerStartAsContext() {
+    if(!this.chatModel) return;
+    this.userTask.emit(new UserTask(TaskType.asContext, this.chatModel?.dataId!));
+  }
+
+  triggerDelete() {
+    if(!this.chatModel) return;
+    this.userTask.emit(new UserTask(TaskType.delete, this.chatModel?.dataId!));
   }
 }
 
