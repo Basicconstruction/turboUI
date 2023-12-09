@@ -23,7 +23,7 @@ export class ModelSelectorComponent {
     this.configurationObservable.subscribe((ele: boolean)=>{
       this.buildSelector();
       this.model = this.configurationService.configuration?.model;
-      console.log("aware "+this.model)
+      // console.log("aware "+this.model)
     })
   }
   buildSelector(){

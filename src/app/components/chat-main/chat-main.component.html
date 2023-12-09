@@ -34,6 +34,9 @@
     <div class="d-flex">
       <div class="center-input rounded-2" style="border: 1px solid #ccc;">
         <div [ngSwitch]="configuration?.requestType">
+          <div *ngSwitchCase="RequestType.Image">
+            <app-dall-banner [configuration]="configuration"></app-dall-banner>
+          </div>
           <div *ngSwitchCase="RequestType.Speech">
             <app-tts-banner [configuration]="configuration"></app-tts-banner>
           </div>
@@ -47,7 +50,6 @@
 
           </div>
         </div>
-<!--         选择文件 清空上下文-->
         <div class="d-flex flex-row">
           <div class="select-box mx-1 my-1 rounded-4">
             <nz-upload class="flex-grow-0 rounded-2"
@@ -63,13 +65,11 @@
           <div class="d-flex flex-row h-100">
             <button  class="mx-2 my-1 border-1 border-light rounded-2"
                     (click)="clearContext()"
-                    nz-popover nzPopoverTitle="清空上下文">
+                    nz-tooltip nzTooltipTitle="清空上下文">
               <img src="assets/clear.svg" width="30" height="20" alt="清空">
-<!--              <span nz-icon nzType="fall" nzTheme="outline"></span>-->
             </button>
           </div>
         </div>
-<!--        输入框，提交按钮-->
         <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
           <textarea nz-input
                     placeholder="Message ChatGPT..."

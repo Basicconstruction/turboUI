@@ -1,8 +1,8 @@
 <div class="chat-box centered flex-column" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
   <div class="d-flex flex-row align-items-center w-100">
     <img class="mx-2" nz-image [ngSrc]="getIcon(chatModel?.role,type)" [nzFallback]="'assets/programmer.png'" width="20" height="20" alt="图标"/>
-    <div class="mx-2">{{ chatModel?.role==UserRole?'You':'ChatGPT' }}</div>
-    <div *ngIf="active" class="active rounded-4"></div>
+    <div class="mx-2">{{ getHeadName(chatModel) }}</div>
+    <div *ngIf="active" nz-tooltip nzTooltipTitle="该信息包含在上下文中" class="active rounded-4"></div>
     <div class="d-flex flex-row" *ngIf="isHover">
       <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2" nz-button>
         <span nz-icon nzType="edit" nzTheme="outline"></span>

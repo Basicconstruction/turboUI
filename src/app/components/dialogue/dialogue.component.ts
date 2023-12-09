@@ -126,6 +126,30 @@ export class DialogueComponent {
     if(!this.chatModel) return;
     this.userTask.emit(new UserTask(TaskType.delete, this.chatModel?.dataId!));
   }
+
+  getHeadName(chatModel: ChatModel | undefined) {
+    if(chatModel===undefined){
+      return "error";
+    }
+    if(chatModel.role===UserRole){
+      return "You";
+    }
+    const index = chatModel.showType.valueOf()%5;
+    switch (index){
+      case 0:
+        return "ChatGPT";
+      case 1:
+        return "Vision";
+      case 2:
+        return "Dall";
+      case 3:
+        return "Speech";
+      case 4:
+        return "Whisper";
+      default:
+        return "ChatGPT";
+    }
+  }
 }
 
 enum DisplayType {

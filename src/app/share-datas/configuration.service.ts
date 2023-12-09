@@ -18,11 +18,19 @@ export class ConfigurationService {
     public configuration: ConfigurationModel | undefined;
 
     constructor(@Inject(Db) private dbService: DbService) {
-        this.init();
+
     }
 
     public async init() {
         this.configuration = await this.getConfiguration()
+    }
+    public async accept(){
+      if(this.configuration!==undefined){
+        return true;
+      }else{
+        await this.init();
+        return true;
+      }
     }
     public default_configuration(){
         return new ConfigurationModel(

@@ -11,6 +11,6 @@ export class ConfigurationResolver{
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this.configurationService.init();
+        return this.configurationService.accept();
     }
 }

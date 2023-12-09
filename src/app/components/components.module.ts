@@ -63,6 +63,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { ModelEditorComponent } from './chat-main/model-editor/model-editor.component';
+import { DallBannerComponent } from './chat-main/dall-banner/dall-banner.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -104,6 +105,7 @@ import { ModelEditorComponent } from './chat-main/model-editor/model-editor.comp
     VisionBannerComponent,
     MarkdownRootComponent,
     ModelEditorComponent,
+    DallBannerComponent,
   ],
   exports: [
     ChatPageComponent

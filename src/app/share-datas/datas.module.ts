@@ -11,6 +11,7 @@ export const chatSessionSubject = new InjectionToken("chat-session-subject");
 export const backChatHistorySubject = new InjectionToken("back-chat-history-subject");
 export const configurationChangeSubject = new InjectionToken("configuration-change");
 export const configurationServiceToken = new InjectionToken("configuration-service");
+const dbService = new DbService();
 @NgModule({
   imports:[
     ModelsModule,
@@ -21,7 +22,7 @@ export const configurationServiceToken = new InjectionToken("configuration-servi
   providers: [
     {
       provide: Db,
-      useValue: new DbService()
+      useValue: dbService
     },
     ChatDataService,
     HistoryTitleService,
@@ -35,7 +36,7 @@ export const configurationServiceToken = new InjectionToken("configuration-servi
       provide: configurationChangeSubject, useValue: new Subject<boolean>()
     },
     {
-      provide: configurationServiceToken, useClass: ConfigurationService
+      provide: configurationServiceToken, useValue: new ConfigurationService(dbService)
     }
   ],
   exports: [

@@ -1,0 +1,45 @@
+<nz-row class="align-items-center my-1">
+  <nz-col>
+    <nz-col class="mx-1">
+      绘图大小
+    </nz-col>
+    <nz-col>
+      <nz-select class="select big"  [(ngModel)]="configuration!.imageConfiguration.size">
+        <nz-option *ngFor="let size of sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
+      </nz-select>
+    </nz-col>
+  </nz-col>
+  <nz-col>
+    <nz-col class="mx-1">
+      绘图质量
+    </nz-col>
+    <nz-col>
+      <nz-select class="select big"  [(ngModel)]="configuration!.imageConfiguration.quality">
+        <nz-option *ngFor="let quality of qualities" [nzValue]="quality" [nzLabel]="quality"></nz-option>
+      </nz-select>
+    </nz-col>
+  </nz-col>
+  <nz-col>
+    <nz-col class="mx-1">
+      绘图风格
+    </nz-col>
+    <nz-col>
+      <nz-select class="select big"  [(ngModel)]="configuration!.imageConfiguration.style">
+        <nz-option *ngFor="let style of styles" [nzValue]="style" [nzLabel]="style"></nz-option>
+      </nz-select>
+    </nz-col>
+  </nz-col>
+  <nz-col>
+    <nz-col class="mx-1">
+      绘图数量
+    </nz-col>
+    <nz-col>
+      <nz-input-number
+        [nzMin]="1"
+        [nzStep]="1"
+        [nzMax]="10"
+        [(ngModel)]="configuration!.imageConfiguration.n">
+      </nz-input-number>
+    </nz-col>
+  </nz-col>
+</nz-row>
