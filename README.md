@@ -1,8 +1,18 @@
 在csdn上阅读使用介绍和简要的设计目的  
 http://t.csdnimg.cn/6P2FF  
-预览或者体验：
-nginx http://47.95.39.25/chat
-turbo-pool http://47.95.39.25:10000/chat 
+预览或者体验：  
+http:  
+前端地址  
+nginx http://47.95.39.25/chat  
+turbo-pool(.net) http://47.95.39.25:10000/chat    
+后端地址  
+python http://47.95.39.25:8888  
+
+https:  
+前端地址  
+iis https://info.atpgroup.work  
+后端地址  
+iis with python https://translator.atpgroup.work  
 ![img_10.png](img_10.png)
 注意要修改后端地址为当前服务器地址并且填写自己的密钥和地址
 ![img_11.png](img_11.png)
