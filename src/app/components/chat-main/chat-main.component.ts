@@ -33,6 +33,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ImageContent, TextContent} from "../../models/message.model";
 import {contextMemoryToken} from "../../services/services.module";
 import {ContextMemoryService} from "../../services";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-chat-main',
@@ -420,7 +421,8 @@ export class ChatMainComponent {
     @Inject(LastSessionToken) private lastSession: LastSessionModel,
     @Inject(configurationServiceToken) private configurationService: ConfigurationService,
     private notification: NzNotificationService,
-    @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
+    @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
+    ) {
 
     this.configurationObserver.subscribe((change)=>{
       if(change){

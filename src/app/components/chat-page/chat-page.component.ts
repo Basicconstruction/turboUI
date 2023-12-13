@@ -4,7 +4,7 @@ import {DbService, HistoryTitleService} from "../../share-datas";
 import {Db} from "../../share-datas/db.service";
 import {backChatHistorySubject} from "../../share-datas/datas.module";
 import {Observable} from "rxjs";
-import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-chat-page',
@@ -19,11 +19,8 @@ export class ChatPageComponent implements OnInit {
   }
 
   historyTitles: ChatHistoryTitle[] | undefined;
-  chat: boolean = true;
   constructor(private historyTitleService: HistoryTitleService,
-              @Inject(Db) private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
-              private route: ActivatedRoute, private router: Router
   ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       const existingItem = this.historyTitles!.find(item => item.dataId === historyTitle.dataId);
@@ -31,12 +28,6 @@ export class ChatPageComponent implements OnInit {
         this.historyTitles!.splice(0, 0, historyTitle) // 如果不存在具有相同 dataId 的项，则添加 historyTitle
       }
     });
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.chat = event.url === '/chat';
-      }
-    });
-
   }
 
   async ngOnInit() {
@@ -48,8 +39,4 @@ export class ChatPageComponent implements OnInit {
     this.historyTitles?.reverse();
   }
 
-
-  dynamicTravel() {
-    return this.chat? '/chat/settings':'/chat';
-  }
 }
