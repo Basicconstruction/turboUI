@@ -1,6 +1,7 @@
-在csdn上阅读使用介绍和简要的设计目的  
+### 在csdn阅读
+使用介绍和简要的设计目的  
 http://t.csdnimg.cn/6P2FF  
-预览或者体验：  
+### 预览或者体验：  
 http:  
 前端地址  
 nginx http://47.95.39.25/chat  
@@ -13,19 +14,49 @@ https:
 iis https://info.atpgroup.work  
 后端地址  
 iis with python https://translator.atpgroup.work  
-![img_10.png](img_10.png)
+### 展示效果
+
+![img_12.png](img_12.png)
 注意要修改后端地址为当前服务器地址并且填写自己的密钥和地址
-![img_11.png](img_11.png)
+![img_13.png](img_13.png)
 效果
 gpt3.5 gpt4
-![img_7.png](img_7.png)
+![img_14.png](img_14.png)
 tts 文字转语音
-![img_8.png](img_8.png)
+![img_15.png](img_15.png)
 stt 语音转文字
-![img_9.png](img_9.png)
-同时还支持gpt4vision(识别图片)(经过基本的测试)
+![img_16.png](img_16.png)
+gpt4vision
+![img_19.png](img_19.png)
+![img_20.png](img_20.png)
+dall-e-3
+![img_17.png](img_17.png)
+![img_18.png](img_18.png)
+
  
 支持gpt-3,gpt-4,gpt-4v,dall-3(不支持dall-2),tts,stt(speech to text)  
+上下文：  
+gpt3,gpt4,共享上下文,不使用gpt4v的上下文  
+gpt4v 使用gpt3,gpt4,gpt4v的上下文  
+dall-e,tts,stt 不使用上下文  
+
+目标人群：  
+高级用户，会自己编写需要的prompt。  
+
+未来计划：  
+及时地支持最新的openai的新的api接口。
+使用gpt3，gpt4 的二次处理来支持更高级的任务，比如  
+阅读分析 pdf，html，csv，xlsx，word，txt，代码等。  
+集合一些比较有趣的功能，通过附件的方式安装到服务器软件，客户端通过
+下载服务端支持的“语言”，进行扩展客户端的表现效果。  
+比如：  
+制作二维码，进行图片检测等与api无关的功能。
+新前端： 通过前端来管理后端的功能  
+
+
+
+
+
 可以在自己windows上运行，部署在服务器上时，所有设备均可以在浏览器中使用，但是
 没有适配移动端。  
 源码可以运行在电脑平台，不过需要 进行各自的平台编译。  
