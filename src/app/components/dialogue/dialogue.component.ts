@@ -2,6 +2,7 @@ import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
+import {SizeReportService} from "../../services/sizeReport.service";
 
 
 @Component({
@@ -12,7 +13,8 @@ import {ConfigurationService} from "../../share-datas";
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
-  constructor(private configurationService: ConfigurationService) {
+  constructor(private configurationService: ConfigurationService,
+              private sizeReportService: SizeReportService) {
   }
   getFontSize() {
     return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
@@ -147,6 +149,14 @@ export class DialogueComponent {
         return "Whisper";
       default:
         return "ChatGPT";
+    }
+  }
+
+  getWidth() {
+    if(this.sizeReportService.width!<800){
+      return "width: "+this.sizeReportService.width+"px;";
+    }else{
+      return "width: "+800+"px;";
     }
   }
 }

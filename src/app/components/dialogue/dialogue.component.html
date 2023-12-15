@@ -1,4 +1,6 @@
-<div class="chat-box centered flex-column" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+<div class="chat-box centered flex-column"
+     [style]="getWidth()"
+     (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
   <div class="d-flex flex-row align-items-center w-100">
     <img class="mx-2" nz-image [ngSrc]="getIcon(chatModel?.role,type)" [nzFallback]="'assets/programmer.png'" width="20" height="20" alt="图标"/>
     <div class="mx-2">{{ getHeadName(chatModel) }}</div>

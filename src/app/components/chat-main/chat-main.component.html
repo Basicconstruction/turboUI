@@ -1,4 +1,5 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="编辑"
+          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <app-model-editor [chatModel]="editModel"></app-model-editor>
   </ng-container>
@@ -14,7 +15,7 @@
           </button>
         </nz-col>
         <nz-col>
-          <app-model-selector></app-model-selector>
+          <app-model-selector class=""></app-model-selector>
         </nz-col>
         <nz-col>
           <button nz-button (click)="promptBox.focus()">
@@ -25,7 +26,7 @@
     </div>
     <div *ngIf="!showLogo()"
       class="flex-grow-1">
-      <div class="bg-white sticky-top p-1 mb-1">
+      <div class="bg-white sticky-top p-1">
         <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
       </div>
       <div *ngFor="let chat of chatModels">

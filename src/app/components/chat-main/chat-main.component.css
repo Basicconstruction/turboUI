@@ -44,3 +44,6 @@
   max-width: 300px;
 
 }
+.z-second{
+  z-index: 8888!important;
+}

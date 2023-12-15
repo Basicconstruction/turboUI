@@ -236,6 +236,7 @@ export class ChatMainComponent {
       this.answering = false;
       if (this.subscription) {
         this.subscription.unsubscribe();
+        this.finalizeResponse();
       }
     } else {
       this.askGPT();

@@ -41,7 +41,7 @@ export class ChatHistoryComponent implements OnChanges
   }
   miniPhoneAction(){
     if(this.sizeReportService.miniPhoneView()){
-      this.sidebarService.switch();
+      this.sidebarService.isSideBarClosed = true;
     }
   }
 
