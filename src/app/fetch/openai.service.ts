@@ -1,17 +1,16 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ConfigurationService} from "../share-datas";
 import {ChatVisionPacket, Message, RequestType, VisionMessage} from "../models";
 
 import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {ChatPacket, ImagePacket, SpeechPacket, TranscriptionPacket} from "../models";
-import {configurationServiceToken} from "../share-datas/datas.module";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OpenaiService {
-  constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService, private http: HttpClient) {
+  constructor(private configurationService: ConfigurationService, private http: HttpClient) {
   }
   fetchChat(mp: ChatPacket): Observable<string> {
     const messages: Message[] = mp.messages;

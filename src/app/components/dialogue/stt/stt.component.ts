@@ -11,7 +11,6 @@ export class SttComponent {
 
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
-  public imageList: ImageList | undefined;
   @Input()
   set content(value: string | undefined) {
     this._content = value;

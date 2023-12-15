@@ -9,9 +9,6 @@ const routes: Routes = [
   {
     path: "chat", loadChildren: () => import("./components/components.module").then(m=>m.ComponentsModule)
   },
-  // {
-  //   path: "login", component: LoginPageComponent,
-  // },
   {
     path: "**", component: ErrorPageComponent
   },

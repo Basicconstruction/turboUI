@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {AuthService} from "../../auth";
-import {auth} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-login-label',
@@ -8,7 +7,7 @@ import {auth} from "../../auth/auth.service";
   styleUrl: './login-label.component.css'
 })
 export class LoginLabelComponent {
-  constructor(@Inject(auth) private authService: AuthService) {
+  constructor(private authService: AuthService) {
   }
   get isLogin():boolean{
     return this.authService.isLogin;

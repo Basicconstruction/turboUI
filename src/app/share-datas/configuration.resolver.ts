@@ -1,12 +1,10 @@
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {ConfigurationService} from "./configuration.service";
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
-import {Observable} from "rxjs";
-import {configurationServiceToken} from "./datas.module";
 
 @Injectable()
 export class ConfigurationResolver{
-    constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService) {
+    constructor(private configurationService: ConfigurationService) {
 
     }
 

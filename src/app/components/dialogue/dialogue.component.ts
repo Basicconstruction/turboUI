@@ -2,7 +2,6 @@ import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
-import {configurationServiceToken} from '../../share-datas/datas.module';
 
 
 @Component({
@@ -13,7 +12,7 @@ import {configurationServiceToken} from '../../share-datas/datas.module';
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
-  constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService) {
+  constructor(private configurationService: ConfigurationService) {
   }
   getFontSize() {
     return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`

@@ -1,21 +1,18 @@
-import {Inject, Injectable} from "@angular/core";
-import {Db, DbService} from "./db.service";
+import {Injectable} from "@angular/core";
+import {DbService} from "./db.service";
 import {ChatHistoryTitle} from "../models";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class HistoryTitleService{
-  constructor( @Inject(Db)private dbService: DbService) {
-    // this.init();
+  constructor(private dbService: DbService) {
+
   }
-  // async init(){
-  //   this.historyTitles = await this.dbService.getHistoryTitles();
-  // }
   async getHistoryTitles(){
     return await this.dbService.getHistoryTitles();
   }
   async putHistoryTitles(historyTitles: ChatHistoryTitle){
     return await this.dbService.addOrUpdateHistoryTitles(historyTitles);
   }
-
-  // historyTitles: ChatHistoryTitle[] | undefined;
 }

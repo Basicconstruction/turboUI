@@ -1,10 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ChatHistoryTitle} from "../../models";
 import {DbService, HistoryTitleService} from "../../share-datas";
-import {Db} from "../../share-datas/db.service";
 import {backChatHistorySubject} from "../../share-datas/datas.module";
 import {Observable} from "rxjs";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-chat-page',

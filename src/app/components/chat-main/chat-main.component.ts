@@ -25,7 +25,6 @@ import {
   backChatHistorySubject,
   chatSessionSubject,
   configurationChangeSubject,
-  configurationServiceToken
 } from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {LastSessionToken} from "../../models/lastSession.model";
@@ -419,7 +418,7 @@ export class ChatMainComponent {
     private chatHistoryService: HistoryTitleService,
     @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
     @Inject(LastSessionToken) private lastSession: LastSessionModel,
-    @Inject(configurationServiceToken) private configurationService: ConfigurationService,
+    private configurationService: ConfigurationService,
     private notification: NzNotificationService,
     @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
     ) {

@@ -1,5 +1,5 @@
-import {Inject, Injectable} from "@angular/core";
-import {Db, DbService} from "./db.service";
+import {Injectable} from "@angular/core";
+import {DbService} from "./db.service";
 import {
   ChatStreamConfigurationModel,
   Configuration,
@@ -13,11 +13,13 @@ import {
   TranscriptionConfigurationModel
 } from "../models/configuration.model";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ConfigurationService {
     public configuration: ConfigurationModel | undefined;
 
-    constructor(@Inject(Db) private dbService: DbService) {
+    constructor(private dbService: DbService) {
 
     }
 

@@ -3,8 +3,9 @@ import {DBSchema, IDBPDatabase, openDB} from "idb";
 import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
-export const Db = new InjectionToken("db-service");
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class DbService{
   private idbDb: IDBPDatabase<ChatDb> | undefined;
   public initFinish = false;

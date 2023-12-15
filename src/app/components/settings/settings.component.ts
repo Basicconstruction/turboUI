@@ -2,7 +2,7 @@ import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core
 import {ConfigurationService} from "../../share-datas";
 import {ConfigurationModel} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {configurationChangeSubject, configurationServiceToken} from "../../share-datas/datas.module";
+import {configurationChangeSubject} from "../../share-datas/datas.module";
 import {Subject} from "rxjs";
 import {
     image_response_formats,
@@ -29,7 +29,7 @@ export class SettingsComponent {
     speech_response_formats: string[] = speech_response_formats;
     details = details;
 
-    constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService,
+    constructor(private configurationService: ConfigurationService,
                 private notification: NzNotificationService,
                 @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
                 private renderer: Renderer2,) {

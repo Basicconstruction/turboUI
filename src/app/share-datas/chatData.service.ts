@@ -1,10 +1,12 @@
-import {Inject, Injectable} from "@angular/core";
-import {Db, DbService} from "./db.service";
+import {Injectable} from "@angular/core";
+import {DbService} from "./db.service";
 import {ChatHistory, ChatHistoryModel, ChatListModel, ChatModel} from "../models";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ChatDataService{
-  constructor(@Inject(Db) private dbService: DbService) {
+  constructor(private dbService: DbService) {
 
   }
   async getChatHistory(dataId: number): Promise<ChatHistoryModel | undefined> {

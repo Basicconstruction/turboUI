@@ -1,9 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from "../../auth";
 import {Router} from "@angular/router";
-import {auth} from "../../auth/auth.service";
-import {NzUploadFile} from "ng-zorro-antd/upload";
-import {FileInChat} from "../../models";
 
 @Component({
   selector: 'app-login-page',
@@ -12,7 +9,7 @@ import {FileInChat} from "../../models";
 })
 export class LoginPageComponent{
   message: string = "登录成功，正在返回";
-  constructor(@Inject(auth) private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
   ngOnInit(): void {

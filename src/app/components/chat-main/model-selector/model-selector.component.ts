@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {ConfigurationService} from "../../../share-datas";
-import {configurationChangeSubject, configurationServiceToken} from "../../../share-datas/datas.module";
+import {configurationChangeSubject} from "../../../share-datas/datas.module";
 import {Subject} from "rxjs";
 import {RequestType} from "../../../models";
 
@@ -15,19 +15,16 @@ export class ModelSelectorComponent {
   ttsChildren: string[] = [];
   sttChildren: string[] = [];
   model: string | undefined;
-  constructor(@Inject(configurationServiceToken) private configurationService: ConfigurationService,
+  constructor(private configurationService: ConfigurationService,
               @Inject(configurationChangeSubject) private configurationObservable: Subject<boolean>) {
     this.buildSelector();
     this.model = this.configurationService.configuration?.model;
-    // console.log("set "+this.model)
     this.configurationObservable.subscribe((ele: boolean)=>{
       this.buildSelector();
       this.model = this.configurationService.configuration?.model;
-      // console.log("aware "+this.model)
     })
   }
   buildSelector(){
-    // console.log('build selector')
     this.chatStreamChildren.length = 0;
     this.imageChildren.length = 0;
     this.ttsChildren.length = 0;

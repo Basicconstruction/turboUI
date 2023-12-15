@@ -47,7 +47,6 @@ export class TtsComponent {
   constructor(private sanitizer: DomSanitizer) {}
   audioSrc: SafeUrl | undefined;
   ngOnInit() {
-    // 假设 chatModel?.content 包含 Base64 编码的音频数据
     const base64Data = this.chatModel?.content; // 获取 Base64 数据
     if(base64Data===undefined) return;
     try{
