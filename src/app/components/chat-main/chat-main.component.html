@@ -6,16 +6,35 @@
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
 <!--    chat lists-->
+    <div *ngIf="miniPhone()" class="sticky-top">
+      <nz-row class="justify-content-between bg-white align-items-center">
+        <nz-col>
+          <button nz-button (click)="switchSidebar()">
+            <span nz-icon nzType="align-left" nzTheme="outline"></span>
+          </button>
+        </nz-col>
+        <nz-col>
+          <app-model-selector></app-model-selector>
+        </nz-col>
+        <nz-col>
+          <button nz-button (click)="promptBox.focus()">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+        </nz-col>
+      </nz-row>
+    </div>
     <div *ngIf="!showLogo()"
       class="flex-grow-1">
-      <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
+      <div class="bg-white sticky-top p-1 mb-1">
+        <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
+      </div>
       <div *ngFor="let chat of chatModels">
         <app-dialogue (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
                       [active]="isActive(chat!)"></app-dialogue>
       </div>
     </div>
 <!--    how can i help you! -->
-    <div class="position-absolute flex-0" *ngIf="showLogo()">
+    <div class="position-absolute flex-0" *ngIf="showLogo()&&!miniPhone()">
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
     </div>
     <div *ngIf="showLogo()"
@@ -78,6 +97,7 @@
       </div>
       <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
           <textarea nz-input
+                    #promptBox
                     placeholder="Message ChatGPT..."
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
                     [(ngModel)]="inputText"
@@ -105,7 +125,7 @@
   </div>
 
   <div class="d-flex flex-grow-0">
-    <div class="center fs-mini">ChatGPT can make mistakes. Consider checking important information.
+    <div class="center fs-mini overflow-hidden">ChatGPT can make mistakes. Consider checking important information.
     </div>
   </div>
 </div>

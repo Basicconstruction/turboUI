@@ -1,8 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {ChatHistoryTitle} from "../../models";
 import {DbService, HistoryTitleService} from "../../share-datas";
 import {backChatHistorySubject} from "../../share-datas/datas.module";
-import {Observable} from "rxjs";
+import {min, Observable} from "rxjs";
+import {SizeReportService} from "../../services/sizeReport.service";
+import {SidebarService} from "../../services/sidebar.service";
 
 @Component({
   selector: 'app-chat-page',
@@ -10,14 +12,15 @@ import {Observable} from "rxjs";
   styleUrl: './chat-page.component.css'
 })
 export class ChatPageComponent implements OnInit {
-  isSidebarClosed: boolean = false;
 
   toggleSidebar(): void {
-    this.isSidebarClosed = !this.isSidebarClosed;
+    this.sidebarService.switch();
   }
 
   historyTitles: ChatHistoryTitle[] | undefined;
-  constructor(private historyTitleService: HistoryTitleService,
+  constructor(private sizeReportService: SizeReportService,
+    public sidebarService: SidebarService,
+    private historyTitleService: HistoryTitleService,
               private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
   ) {
@@ -30,12 +33,22 @@ export class ChatPageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.sizeReportService.width = window.innerWidth;
+    this.sizeReportService.height = window.innerHeight;
+    if(this.sizeReportService.miniPhoneView()){
+      this.sidebarService.isSideBarClosed = true;
+    }
     await this.waitForInit();
     this.historyTitles = await this.historyTitleService.getHistoryTitles();
     if (this.historyTitles === undefined) {
       this.historyTitles = [];
     }
     this.historyTitles?.reverse();
+  }
+  @HostListener('window:resize',['$event'])
+  onResize(event: any){
+    this.sizeReportService.width = event.target.innerWidth;
+    this.sizeReportService.height = event.target.innerHeight;
   }
   private waitForInit(): Promise<void> {
     return new Promise((resolve) => {
@@ -52,4 +65,10 @@ export class ChatPageComponent implements OnInit {
     });
   }
 
+
+  miniPhone() {
+    return this.sizeReportService.miniPhoneView();
+  }
+
+  protected readonly min = min;
 }

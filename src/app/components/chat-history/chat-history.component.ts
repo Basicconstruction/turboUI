@@ -4,6 +4,8 @@ import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/data
 import {Observable, Observer} from "rxjs";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {HistoryTitleService} from "../../share-datas";
+import {SizeReportService} from "../../services/sizeReport.service";
+import {SidebarService} from "../../services/sidebar.service";
 
 @Component({
   selector: 'app-chat-history',
@@ -15,7 +17,10 @@ export class ChatHistoryComponent implements OnChanges
   @Input()
   chatHistoryTitle: ChatHistoryTitle[] | undefined;
   selectId: number | undefined;
-  constructor(@Inject(chatSessionSubject) private chatSessionObserver:Observer<number> ,
+  constructor(
+    private sizeReportService: SizeReportService,
+    public sidebarService: SidebarService,
+    @Inject(chatSessionSubject) private chatSessionObserver:Observer<number> ,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
               @Inject(LastSessionToken) private lastSession: LastSessionModel,
               ) {
@@ -31,11 +36,19 @@ export class ChatHistoryComponent implements OnChanges
     this.chatSessionObserver.next(dataId);
     // console.log("回调,数据")
     this.lastSession.sessionId = dataId;
+    this.miniPhoneAction();
+
+  }
+  miniPhoneAction(){
+    if(this.sizeReportService.miniPhoneView()){
+      this.sidebarService.switch();
+    }
   }
 
   async newChat() {
     this.selectId = -1;
     this.chatSessionObserver.next(-1);
+    this.miniPhoneAction();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

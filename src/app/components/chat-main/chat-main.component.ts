@@ -33,6 +33,8 @@ import {ImageContent, TextContent} from "../../models/message.model";
 import {contextMemoryToken} from "../../services/services.module";
 import {ContextMemoryService} from "../../services";
 import {ActivatedRoute} from "@angular/router";
+import {SizeReportService} from "../../services/sizeReport.service";
+import {SidebarService} from "../../services/sidebar.service";
 
 @Component({
   selector: 'app-chat-main',
@@ -409,7 +411,8 @@ export class ChatMainComponent {
         return ShowType.staticChatRequest;
     }
   }
-  constructor(
+  constructor(private sizeReportService: SizeReportService,
+              public sidebarService: SidebarService,
     @Inject(contextMemoryToken) private contextMemoryService: ContextMemoryService,
     private openaiService: OpenaiService,
     private renderer: Renderer2,
@@ -539,8 +542,14 @@ export class ChatMainComponent {
     this.isVisible = false;
   }
 
-
   showLogo() {
     return this.chatHistoryModel===undefined || this.chatHistoryModel?.title?.length==0;
+  }
+  miniPhone() {
+    return this.sizeReportService.miniPhoneView();
+  }
+
+  switchSidebar() {
+    this.sidebarService.switch();
   }
 }

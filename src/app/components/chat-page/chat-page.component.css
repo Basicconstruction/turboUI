@@ -10,9 +10,16 @@
 .scrollbar-y-none::-webkit-scrollbar {
     display: none; /* WebKit (Chrome, Safari) */
 }
-.flex-0{
-  flex: 0 0 auto;
+.z-max{
+  z-index: 9999!important;
 }
-.flex-1{
-  flex: 1;
+/*.flex-0{*/
+/*  flex: 0 0 auto;*/
+/*}*/
+/*.flex-1{*/
+/*  flex: 1;*/
+/*}*/
+.full{
+  width: 100vw !important;
+  height: 100vh !important;
 }
