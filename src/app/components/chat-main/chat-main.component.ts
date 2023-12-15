@@ -540,7 +540,7 @@ export class ChatMainComponent {
   }
 
 
-  showChat() {
-    return this.chatHistoryModel?.title?.length!==0;
+  showLogo() {
+    return this.chatHistoryModel===undefined || this.chatHistoryModel?.title?.length==0;
   }
 }

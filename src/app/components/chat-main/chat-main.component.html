@@ -6,7 +6,7 @@
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
 <!--    chat lists-->
-    <div *ngIf="showChat()"
+    <div *ngIf="!showLogo()"
       class="flex-grow-1">
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
       <div *ngFor="let chat of chatModels">
@@ -15,10 +15,10 @@
       </div>
     </div>
 <!--    how can i help you! -->
-    <div class="position-absolute flex-0" *ngIf="!showChat()">
+    <div class="position-absolute flex-0" *ngIf="showLogo()">
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
     </div>
-    <div *ngIf="!showChat()"
+    <div *ngIf="showLogo()"
          class="w-100 h-100 d-flex align-items-center justify-content-center">
       <div class="d-flex flex-column">
         <div class="mb-3 h-[72px] w-[72px]">
