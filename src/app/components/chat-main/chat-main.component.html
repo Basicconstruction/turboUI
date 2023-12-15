@@ -1,22 +1,28 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <app-model-editor [chatModel]="editModel" ></app-model-editor>
+    <app-model-editor [chatModel]="editModel"></app-model-editor>
   </ng-container>
 </nz-modal>
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
-  <div class="overflow-y-scroll flex-grow-1" #chatPanel>
-    <div class="sticky-top d-flex justify-content-between">
-      <app-model-selector class="opacity-75"></app-model-selector>
-    </div>
-    <div *ngIf="chatHistoryModel?.title?.length!=0">
+  <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
+<!--    chat lists-->
+    <div *ngIf="showChat()"
+      class="flex-grow-1">
+      <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
       <div *ngFor="let chat of chatModels">
-        <app-dialogue (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content" [active]="isActive(chat!)" ></app-dialogue>
+        <app-dialogue (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
+                      [active]="isActive(chat!)"></app-dialogue>
       </div>
     </div>
-    <div *ngIf="chatHistoryModel===undefined || chatHistoryModel?.title?.length==0" class="d-flex w-100 h-100 justify-content-center">
-      <div class="d-flex flex-column align-items-center justify-content-center">
+<!--    how can i help you! -->
+    <div class="position-absolute flex-0" *ngIf="!showChat()">
+      <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
+    </div>
+    <div *ngIf="!showChat()"
+         class="w-100 h-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex flex-column">
         <div class="mb-3 h-[72px] w-[72px]">
-          <div class="d-flex align-items-center justify-content-center rounded-full bg-white text-black">
+          <div class="d-flex align-items-center justify-content-center rounded-full text-black">
             <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg"
                  class="h-2/3 w-2/3" role="img">
               <text x="-9999" y="-9999">ChatGPT</text>
@@ -30,74 +36,75 @@
       </div>
     </div>
   </div>
-  <div>
-    <div class="d-flex">
-      <div class="center-input rounded-2" style="border: 1px solid #ccc;">
-        <div [ngSwitch]="configuration?.requestType">
-          <div *ngSwitchCase="RequestType.Image">
-            <app-dall-banner [configuration]="configuration"></app-dall-banner>
-          </div>
-          <div *ngSwitchCase="RequestType.Speech">
-            <app-tts-banner [configuration]="configuration"></app-tts-banner>
-          </div>
-          <div *ngSwitchCase="RequestType.Transcription">
-            <app-stt-banner [configuration]="configuration"></app-stt-banner>
-          </div>
-          <div *ngSwitchCase="RequestType.ChatVision">
-            <app-vision-banner [configuration]="configuration"></app-vision-banner>
-          </div>
-          <div *ngSwitchDefault>
 
-          </div>
+  <div class="d-flex flex-grow-0">
+    <div class="center-input rounded-2" style="border: 1px solid #ccc;">
+      <div [ngSwitch]="configuration?.requestType">
+        <div *ngSwitchCase="RequestType.Image">
+          <app-dall-banner [configuration]="configuration"></app-dall-banner>
         </div>
-        <div class="d-flex flex-row">
-          <div class="select-box mx-1 my-1 rounded-4">
-            <nz-upload class="flex-grow-0 rounded-2"
-                       [nzMultiple]="true"
-                       [(nzFileList)]="fileList"
-                       [nzBeforeUpload]="beforeUpload">
-              <button nz-button>
-                <span nz-icon nzType="upload"></span>
-                选择文件
-              </button>
-            </nz-upload>
-          </div>
-          <div class="d-flex flex-row h-100">
-            <button  class="mx-2 my-1 border-1 border-light rounded-2"
-                    (click)="clearContext()"
-                    nz-tooltip nzTooltipTitle="清空上下文">
-              <img src="assets/clear.svg" width="30" height="20" alt="清空">
+        <div *ngSwitchCase="RequestType.Speech">
+          <app-tts-banner [configuration]="configuration"></app-tts-banner>
+        </div>
+        <div *ngSwitchCase="RequestType.Transcription">
+          <app-stt-banner [configuration]="configuration"></app-stt-banner>
+        </div>
+        <div *ngSwitchCase="RequestType.ChatVision">
+          <app-vision-banner [configuration]="configuration"></app-vision-banner>
+        </div>
+        <div *ngSwitchDefault>
+
+        </div>
+      </div>
+      <div class="d-flex flex-row">
+        <div class="select-box mx-1 my-1 rounded-4">
+          <nz-upload class="flex-grow-0 rounded-2"
+                     [nzMultiple]="true"
+                     [(nzFileList)]="fileList"
+                     [nzBeforeUpload]="beforeUpload">
+            <button nz-button>
+              <span nz-icon nzType="upload"></span>
+              选择文件
             </button>
-          </div>
+          </nz-upload>
         </div>
-        <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
+        <div class="d-flex flex-row h-100">
+          <button class="mx-2 my-1 border-1 border-light rounded-2"
+                  (click)="clearContext()"
+                  nz-tooltip nzTooltipTitle="清空上下文">
+            <img src="assets/clear.svg" width="30" height="20" alt="清空">
+          </button>
+        </div>
+      </div>
+      <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
           <textarea nz-input
                     placeholder="Message ChatGPT..."
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
                     [(ngModel)]="inputText"
                     (keydown.control.enter)="typeControlGPT()"
                     class="flex-grow-1 ask-box bg-transparent"></textarea>
-          <div class="d-flex flex-column-reverse">
-            <button nz-button class="rounded-5 bg-dark"
-                    [nzSize]="'small'"
-                    [class.bg-opacity-10]="isFade()"
-                    (click)="buttonControlGPT()"
-                    [disabled]="!enableTouch()">
+        <div class="d-flex flex-column-reverse">
+          <button nz-button class="rounded-5 bg-dark"
+                  [nzSize]="'small'"
+                  [class.bg-opacity-10]="isFade()"
+                  (click)="buttonControlGPT()"
+                  [disabled]="!enableTouch()">
                             <span *ngIf="!answering" data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"
                                                                               fill="none"
                                                                               class="text-white dark:text-black"><path
                               d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2"
                               stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              <span *ngIf="answering" class="text-white dark:text-black" nz-icon nzType="pause-circle" nzTheme="outline"></span>
-            </button>
-          </div>
-
+            <span *ngIf="answering" class="text-white dark:text-black" nz-icon nzType="pause-circle"
+                  nzTheme="outline"></span>
+          </button>
         </div>
-      </div>
 
+      </div>
     </div>
+
   </div>
-  <div class="d-flex">
+
+  <div class="d-flex flex-grow-0">
     <div class="center fs-mini">ChatGPT can make mistakes. Consider checking important information.
     </div>
   </div>

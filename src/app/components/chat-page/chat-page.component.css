@@ -10,3 +10,9 @@
 .scrollbar-y-none::-webkit-scrollbar {
     display: none; /* WebKit (Chrome, Safari) */
 }
+.flex-0{
+  flex: 0 0 auto;
+}
+.flex-1{
+  flex: 1;
+}

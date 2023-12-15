@@ -18,6 +18,7 @@ export class ChatPageComponent implements OnInit {
 
   historyTitles: ChatHistoryTitle[] | undefined;
   constructor(private historyTitleService: HistoryTitleService,
+              private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
   ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
@@ -29,12 +30,26 @@ export class ChatPageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.waitForInit();
     this.historyTitles = await this.historyTitleService.getHistoryTitles();
-    // may return undefined,bug shall be fixed,bug 第一个聊天历史头自动加载到历史失败
     if (this.historyTitles === undefined) {
       this.historyTitles = [];
     }
     this.historyTitles?.reverse();
+  }
+  private waitForInit(): Promise<void> {
+    return new Promise((resolve) => {
+      if (this.dbService.initFinish) {
+        resolve();
+      } else {
+        const interval = setInterval(() => {
+          if (this.dbService.initFinish) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 100);
+      }
+    });
   }
 
 }

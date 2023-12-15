@@ -1,6 +1,5 @@
 import {InjectionToken, NgModule} from "@angular/core";
 import {ModelsModule} from "../models/models.module";
-import {DbService} from "./db.service";
 import {Subject} from "rxjs";
 import {ChatHistoryTitle} from "../models";
 import {ConfigurationResolver} from "./configuration.resolver";

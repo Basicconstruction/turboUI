@@ -3,6 +3,7 @@ import {ChatHistoryTitle, LastSessionModel} from "../../models";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
 import {LastSessionToken} from "../../models/lastSession.model";
+import {HistoryTitleService} from "../../share-datas";
 
 @Component({
   selector: 'app-chat-history',
@@ -16,7 +17,7 @@ export class ChatHistoryComponent implements OnChanges
   selectId: number | undefined;
   constructor(@Inject(chatSessionSubject) private chatSessionObserver:Observer<number> ,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
-              @Inject(LastSessionToken) private lastSession: LastSessionModel
+              @Inject(LastSessionToken) private lastSession: LastSessionModel,
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       console.log("aware subscribe "+historyTitle.dataId)
@@ -32,7 +33,7 @@ export class ChatHistoryComponent implements OnChanges
     this.lastSession.sessionId = dataId;
   }
 
-  newChat() {
+  async newChat() {
     this.selectId = -1;
     this.chatSessionObserver.next(-1);
   }

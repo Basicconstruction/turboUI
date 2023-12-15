@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
 import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
@@ -13,7 +13,6 @@ export class DbService{
     this.initDb().then(
       ()=>this.initFinish = true
     );
-    // 没有检查
   }
   async initDb(){
     this.idbDb = await openDB('chatDb-v1', 2, {
