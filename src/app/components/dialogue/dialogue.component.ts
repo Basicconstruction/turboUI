@@ -3,6 +3,7 @@ import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
 import {SizeReportService} from "../../services/sizeReport.service";
+import {SidebarService} from "../../services/sidebar.service";
 
 
 @Component({
@@ -14,7 +15,8 @@ export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   private _content: string | undefined;
   constructor(private configurationService: ConfigurationService,
-              private sizeReportService: SizeReportService) {
+              private sizeReportService: SizeReportService,
+              private sideBarService: SidebarService) {
   }
   getFontSize() {
     return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
@@ -153,10 +155,16 @@ export class DialogueComponent {
   }
 
   getWidth() {
+    let additional = this.sideBarService.isSideBarClosed? 0 : -260;
     if(this.sizeReportService.width!<800){
-      return "width: "+this.sizeReportService.width+"px;";
+      return "width: "+(this.sizeReportService.width!+additional)+"px;";
     }else{
-      return "width: "+800+"px;";
+      if(this.sizeReportService.width!+additional>=800){
+        // 减去sideBar 之后剩余宽度大于800，使用800
+        return "width: "+800+"px;";
+      }
+      // 减去sideBar 之后剩余宽度小于800，使用实际的宽度
+      return "width: "+(this.sizeReportService.width!+additional)+"px;";
     }
   }
 }

@@ -8,4 +8,12 @@ export class SidebarService{
   public switch(){
     this.isSideBarClosed = !this.isSideBarClosed;
   }
+
+  close() {
+    this.isSideBarClosed = true;
+  }
+
+  open(){
+    this.isSideBarClosed = false;
+  }
 }

@@ -5,6 +5,7 @@ import {backChatHistorySubject} from "../../share-datas/datas.module";
 import {min, Observable} from "rxjs";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-chat-page',
@@ -20,6 +21,7 @@ export class ChatPageComponent implements OnInit {
   historyTitles: ChatHistoryTitle[] | undefined;
   constructor(private sizeReportService: SizeReportService,
     public sidebarService: SidebarService,
+    private router: Router,
     private historyTitleService: HistoryTitleService,
               private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
@@ -36,7 +38,7 @@ export class ChatPageComponent implements OnInit {
     this.sizeReportService.width = window.innerWidth;
     this.sizeReportService.height = window.innerHeight;
     if(this.sizeReportService.miniPhoneView()){
-      this.sidebarService.isSideBarClosed = true;
+      this.sidebarService.close();
     }
     await this.waitForInit();
     this.historyTitles = await this.historyTitleService.getHistoryTitles();
@@ -71,4 +73,15 @@ export class ChatPageComponent implements OnInit {
   }
 
   protected readonly min = min;
+
+  openSettingPage() {
+
+    this.router.navigate(['/chat','settings']).then(
+      ()=>{
+        if(this.sizeReportService.miniPhoneView()){
+          this.sidebarService.close();
+        }
+      }
+    );
+  }
 }

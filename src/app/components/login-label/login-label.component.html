@@ -3,6 +3,6 @@
 </div>
 <div *ngIf="!isLogin" class="loginBox d-flex justify-content-center align-items-center"
     >
-    <button nz-button nzType="primary" [routerLink]="'/chat/login'">版权声明</button>
+    <button nz-button nzType="primary" (click)="openRightsPage()">版权声明</button>
 </div>
 
