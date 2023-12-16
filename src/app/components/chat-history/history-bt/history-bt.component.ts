@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle, ChatHistoryTitleDeleteInfo} from "../../../models";
 
 @Component({
@@ -15,15 +15,17 @@ export class HistoryBtComponent {
   historyChangeEvent = new EventEmitter<number>();
   @Output()
   chatHistoryAction = new EventEmitter<ChatHistoryTitleActionInfo>();
+  @ViewChild("spanBt")
+  spanBt: ElementRef | undefined;
   show: boolean = false;
   changeSession(dataId: number | undefined,$event: MouseEvent) {
     if(!dataId) return;
-    if($event.target===$event.currentTarget){
+    if(this.spanBt ===undefined || !this.spanBt.nativeElement.contains($event.target)){
+      // console.log("触发的元素不属于span")
       this.historyChangeEvent.emit(dataId);
     }else{
-      console.log("span clicked")
+      // console.log("span clicked")
     }
-
   }
 
   showListActions() {

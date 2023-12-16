@@ -3,5 +3,6 @@
   <div class="mx-3">
     <nz-spin nzSize="large" nzSimple></nz-spin>
   </div>
+  {{getPendingText()}}
 </div>
 <app-markdown-root *ngIf="!loading()" [content]="chatModel?.content"></app-markdown-root>

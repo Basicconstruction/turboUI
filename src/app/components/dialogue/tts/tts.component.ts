@@ -12,7 +12,9 @@ export class TtsComponent {
   @ViewChild('player') player: ElementRef<HTMLAudioElement> | undefined;
   @ViewChild('musicIcon') musicIcon: ElementRef<HTMLImageElement> | undefined;
   isAudioPlaying: boolean = false;
-
+  time: number = 0;
+  pending: boolean = true;
+  private timerInterval: any;
   onAudioPlay() {
     this.isAudioPlaying = true;
     if(!this.musicIcon) return;
@@ -35,6 +37,11 @@ export class TtsComponent {
     }catch (e){
 
     }
+    if (this._content === undefined || this._content.trim() === '') {
+
+    } else {
+      this.stopTimer();
+    }
   }
   @Input()
   set chatModel(value: ChatModel | undefined) {
@@ -44,7 +51,9 @@ export class TtsComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {
+    this.startTimer();
+  }
   audioSrc: SafeUrl | undefined;
   ngOnInit() {
     const base64Data = this.chatModel?.content; // 获取 Base64 数据
@@ -81,5 +90,19 @@ export class TtsComponent {
 
   loading() {
     return this.chatModel?.finish === false;
+  }
+  startTimer() {
+    this.timerInterval = setInterval(() => {
+      this.time++;
+    },100);
+  }
+
+  stopTimer() {
+    clearInterval(this.timerInterval);
+    this.pending = false;
+  }
+
+  getPendingText() {
+    return `Already waiting ${this.time/10}s, please wait patiently`;
   }
 }

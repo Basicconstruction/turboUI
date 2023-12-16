@@ -1,1 +1,7 @@
-<app-markdown-root [content]="chatModel?.content!"></app-markdown-root>
+<app-markdown-root *ngIf="!pending" [content]="chatModel?.content!"></app-markdown-root>
+<ng-template #indicatorTemplate><span nz-icon nzType="loading"></span></ng-template>
+
+<div *ngIf="pending">
+  <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
+  {{getPendingText()}}
+</div>

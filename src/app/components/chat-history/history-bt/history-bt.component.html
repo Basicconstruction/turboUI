@@ -5,6 +5,7 @@
   <span class="overflow-hidden">{{ history?.title }}</span>
   <span  *ngIf="selectId===history?.dataId"
         nz-icon class="mx-2 py-1"
+         #spanBt
          nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
         nzType="dash" nzTheme="outline"></span>
   <nz-dropdown-menu #menu="nzDropdownMenu">

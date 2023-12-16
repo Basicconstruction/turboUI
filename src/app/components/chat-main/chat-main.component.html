@@ -26,7 +26,7 @@
     </div>
     <div *ngIf="!showLogo()"
       class="flex-grow-1">
-      <div class="bg-white sticky-top p-0">
+      <div class="bg-white sticky-top p-0 z-1">
         <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
       </div>
       <div *ngFor="let chat of chatModels">
