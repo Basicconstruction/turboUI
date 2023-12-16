@@ -44,6 +44,18 @@ export class ChatDataService{
       throw error; // Propagate the error or handle it according to your needs
     }
   }
+  async deleteHistoriesByTitleId(titleId: number){
+    try{
+      const data = await this.dbService.getHistory(titleId);
+      if(!data) return undefined;
+      data!.chatList.map(async (chatModelId) => {
+        await this.dbService.deleteChatInterface(chatModelId);
+      });
+      await this.dbService.deleteHistory(titleId);
+    }catch (error){
+
+    }
+  }
   async putHistory(history: ChatHistoryModel){
     if(!history) return;
     let chatList = history.chatList!.chatModel!.map(async h => {

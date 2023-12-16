@@ -17,3 +17,5 @@ export {Transcriptions} from "./speechscript.interface"
 
 export {ChatPacket,ChatVisionPacket,ImagePacket,SpeechPacket,TranscriptionPacket} from "./send.param.model"
 export {ShowType,RequestType} from "./GPTType"
+
+export {ChatHistoryTitleActionInfo,ChatHistoryTitleAction,ChatHistoryTitleDeleteInfo,ChatHistoryTitleRenameInfo} from "./chatHistoryTitleAction"

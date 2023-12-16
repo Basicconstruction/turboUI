@@ -1,12 +1,12 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
-import {ChatHistoryTitle} from "../../models";
-import {DbService, HistoryTitleService} from "../../share-datas";
+import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle} from "../../models";
+import {ChatDataService, DbService, HistoryTitleService} from "../../share-datas";
 import {backChatHistorySubject} from "../../share-datas/datas.module";
-import {min, Observable} from "rxjs";
+import {min, Observable, Subject} from "rxjs";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
 import {Router} from "@angular/router";
-
+export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -23,10 +23,12 @@ export class ChatPageComponent implements OnInit {
     public sidebarService: SidebarService,
     private router: Router,
     private historyTitleService: HistoryTitleService,
+              private chatDataService: ChatDataService,
               private dbService: DbService,
-              @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
+              @Inject(backChatHistorySubject) private backHistoryObservable: Subject<ChatHistoryTitle>,
   ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
+      if(historyTitle.dataId===MagicDataId) return;
       const existingItem = this.historyTitles!.find(item => item.dataId === historyTitle.dataId);
       if (!existingItem) {
         this.historyTitles!.splice(0, 0, historyTitle) // 如果不存在具有相同 dataId 的项，则添加 historyTitle
@@ -75,7 +77,6 @@ export class ChatPageComponent implements OnInit {
   protected readonly min = min;
 
   openSettingPage() {
-
     this.router.navigate(['/chat','settings']).then(
       ()=>{
         if(this.sizeReportService.miniPhoneView()){
@@ -83,5 +84,28 @@ export class ChatPageComponent implements OnInit {
         }
       }
     );
+  }
+
+  async handleChatHistoryAction($event: ChatHistoryTitleActionInfo) {
+    switch ($event.action){
+      case ChatHistoryTitleAction.Delete:
+        const index = this.historyTitles?.findIndex(h=>h.dataId==$event.info.dataId);
+        if(index===undefined) return;
+        let historyTitle = this.historyTitles![index];
+        this.historyTitles?.splice(index,1);
+        await this.historyTitleService.deleteHistoryTitle(historyTitle).then(async ()=>{
+          await this.chatDataService.deleteHistoriesByTitleId(historyTitle.dataId)
+        });
+        this.backHistoryObservable.next({
+          dataId: MagicDataId,
+          title: "none"
+        })
+        break;
+      case ChatHistoryTitleAction.Rename:
+
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -156,7 +156,10 @@ export class DialogueComponent {
 
   getWidth() {
     let additional = this.sideBarService.isSideBarClosed? 0 : -260;
-    if(this.sizeReportService.width!<800){
+    if(this.sizeReportService.width! <=606){
+      return "width: "+this.sizeReportService.width!+"px;";
+    }
+    else if(this.sizeReportService.width!<800){
       return "width: "+(this.sizeReportService.width!+additional)+"px;";
     }else{
       if(this.sizeReportService.width!+additional>=800){

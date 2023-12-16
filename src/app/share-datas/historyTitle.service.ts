@@ -12,7 +12,10 @@ export class HistoryTitleService{
   async getHistoryTitles(){
     return await this.dbService.getHistoryTitles();
   }
-  async putHistoryTitles(historyTitles: ChatHistoryTitle){
-    return await this.dbService.addOrUpdateHistoryTitles(historyTitles);
+  async putHistoryTitles(historyTitle: ChatHistoryTitle){
+    return await this.dbService.addOrUpdateHistoryTitles(historyTitle);
+  }
+  async deleteHistoryTitle(historyTitle: ChatHistoryTitle){
+    return await this.dbService.deleteHistoryTitles(historyTitle.dataId);
   }
 }

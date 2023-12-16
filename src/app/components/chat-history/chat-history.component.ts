@@ -1,11 +1,12 @@
-import {Component, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ChatHistoryTitle, LastSessionModel} from "../../models";
+import {Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChatHistoryTitleActionInfo, ChatHistoryTitle, LastSessionModel} from "../../models";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
 import {LastSessionToken} from "../../models/lastSession.model";
 import {HistoryTitleService} from "../../share-datas";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
+import {MagicDataId} from "../chat-page/chat-page.component";
 
 @Component({
   selector: 'app-chat-history',
@@ -16,6 +17,8 @@ export class ChatHistoryComponent implements OnChanges
 {
   @Input()
   chatHistoryTitle: ChatHistoryTitle[] | undefined;
+  @Output()
+  chatHistoryChangeEvent = new EventEmitter<ChatHistoryTitleActionInfo>();
   selectId: number | undefined;
   constructor(
     private sizeReportService: SizeReportService,
@@ -25,8 +28,11 @@ export class ChatHistoryComponent implements OnChanges
               @Inject(LastSessionToken) private lastSession: LastSessionModel,
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
-      console.log("aware subscribe "+historyTitle.dataId)
-      this.changeSession(historyTitle.dataId)
+      if(historyTitle.dataId!==MagicDataId){
+        this.changeSession(historyTitle.dataId)
+      }else{
+        this.selectFirst();
+      }
     })
   }
 
@@ -54,12 +60,24 @@ export class ChatHistoryComponent implements OnChanges
   ngOnChanges(changes: SimpleChanges): void {
     if(this.chatHistoryTitle){
       if(this.chatHistoryTitle.length>=1){
-        const first = this.chatHistoryTitle![0];
-        this.selectId = first.dataId;
-        this.chatSessionObserver.next(this.selectId);
-        this.lastSession.sessionId = this.selectId;
+        this.selectFirst();
       }
     }
   }
+  selectFirst(){
+    // console.log("try select")
+    const first = this.chatHistoryTitle![0];
+    this.selectId = first.dataId;
+    this.chatSessionObserver.next(this.selectId);
+    this.lastSession.sessionId = this.selectId;
+  }
 
+  reEmit($event: ChatHistoryTitleActionInfo) {
+    this.chatHistoryChangeEvent.emit($event);
+  }
+
+  handleHistoryChange($event: number) {
+    this.selectId = $event;
+    this.changeSession($event);
+  }
 }

@@ -18,7 +18,8 @@
     >
     <div class="bg-dark overflow-y-scroll scrollbar-y-none flex-grow-1">
       <!-- 历史记录标记 -->
-      <app-chat-history [chatHistoryTitle]="historyTitles"></app-chat-history>
+      <app-chat-history [chatHistoryTitle]="historyTitles"
+                        (chatHistoryChangeEvent)="handleChatHistoryAction($event)"></app-chat-history>
     </div>
     <div class="bg-dark sticky-bottom z-0">
       <!-- 登录标记 -->

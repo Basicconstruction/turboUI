@@ -90,13 +90,11 @@ export class ChatMainComponent {
         this.chatHistoryModel.title = this.inputText.substring(0,25);
       }
 
-      this.chatHistoryService.putHistoryTitles({
+      await this.chatHistoryService.putHistoryTitles({
         dataId: this.chatHistoryModel.dataId!,
         title: this.chatHistoryModel.title
-      }).then(() => {
-        this.nextSubjection = true;
-        // 存储标头
       });
+      this.nextSubjection = true;
     }
     model.showType = this.getPromiseReceiveType(type); // 设置返回模型的展示类型
     this.inputText = '';// 清空输入框
@@ -339,7 +337,7 @@ export class ChatMainComponent {
   async sync(dataId: number) {
     if (dataId === this.lastSession.sessionId) {
     } else {
-      console.log("will open by observer " + dataId)
+      // console.log("will open by observer " + dataId)
     }
     try {
       const chatHistory = await this.chatDataService.getChatHistory(dataId);

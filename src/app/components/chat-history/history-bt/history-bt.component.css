@@ -1,0 +1,10 @@
+.button-hover:hover{
+  background-color: rgba(100,100,100,30) !important; /* 调整按钮悬停时的背景颜色 */
+  color: #fff !important; /* 悬停时文本颜色 */
+}
+.button-hovered{
+  background-color: rgba(60,60,60,50) !important; /* 调整按钮悬停时的背景颜色 */
+}
+.z-max-1{
+  z-index: 10000!important;
+}

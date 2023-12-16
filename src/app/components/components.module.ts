@@ -64,6 +64,8 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { ModelEditorComponent } from './chat-main/model-editor/model-editor.component';
 import { DallBannerComponent } from './chat-main/dall-banner/dall-banner.component';
+import { HistoryBtComponent } from './chat-history/history-bt/history-bt.component';
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -81,7 +83,7 @@ import { DallBannerComponent } from './chat-main/dall-banner/dall-banner.compone
     DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
     NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
-    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule
+    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule, NzDropDownModule
   ],
   declarations: [
     ChatPageComponent,
@@ -106,6 +108,7 @@ import { DallBannerComponent } from './chat-main/dall-banner/dall-banner.compone
     MarkdownRootComponent,
     ModelEditorComponent,
     DallBannerComponent,
+    HistoryBtComponent,
   ],
   exports: [
     ChatPageComponent
