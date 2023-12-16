@@ -75,18 +75,19 @@ export class ChatMainComponent {
     //  构建新的滚动 订阅
     this.scrollSubject = new Subject<boolean>();
     this.scrollSubscribe();
+    this.nextSubscribe(true);
     this.receivedData = '';// 清空接收数据字符串对象
     // 如果当前的聊天历史模型的标题为空，说明使用的是刚创建的，还没有消息，存储到数据库，
     // 设置nextSubjection为true表示将会推送一个新的历史记录
     if (this.chatHistoryModel?.title === '') {
       if(this.inputText===''){
         if(this.chatFileList.length>=1){
-          this.chatHistoryModel.title = this.chatFileList[0].fileName;
+          this.chatHistoryModel.title = this.chatFileList[0].fileName.substring(0,25);
         }else{
           this.chatHistoryModel.title = "哪里出现了问题";
         }
       }else{
-        this.chatHistoryModel.title = this.inputText;
+        this.chatHistoryModel.title = this.inputText.substring(0,25);
       }
 
       this.chatHistoryService.putHistoryTitles({
