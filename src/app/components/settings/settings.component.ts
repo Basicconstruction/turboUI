@@ -61,10 +61,34 @@ export class SettingsComponent {
     }
 
     @ViewChild('settingPanel') private settingPanel: ElementRef | undefined;
+  inputConfigVisible: boolean = false;
+  outputConfigVisible: boolean = false;
 
     scrollToTop() {
         if (!this.settingPanel) return;
         this.renderer.setProperty(this.settingPanel.nativeElement, 'scrollTop', 0);
         console.log("scroll 0")
     }
+
+  handleInputConfigOk() {
+    this.inputConfigVisible = false;
+  }
+
+  closeOutput() {
+    this.outputConfigVisible = false;
+  }
+
+  okAndCloseOutput() {
+    this.outputConfigVisible = false;
+  }
+
+  handleInputCancel() {
+    this.inputConfigVisible = false;
+  }
+
+  async handleConfigInput($event: ConfigurationModel) {
+    this.configurationService.configuration = $event;
+    this.configuration = $event;
+    await this.configurationService.setConfigurationLocal();
+  }
 }

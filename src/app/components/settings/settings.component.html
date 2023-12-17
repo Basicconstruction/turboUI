@@ -41,6 +41,47 @@
                 </div>
             </nz-card>
             <nz-card class="m-2 rounded-4">
+              <div class="py-2">
+                <span class="title">快速配置</span>
+              </div>
+              <div class="d-flex justify-content-between m-1">
+                <nz-col>
+                  配置导入导出
+                </nz-col>
+                <nz-row>
+                  <nz-col>
+                    <nz-modal [(nzVisible)]="outputConfigVisible"
+                              nzTitle="配置导出"
+                              (nzOnCancel)="closeOutput()" (nzOnOk)="okAndCloseOutput()"
+                      >
+                      <ng-container *nzModalContent>
+                        <app-config-export [config]="configuration" ></app-config-export>
+                      </ng-container>
+                    </nz-modal>
+                    <button nz-button (click)="outputConfigVisible = true" >
+                      导出配置
+                    </button>
+                  </nz-col>
+                  <nz-col class="mx-1">
+                    <nz-modal [(nzVisible)]="inputConfigVisible"
+                              nzTitle="配置导入"
+                              (nzOnCancel)="handleInputCancel()"
+                              (nzOnOk)="handleInputConfigOk()">
+                      <ng-container *nzModalContent>
+                        <app-config-import
+                          (configInput)="handleConfigInput($event)"
+                          >
+                        </app-config-import>
+                      </ng-container>
+                    </nz-modal>
+                    <button nz-button (click)="inputConfigVisible = true">
+                      导入配置
+                    </button>
+                  </nz-col>
+                </nz-row>
+              </div>
+            </nz-card>
+            <nz-card class="m-2 rounded-4">
                 <div class="py-2">
                     <span class="title">显示效果</span>
                 </div>

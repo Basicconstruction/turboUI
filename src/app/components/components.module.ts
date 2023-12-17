@@ -66,6 +66,8 @@ import { ModelEditorComponent } from './chat-main/model-editor/model-editor.comp
 import { DallBannerComponent } from './chat-main/dall-banner/dall-banner.component';
 import { HistoryBtComponent } from './chat-history/history-bt/history-bt.component';
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import { ConfigExportComponent } from './settings/config-export/config-export.component';
+import { ConfigImportComponent } from './settings/config-import/config-import.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -109,6 +111,8 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
     ModelEditorComponent,
     DallBannerComponent,
     HistoryBtComponent,
+    ConfigExportComponent,
+    ConfigImportComponent,
   ],
   exports: [
     ChatPageComponent
