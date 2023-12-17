@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {human_voices, speech_response_formats, woman_voices} from "../../../models/type.data";
-import {ConfigurationModel} from "../../../models";
+import {Configuration} from "../../../models";
 
 @Component({
   selector: 'app-tts-banner',
@@ -12,7 +12,7 @@ export class TtsBannerComponent {
   protected readonly human_voices = human_voices;
   protected readonly woman_voices = woman_voices;
   @Input()
-  configuration: ConfigurationModel | undefined;
+  configuration: Configuration | undefined;
 
   protected readonly speech_response_formats = speech_response_formats;
 }

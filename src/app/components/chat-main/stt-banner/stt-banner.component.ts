@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ConfigurationModel} from "../../../models";
+import {Configuration} from "../../../models";
 import {languages} from "../../../models/type.data";
 
 @Component({
@@ -9,7 +9,7 @@ import {languages} from "../../../models/type.data";
 })
 export class SttBannerComponent {
   @Input()
-  configuration: ConfigurationModel | undefined;
+  configuration: Configuration | undefined;
   languages: string[] = languages;
 
 }

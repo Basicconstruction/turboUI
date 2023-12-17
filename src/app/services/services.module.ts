@@ -1,6 +1,4 @@
-import {InjectionToken, NgModule} from "@angular/core";
-import {ContextMemoryService} from "./contextMemory.service";
-export const contextMemoryToken = new InjectionToken("context-memory-service");
+import {NgModule} from "@angular/core";
 @NgModule({
   imports: [
 
@@ -9,9 +7,7 @@ export const contextMemoryToken = new InjectionToken("context-memory-service");
 
   ],
   providers: [
-    {
-      provide: contextMemoryToken, useValue: new ContextMemoryService()
-    }
+
   ],
   exports: [
 

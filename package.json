@@ -26,6 +26,7 @@
     "katex": "^0.16.0",
     "mermaid": "^10.6.0",
     "ng-zorro-antd": "^17.0.1",
+    "ngx-clipboard": "^16.0.0",
     "ngx-markdown": "^17.1.1",
     "prismjs": "^1.28.0",
     "rxjs": "~7.8.0",

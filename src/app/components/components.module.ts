@@ -85,7 +85,8 @@ import { ConfigImportComponent } from './settings/config-import/config-import.co
     DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
     NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
-    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule, NzDropDownModule
+    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule, NzDropDownModule,
+    ConfigExportComponent, ConfigImportComponent
   ],
   declarations: [
     ChatPageComponent,
@@ -95,7 +96,6 @@ import { ConfigImportComponent } from './settings/config-import/config-import.co
     ErrorPageComponent,
     ChatMainComponent,
     DialogueComponent,
-    SettingsComponent,
     ModelSelectorComponent,
     ImageComponent,
     ChatComponent,
@@ -111,8 +111,7 @@ import { ConfigImportComponent } from './settings/config-import/config-import.co
     ModelEditorComponent,
     DallBannerComponent,
     HistoryBtComponent,
-    ConfigExportComponent,
-    ConfigImportComponent,
+    SettingsComponent,
   ],
   exports: [
     ChatPageComponent

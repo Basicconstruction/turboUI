@@ -1,1 +1,12 @@
-<p>config-import works!</p>
+<div>
+  <textarea
+    ngxClipboard
+    #textAreaElement
+    class="w-100" rows="10" [(ngModel)]="json">
+  </textarea>
+</div>
+<div class="d-flex flex-row-reverse">
+  <button nz-button (click)="analysis()">
+    导入
+  </button>
+</div>

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, Configuration, ConfigurationModel} from "../models";
+import {ChatHistory, ChatHistoryTitle, Configuration} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
 @Injectable({
@@ -91,7 +91,7 @@ export class DbService{
   }
 
 // 存储 Configuration
-  async setConfiguration(configuration: ConfigurationModel) {
+  async setConfiguration(configuration: Configuration) {
     return this.idbDb?.put('configuration', configuration,CONFIGURATION);
   }
 

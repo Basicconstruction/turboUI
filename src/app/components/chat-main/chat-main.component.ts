@@ -5,8 +5,7 @@ import {
   ChatHistoryTitle,
   ChatModel,
   ChatPacket,
-  ChatVisionPacket,
-  ConfigurationModel,
+  ChatVisionPacket, Configuration,
   FileInChat,
   ImagePacket,
   LastSessionModel,
@@ -27,12 +26,9 @@ import {
   configurationChangeSubject,
 } from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
-import {LastSessionToken} from "../../models/lastSession.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ImageContent, TextContent} from "../../models/message.model";
-import {contextMemoryToken} from "../../services/services.module";
 import {ContextMemoryService} from "../../services";
-import {ActivatedRoute} from "@angular/router";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
 
@@ -413,14 +409,14 @@ export class ChatMainComponent {
   }
   constructor(private sizeReportService: SizeReportService,
               public sidebarService: SidebarService,
-    @Inject(contextMemoryToken) private contextMemoryService: ContextMemoryService,
+    private contextMemoryService: ContextMemoryService,
     private openaiService: OpenaiService,
     private renderer: Renderer2,
     private chatDataService: ChatDataService,
     @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
     private chatHistoryService: HistoryTitleService,
     @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
-    @Inject(LastSessionToken) private lastSession: LastSessionModel,
+    private lastSession: LastSessionModel,
     private configurationService: ConfigurationService,
     private notification: NzNotificationService,
     @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
@@ -447,7 +443,7 @@ export class ChatMainComponent {
 
   }
 
-  configuration: ConfigurationModel | undefined;
+  configuration: Configuration | undefined;
   fileList: NzUploadFile[] = [];
   inputText: string = '';
   scrollSubject: Subject<boolean> | undefined;

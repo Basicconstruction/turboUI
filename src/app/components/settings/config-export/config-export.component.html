@@ -1,1 +1,15 @@
-<p>config-export works!</p>
+<div class="d-flex flex-row-reverse">
+  <nz-col class="d-flex align-items-center">
+    简易加密: <input class="mx-1" type="checkbox" [(ngModel)]="lock">
+  </nz-col>
+</div>
+<div>
+  <textarea
+    ngxClipboard
+    #textAreaElement
+    class="w-100" rows="10" [ngModel]="getJson()"  readonly>
+  </textarea>
+</div>
+<button nz-button (click)="copyConfig()" >
+  复制到剪切板
+</button>

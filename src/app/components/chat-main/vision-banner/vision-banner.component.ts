@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {ConfigurationModel} from "../../../models";
 import {details} from "../../../models/type.data";
+import {Configuration} from "../../../models";
 
 @Component({
   selector: 'app-vision-banner',
@@ -9,6 +9,6 @@ import {details} from "../../../models/type.data";
 })
 export class VisionBannerComponent {
   @Input()
-  configuration: ConfigurationModel | undefined;
+  configuration: Configuration | undefined;
   protected readonly details = details;
 }

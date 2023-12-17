@@ -1,5 +1,4 @@
 import {RequestType} from "./GPTType";
-import {DisplayConfigurationModel} from "./configuration.model";
 
 export interface Configuration{
   model: string;
@@ -8,7 +7,7 @@ export interface Configuration{
   imageConfiguration: ImageConfiguration;
   speechConfiguration: SpeechConfiguration,
   transcriptionConfiguration: TranscriptionConfiguration,
-  displayConfiguration: DisplayConfigurationModel,
+  displayConfiguration: DisplayConfiguration,
   endpoint: string;
   accessKey?: string;
   baseUrl?: string;

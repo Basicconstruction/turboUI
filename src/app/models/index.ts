@@ -1,8 +1,5 @@
 export {ChatInterface,ChatModel,FileInChat} from "./chat.model";
-export {ConfigurationModel,
-  ImageConfigurationModel,
-  ChatStreamConfigurationModel,
-  } from "./configuration.model"
+
 export {ChatHistoryModel} from "./chatHistory.model"
 export {ChatListModel} from "./chatList.model"
 export {LastSessionModel} from "./lastSession.model";
@@ -18,4 +15,5 @@ export {Transcriptions} from "./speechscript.interface"
 export {ChatPacket,ChatVisionPacket,ImagePacket,SpeechPacket,TranscriptionPacket} from "./send.param.model"
 export {ShowType,RequestType} from "./GPTType"
 
-export {ChatHistoryTitleActionInfo,ChatHistoryTitleAction,ChatHistoryTitleDeleteInfo,ChatHistoryTitleRenameInfo} from "./chatHistoryTitleAction"
+export {ChatHistoryTitleActionInfo,ChatHistoryTitleAction
+  ,ChatHistoryTitleDeleteInfo,ChatHistoryTitleRenameInfo} from "./chatHistoryTitleAction"

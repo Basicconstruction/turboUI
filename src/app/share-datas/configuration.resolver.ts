@@ -7,7 +7,6 @@ export class ConfigurationResolver{
     constructor(private configurationService: ConfigurationService) {
 
     }
-
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.configurationService.accept();
     }

@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {ConfigurationService} from "../../share-datas";
-import {ConfigurationModel} from "../../models";
+import {Configuration} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {configurationChangeSubject} from "../../share-datas/datas.module";
 import {Subject} from "rxjs";
@@ -19,7 +19,7 @@ import {
     styleUrl: './settings.component.css'
 })
 export class SettingsComponent {
-    configuration: ConfigurationModel;
+    configuration: Configuration;
     sizes: string[] = sizes;
     image_response_formats: string[] = image_response_formats;
     qualities: string[] = qualities;
@@ -86,7 +86,7 @@ export class SettingsComponent {
     this.inputConfigVisible = false;
   }
 
-  async handleConfigInput($event: ConfigurationModel) {
+  async handleConfigInput($event: Configuration) {
     this.configurationService.configuration = $event;
     this.configuration = $event;
     await this.configurationService.setConfigurationLocal();

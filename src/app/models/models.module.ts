@@ -1,6 +1,4 @@
 import {NgModule} from "@angular/core";
-import {LastSessionModel, LastSessionToken} from "./lastSession.model";
-const LASTSESSION = new LastSessionModel();
 @NgModule({
   imports:[
 
@@ -9,9 +7,7 @@ const LASTSESSION = new LastSessionModel();
 
   ],
   providers: [
-    {
-      provide: LastSessionToken, useValue: LASTSESSION,
-    }
+
   ],
   exports: [
 

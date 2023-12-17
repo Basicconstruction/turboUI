@@ -2,8 +2,6 @@ import {Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges
 import {ChatHistoryTitleActionInfo, ChatHistoryTitle, LastSessionModel} from "../../models";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
-import {LastSessionToken} from "../../models/lastSession.model";
-import {HistoryTitleService} from "../../share-datas";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
 import {MagicDataId} from "../chat-page/chat-page.component";
@@ -25,7 +23,7 @@ export class ChatHistoryComponent implements OnChanges
     public sidebarService: SidebarService,
     @Inject(chatSessionSubject) private chatSessionObserver:Observer<number> ,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
-              @Inject(LastSessionToken) private lastSession: LastSessionModel,
+              private lastSession: LastSessionModel,
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       if(historyTitle.dataId!==MagicDataId){
