@@ -11,7 +11,6 @@ export class ConfigurationService {
   constructor(private dbService: DbService) {
     this.init();
   }
-
   public async init() {
     await this.waitForInit();
     this.configuration = await this.getConfiguration()
@@ -108,8 +107,12 @@ export class ConfigurationService {
     };
   }
 
-  async getConfiguration(): Promise<Configuration | undefined> {
-    return await this.dbService.getConfiguration();
+  async getConfiguration(): Promise<Configuration> {
+    let config =  await this.dbService.getConfiguration();
+    if(config===undefined){
+      return this.default_configuration();
+    }
+    return config;
   }
 
   async setConfigurationLocal() {
