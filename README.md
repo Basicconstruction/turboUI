@@ -11,9 +11,14 @@ python http://47.95.39.25:8888
 
 https:  
 前端地址  
-iis https://info.atpgroup.work  
+iis(pwa) https://info.atpgroup.work  
+.net with iis(full pwa) https://turbo.atpgroup.work  
+iis(pwa) https://turbo2.atpgroup.work  
 后端地址  
+
 iis with python https://translator.atpgroup.work  
+iis with python https://pp.atpgroup.work
+
 ### 展示效果
 
 ![img_12.png](img_12.png)
