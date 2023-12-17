@@ -1,4 +1,4 @@
-import {ShowType} from "./GPTType";
+import {ShowType} from "./type/GPTType";
 
 export const UserRole = "user";
 export const AssistantRole = "assistant";
@@ -14,7 +14,6 @@ export class ChatModel {
   public markAsChanged = false;
   constructor(public role: string = 'user', public content: string = '', public fileList?:FileInChat[], public dataId?: number, public showType: ShowType = ShowType.staticChat, public finish: boolean = true) {
     if(dataId==null){
-      // this.dataId = Date.now();
       this.dataId = Date.now() * 1000 + Math.floor(Math.random() * 500) ;
     }
   }

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Configuration} from "../../../models";
-import {languages, qualities, sizes, styles} from '../../../models/type.data';
+import {languages, qualities, sizes, styles} from '../../../models/enums/type.data';
 
 @Component({
   selector: 'app-dall-banner',

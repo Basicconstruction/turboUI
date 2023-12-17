@@ -68,6 +68,7 @@ import { HistoryBtComponent } from './chat-history/history-bt/history-bt.compone
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import { ConfigExportComponent } from './settings/config-export/config-export.component';
 import { ConfigImportComponent } from './settings/config-import/config-import.component';
+import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/copied-button.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -112,6 +113,7 @@ import { ConfigImportComponent } from './settings/config-import/config-import.co
     DallBannerComponent,
     HistoryBtComponent,
     SettingsComponent,
+    CopiedButtonComponent,
   ],
   exports: [
     ChatPageComponent

@@ -11,7 +11,7 @@ import {
     speech_response_formats,
     styles,
     human_voices, woman_voices, details
-} from '../../models/type.data';
+} from '../../models/enums/type.data';
 
 @Component({
     selector: 'app-settings',

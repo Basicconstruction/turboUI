@@ -8,7 +8,6 @@ export const backChatHistorySubject = new InjectionToken("back-chat-history-subj
 export const configurationChangeSubject = new InjectionToken("configuration-change");
 @NgModule({
   imports:[
-    ModelsModule,
   ],
   declarations: [
 

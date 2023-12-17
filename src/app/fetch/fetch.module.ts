@@ -5,7 +5,6 @@ import {OpenaiService} from "./openai.service";
 @NgModule(
     {
         providers: [
-          OpenaiService,
         ],
         imports: [
           DatasModule

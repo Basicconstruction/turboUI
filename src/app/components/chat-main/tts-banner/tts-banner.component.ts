@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {human_voices, speech_response_formats, woman_voices} from "../../../models/type.data";
+import {human_voices, speech_response_formats, woman_voices} from "../../../models/enums/type.data";
 import {Configuration} from "../../../models";
 
 @Component({

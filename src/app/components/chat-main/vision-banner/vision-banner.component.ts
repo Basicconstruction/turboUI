@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {details} from "../../../models/type.data";
+import {details} from "../../../models/enums/type.data";
 import {Configuration} from "../../../models";
 
 @Component({

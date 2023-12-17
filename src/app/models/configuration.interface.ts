@@ -1,4 +1,4 @@
-import {RequestType} from "./GPTType";
+import {RequestType} from "./type/GPTType";
 
 export interface Configuration{
   model: string;

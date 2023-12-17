@@ -1,4 +1,4 @@
-import {Message, VisionMessage} from "./message.model";
+import {Message, VisionMessage} from "../message.model";
 import {NzUploadFile} from "ng-zorro-antd/upload";
 
 export class ChatPacket{

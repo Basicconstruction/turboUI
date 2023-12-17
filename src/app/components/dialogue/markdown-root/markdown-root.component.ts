@@ -23,7 +23,5 @@ export class MarkdownRootComponent
   }
 
   private _content: string | undefined;
-  onCopyToClipboard() {
-    this.notification.success("复制成功","");
-  }
+
 }
