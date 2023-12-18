@@ -1,6 +1,8 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import {DbService} from "./db.service";
 import {Configuration, RequestType} from "../models";
+import {Subject} from "rxjs";
+import {configurationChangeSubject} from "./datas.module";
 
 @Injectable({
   providedIn: "root"
@@ -8,13 +10,25 @@ import {Configuration, RequestType} from "../models";
 export class ConfigurationService {
   public configuration: Configuration | undefined;
   private initFinish = false;
-  constructor(private dbService: DbService) {
+
+  constructor(private dbService: DbService,
+              @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>) {
     this.init();
   }
+
   public async init() {
-    await this.waitForInit();
-    this.configuration = await this.getConfiguration()
+    // 先加载默认配置
+    this.configuration = this.default_configuration();
     this.initFinish = true;
+    // 等待数据库加载存储的配置
+    this.waitForInit().then(async () => {
+      this.getConfiguration().then((config) => {
+        if (config !== undefined) {
+          this.configuration = config;
+          this.configurationObserver.next(true);
+        }
+      });
+    });
   }
 
   private waitForInit(): Promise<void> {
@@ -27,7 +41,7 @@ export class ConfigurationService {
             clearInterval(interval);
             resolve();
           }
-        }, 100);
+        }, 10);
       }
     });
   }
@@ -40,6 +54,7 @@ export class ConfigurationService {
       return true;
     }
   }
+
   private async waitThisInit(): Promise<void> {
     return new Promise((resolve) => {
       if (this.initFinish) {
@@ -50,16 +65,16 @@ export class ConfigurationService {
             clearInterval(interval);
             resolve();
           }
-        }, 100);
+        }, 10);
       }
     });
   }
 
-  public default_configuration():Configuration {
+  public default_configuration(): Configuration {
     return {
       model: "gpt-3.5-turbo-0613",
       requestType: RequestType.Chat,
-      chatConfiguration:{
+      chatConfiguration: {
         models: [
           "gpt-3.5-turbo-1106",
           "gpt-3.5-turbo",
@@ -71,7 +86,7 @@ export class ConfigurationService {
           "gpt-4-0613",
           "gpt-4-32k",
           "gpt-4-32k-0613",
-        ],historySessionLength: 10,
+        ], historySessionLength: 10,
         top_p: 0.6,
         temperature: 0.6,
         max_tokens: 4000,
@@ -94,10 +109,10 @@ export class ConfigurationService {
         response_format: "mp3",
         speed: 1,
       },
-      transcriptionConfiguration:{
+      transcriptionConfiguration: {
         models: ["whisper"]
       },
-      displayConfiguration:{
+      displayConfiguration: {
         fontSize: "14"
       },
       endpoint: "http://localhost:8888",
@@ -107,12 +122,8 @@ export class ConfigurationService {
     };
   }
 
-  async getConfiguration(): Promise<Configuration> {
-    let config =  await this.dbService.getConfiguration();
-    if(config===undefined){
-      return this.default_configuration();
-    }
-    return config;
+  async getConfiguration(): Promise<Configuration | undefined> {
+    return await this.dbService.getConfiguration();
   }
 
   async setConfigurationLocal() {
@@ -128,6 +139,4 @@ export class ConfigurationService {
     this.configuration = this.default_configuration();
     await this.setConfigurationLocal();
   }
-
-
 }

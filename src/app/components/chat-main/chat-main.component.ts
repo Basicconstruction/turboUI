@@ -29,8 +29,10 @@ import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ImageContent, TextContent} from "../../models/message.model";
 import {ContextMemoryService} from "../../services";
-import {SizeReportService} from "../../services/sizeReport.service";
-import {SidebarService} from "../../services/sidebar.service";
+import {SizeReportService} from "../../services";
+import {SidebarService} from "../../services";
+import {ShowTypeService} from "../../services/showType.service";
+import {ModelFetchService} from "../../services/modelFetch.service";
 
 @Component({
   selector: 'app-chat-main',
@@ -45,12 +47,12 @@ export class ChatMainComponent {
     }
     this.answering = true;
     // 获取当前的请求类型
-    let type = this.configurationService.configuration?.requestType!;
+    let currentRequestModelType = this.configurationService.configuration?.requestType!;
     //构建请求文件列表
     await this.buildFileList();
 
     // 添加用户请求
-    const userRequestShowType = this.getSendMessageType(type);
+    const userRequestShowType = this.showTypeService.getSendMessageType(currentRequestModelType);
     const randomId = Date.now()*1000 + Math.floor(Math.random() * 500) + 1;
     const userModel = new ChatModel("user", this.inputText,
       this.chatFileList, randomId,userRequestShowType,true);
@@ -61,18 +63,18 @@ export class ChatMainComponent {
       this.awareContextChange();
     }
 
-    let param: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
-      = this.resolveContext(type);
+    let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
+      = this.resolveContext(currentRequestModelType);
     // 添加返回的 聊天信息模型
-    const model = new ChatModel("assistant");
-    model.finish = false;
-    model.reRandom();
-    this.chatModels.push(model);
+    const assistantModel = new ChatModel("assistant");
+    assistantModel.finish = false;
+    assistantModel.reRandom();
+    this.chatModels.push(assistantModel);
     //  构建新的滚动 订阅
     this.scrollSubject = new Subject<boolean>();
     this.scrollSubscribe();
     this.nextSubscribe(true);
-    this.receivedData = '';// 清空接收数据字符串对象
+    this.receivedDataCollector = '';// 清空接收数据字符串对象
     // 如果当前的聊天历史模型的标题为空，说明使用的是刚创建的，还没有消息，存储到数据库，
     // 设置nextSubjection为true表示将会推送一个新的历史记录
     if (this.chatHistoryModel?.title === '') {
@@ -85,38 +87,26 @@ export class ChatMainComponent {
       }else{
         this.chatHistoryModel.title = this.inputText.substring(0,25);
       }
-
-      await this.chatHistoryService.putHistoryTitles({
+      this.chatHistoryService.putHistoryTitles({
         dataId: this.chatHistoryModel.dataId!,
         title: this.chatHistoryModel.title
-      });
-      this.nextSubjection = true;
+      }).then(()=>{
+
+      })
+      this.notifyChatHistoryIdentifier = true;
     }
-    model.showType = this.getPromiseReceiveType(type); // 设置返回模型的展示类型
+    assistantModel.showType = this.showTypeService.getPromiseReceiveType(currentRequestModelType); // 设置返回模型的展示类型
     this.inputText = '';// 清空输入框
-    let subject: Observable<string>;// 构建请求数据
-    switch (type) {
-      case RequestType.Chat:
-        subject = this.openaiService.fetchChat(param as ChatPacket);
-        break;
-      case RequestType.Image:
-        subject = this.openaiService.fetchImage(param as ImagePacket);
-        break;
-      case RequestType.Speech:
-        subject = this.openaiService.fetchTTS(param as SpeechPacket);
-        break;
-      case RequestType.Transcription:
-        subject = this.openaiService.fetchSTT(param as TranscriptionPacket);
-        break;
-      case RequestType.ChatVision:
-        subject = this.openaiService.fetchChatVision(param as ChatVisionPacket);
-        break;
-    }
+    let response: Observable<string> = this.modelFetchService.getFetchResponse(currentRequestModelType,fetchParam);
     // 订阅返回的数据
-    this.subscription = subject!.subscribe({
+    this.subscriptionResponse(response,assistantModel,currentRequestModelType);
+
+  }
+  subscriptionResponse(subject: Observable<string>, model: ChatModel,type: RequestType){
+    this.responseSubscription = subject!.subscribe({
       next: (data: any) => {
-        this.receivedData += data;
-        model.content = this.receivedData;
+        this.receivedDataCollector += data;
+        model.content = this.receivedDataCollector;
         this.nextSubscribe(true);
       },
       error: (error: any) => {
@@ -125,13 +115,13 @@ export class ChatMainComponent {
         model.finish = true;
         this.nextSubscribe(false);
         this.answering = false;
-        model.showType = this.getStaticResponseType(type);
+        model.showType = this.showTypeService.getStaticResponseType(type);
         this.finalizeResponse();
       },
       complete: () => {
         this.answering = false;
         model.finish = true;
-        model.showType = this.getStaticResponseType(type);
+        model.showType = this.showTypeService.getStaticResponseType(type);
         this.finalizeResponse();
       }
     });
@@ -177,23 +167,24 @@ export class ChatMainComponent {
       }
     });
   }
-
+  // 一个相应的生命周期的结束，清空 文件列表，结束滚动订阅
+  //
   finalizeResponse() {
     this.fileList = []
     this.chatFileList = []
 
     this.scrollSubject?.complete();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.responseSubscription) {
+      this.responseSubscription.unsubscribe();
     }
     this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
-      console.log("add database " + r)
-      if (this.nextSubjection) {
+      // console.log("add database " + r)
+      if (this.notifyChatHistoryIdentifier) {
         this.backHistoryObserver.next({
           dataId: this.chatHistoryModel!.dataId!,
           title: this.chatHistoryModel!.title
         })
-        this.nextSubjection = false;
+        this.notifyChatHistoryIdentifier = false;
       }
     });
   }
@@ -213,8 +204,8 @@ export class ChatMainComponent {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.responseSubscription) {
+      this.responseSubscription.unsubscribe();
     }
   }
 
@@ -229,10 +220,7 @@ export class ChatMainComponent {
   async buttonControlGPT() {
     if (this.answering) {
       this.answering = false;
-      if (this.subscription) {
-        this.subscription.unsubscribe();
-        this.finalizeResponse();
-      }
+      this.finalizeResponse();
     } else {
       this.askGPT();
     }
@@ -336,16 +324,17 @@ export class ChatMainComponent {
       // console.log("will open by observer " + dataId)
     }
     try {
-      const chatHistory = await this.chatDataService.getChatHistory(dataId);
-      if (chatHistory) {
-        this.chatHistoryModel = chatHistory;
-        // console.log("change session")
-        this.lastSession.sessionId = dataId;
-      } else {
-        // console.log("not found, create one")
-        this.chatHistoryModel = new ChatHistoryModel();
-        this.lastSession.sessionId = this.chatHistoryModel.dataId;
-      }
+      this.chatDataService.getChatHistory(dataId).then((chatHistory)=>{
+        if (chatHistory) {
+          this.chatHistoryModel = chatHistory;
+          // console.log("change session")
+          this.lastSession.sessionId = dataId;
+        } else {
+          // console.log("not found, create one")
+          this.chatHistoryModel = new ChatHistoryModel();
+          this.lastSession.sessionId = this.chatHistoryModel.dataId;
+        }
+      });
     } catch (error) {
       console.error('Error fetching chat history:', error);
     }
@@ -359,54 +348,7 @@ export class ChatMainComponent {
       console.error(err);
     }
   }
-  getSendMessageType(type: RequestType): ShowType{
-    switch (type){
-      case RequestType.Chat:
-        return ShowType.staticChatRequest;
-      case RequestType.Image:
-        return ShowType.staticImageRequest;
-      case RequestType.Speech:
-        return ShowType.staticSpeechRequest;
-      case RequestType.Transcription:
-        return ShowType.staticTranscriptionRequest;
-      case RequestType.ChatVision:
-        return ShowType.staticVisionRequest;
-      default:
-        return ShowType.staticChatRequest;
-    }
-  }
-  getPromiseReceiveType(type: RequestType): ShowType{
-    switch (type){
-      case RequestType.Chat:
-        return ShowType.promiseChat;
-      case RequestType.Image:
-        return ShowType.promiseImage;
-      case RequestType.Speech:
-        return ShowType.promiseSpeech;
-      case RequestType.Transcription:
-        return ShowType.promiseTranscription;
-      case RequestType.ChatVision:
-        return ShowType.promiseVision;
-      default:
-        return ShowType.staticChatRequest;
-    }
-  }
-  getStaticResponseType(type: RequestType): ShowType{
-    switch (type){
-      case RequestType.Chat:
-        return ShowType.staticChat;
-      case RequestType.Image:
-        return ShowType.staticImage;
-      case RequestType.Speech:
-        return ShowType.staticSpeech;
-      case RequestType.Transcription:
-        return ShowType.staticTranscription;
-      case RequestType.ChatVision:
-        return ShowType.staticVision;
-      default:
-        return ShowType.staticChatRequest;
-    }
-  }
+
   constructor(private sizeReportService: SizeReportService,
               public sidebarService: SidebarService,
     private contextMemoryService: ContextMemoryService,
@@ -420,6 +362,8 @@ export class ChatMainComponent {
     private configurationService: ConfigurationService,
     private notification: NzNotificationService,
     @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
+              private showTypeService: ShowTypeService,
+              private modelFetchService: ModelFetchService
     ) {
 
     this.configurationObserver.subscribe((change)=>{
@@ -431,7 +375,7 @@ export class ChatMainComponent {
     // 初始化configuration
     this.configuration = this.configurationService.configuration!;
     this.chatSessionObservable.subscribe(async (dataId) => {
-      await this.sync(dataId).then(()=>{
+      this.sync(dataId).then(()=>{
           this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
       });
     })
@@ -460,9 +404,9 @@ export class ChatMainComponent {
 
   chatModels: ChatModel[] = [];
   answering: boolean = false;
-  nextSubjection: boolean = false;
-  receivedData: string = '';
-  subscription: Subscription | undefined;
+  notifyChatHistoryIdentifier: boolean = false;// 是否向 app-chat-history 组件提交一个新的标题
+  receivedDataCollector: string = '';
+  responseSubscription: Subscription | undefined;
   backContextPointer: number | undefined;
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
 

@@ -42,12 +42,14 @@ export class ChatPageComponent implements OnInit {
     if(this.sizeReportService.miniPhoneView()){
       this.sidebarService.close();
     }
-    await this.waitForInit();
-    this.historyTitles = await this.historyTitleService.getHistoryTitles();
-    if (this.historyTitles === undefined) {
-      this.historyTitles = [];
-    }
-    this.historyTitles?.reverse();
+    this.waitForInit().then(async ()=>{
+      this.historyTitles = await this.historyTitleService.getHistoryTitles();
+      if (this.historyTitles === undefined) {
+        this.historyTitles = [];
+      }
+      this.historyTitles?.reverse();
+    });
+
   }
   @HostListener('window:resize',['$event'])
   onResize(event: any){
@@ -64,7 +66,7 @@ export class ChatPageComponent implements OnInit {
             clearInterval(interval);
             resolve();
           }
-        }, 100);
+        }, 10);
       }
     });
   }

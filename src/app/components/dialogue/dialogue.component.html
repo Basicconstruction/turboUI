@@ -13,7 +13,11 @@
         <span nz-icon nzType="sort-ascending" nzTheme="outline"></span>
       </button>
       <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'删除 该条记录'" class="rounded-4 mx-2" nz-button>
-        <span nz-icon nzType="delete" nzTheme="outline"></span>      </button>
+        <span nz-icon nzType="delete" nzTheme="outline"></span>
+      </button>
+      <button nz-tooltip (click)="copyAllContent()" [nzTooltipTitle]="'复制内容'" class="rounded-4" nz-button>
+        <span nz-icon nzType="copy" nzTheme="outline"></span>
+      </button>
     </div>
     <div class="d-flex flex-row" *ngIf="!isHover">
       <button class="rounded-4 mx-2" nz-button>

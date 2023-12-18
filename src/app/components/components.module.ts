@@ -69,6 +69,7 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import { ConfigExportComponent } from './settings/config-export/config-export.component';
 import { ConfigImportComponent } from './settings/config-import/config-import.component';
 import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/copied-button.component';
+import {ClipboardService} from "ngx-clipboard";
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -86,8 +87,9 @@ import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/co
     DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
     NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
-    ServicesModule, ClipboardModule, NzToolTipModule, NzModalModule, NzDropDownModule,
-    ConfigExportComponent, ConfigImportComponent
+    ServicesModule, NzToolTipModule, NzModalModule, NzDropDownModule,
+    ConfigExportComponent, ConfigImportComponent,
+    ClipboardModule
   ],
   declarations: [
     ChatPageComponent,

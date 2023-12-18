@@ -33,8 +33,13 @@ export class SettingsComponent {
                 private notification: NzNotificationService,
                 @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
                 private renderer: Renderer2,) {
-
-        this.configuration = this.configurationService.configuration!;
+      this.configuration = this.configurationService.configuration!;
+      this.configurationObserver.subscribe((change)=>{
+        if(change){
+          // 响应更改
+          this.configuration = this.configurationService.configuration!;
+        }
+      });
     }
 
     async resetConfiguration() {

@@ -4,6 +4,8 @@ import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
 import {SizeReportService} from "../../services/sizeReport.service";
 import {SidebarService} from "../../services/sidebar.service";
+import {ClipboardService} from "ngx-clipboard";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 
 @Component({
@@ -16,7 +18,10 @@ export class DialogueComponent {
   private _content: string | undefined;
   constructor(private configurationService: ConfigurationService,
               private sizeReportService: SizeReportService,
-              private sideBarService: SidebarService) {
+              private sideBarService: SidebarService,
+              private clipboard: ClipboardService,
+              private notification: NzNotificationService
+              ) {
   }
   getFontSize() {
     return `font-size: ${this.configurationService.configuration?.displayConfiguration.fontSize}px !important;`
@@ -169,6 +174,11 @@ export class DialogueComponent {
       // 减去sideBar 之后剩余宽度小于800，使用实际的宽度
       return "width: "+(this.sizeReportService.width!+additional)+"px;";
     }
+  }
+
+  copyAllContent() {
+    this.clipboard.copy(this.chatModel?.content!);
+    this.notification.success("复制内容成功","");
   }
 }
 
