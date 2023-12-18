@@ -130,4 +130,9 @@ python main.py
 直接编译部署到nginx或者iis等服务器软件上
 参考  
 https://angular.cn/guide/deployment
-
+chrome 性能测试
+v1.11  
+桌面设备：  
+![img_4.png](img_4.png)
+移动设备: 
+![img_7.png](img_7.png)
