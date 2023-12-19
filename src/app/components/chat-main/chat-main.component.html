@@ -30,7 +30,9 @@
         <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
       </div>
       <div *ngFor="let chat of chatModels">
-        <app-dialogue (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
+        <app-dialogue
+          (reGenerateSignal)="reGenerateHandle($event)"
+          (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
                       [active]="isActive(chat!)"></app-dialogue>
       </div>
     </div>

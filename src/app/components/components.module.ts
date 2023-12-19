@@ -70,6 +70,7 @@ import { ConfigExportComponent } from './settings/config-export/config-export.co
 import { ConfigImportComponent } from './settings/config-import/config-import.component';
 import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/copied-button.component';
 import {ClipboardService} from "ngx-clipboard";
+import {TableBorderDirective} from "./dialogue/markdown-root/TableBorderDirective";
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -116,6 +117,7 @@ import {ClipboardService} from "ngx-clipboard";
     HistoryBtComponent,
     SettingsComponent,
     CopiedButtonComponent,
+    TableBorderDirective
   ],
   exports: [
     ChatPageComponent

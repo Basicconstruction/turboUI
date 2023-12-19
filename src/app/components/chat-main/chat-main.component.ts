@@ -5,34 +5,26 @@ import {
   ChatHistoryTitle,
   ChatModel,
   ChatPacket,
-  ChatVisionPacket, Configuration,
+  ChatVisionPacket,
+  Configuration,
   FileInChat,
   ImagePacket,
   LastSessionModel,
-  Message,
   RequestType,
-  ShowType,
   SpeechPacket,
   TaskType,
   TranscriptionPacket,
   UserTask,
-  VisionMessage
 } from "../../models";
-import {OpenaiService} from "../../fetch";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
-import {
-  backChatHistorySubject,
-  chatSessionSubject,
-  configurationChangeSubject,
-} from "../../share-datas/datas.module";
+import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject,} from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {ImageContent, TextContent} from "../../models/message.model";
-import {ContextMemoryService} from "../../services";
-import {SizeReportService} from "../../services";
-import {SidebarService} from "../../services";
+import {ContextMemoryService, SidebarService, SizeReportService} from "../../services";
 import {ShowTypeService} from "../../services/showType.service";
 import {ModelFetchService} from "../../services/modelFetch.service";
+import {ChatContextHandler, VisionContextHandler} from "../../handlers";
+import {AssistantRole, SystemRole, UserRole} from "../../models/chat.model";
 
 @Component({
   selector: 'app-chat-main',
@@ -40,7 +32,7 @@ import {ModelFetchService} from "../../services/modelFetch.service";
   styleUrl: './chat-main.component.css'
 })
 export class ChatMainComponent {
-  chatFileList: FileInChat[] = [];
+
   async askGPT() {
     if (this.chatHistoryModel === undefined) {
       this.chatHistoryModel = new ChatHistoryModel();
@@ -64,9 +56,9 @@ export class ChatMainComponent {
     }
 
     let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
-      = this.resolveContext(currentRequestModelType);
+      = this.resolveContext(currentRequestModelType,this.backContextPointer,undefined);
     // 添加返回的 聊天信息模型
-    const assistantModel = new ChatModel("assistant");
+    const assistantModel = new ChatModel(AssistantRole);
     assistantModel.finish = false;
     assistantModel.reRandom();
     this.chatModels.push(assistantModel);
@@ -74,9 +66,16 @@ export class ChatMainComponent {
     this.scrollSubject = new Subject<boolean>();
     this.scrollSubscribe();
     this.nextSubscribe(true);
-    this.receivedDataCollector = '';// 清空接收数据字符串对象
     // 如果当前的聊天历史模型的标题为空，说明使用的是刚创建的，还没有消息，存储到数据库，
     // 设置nextSubjection为true表示将会推送一个新的历史记录
+    this.handleTitleWhenNewResponse();
+    assistantModel.showType = this.showTypeService.getPromiseReceiveType(currentRequestModelType); // 设置返回模型的展示类型
+    this.inputText = '';// 清空输入框
+    let response: Observable<string> = this.modelFetchService.getFetchResponse(currentRequestModelType,fetchParam);
+    // 订阅返回的数据
+    this.responseSubscription = this.subscriptionResponse(response,assistantModel,currentRequestModelType);
+  }
+  handleTitleWhenNewResponse(){
     if (this.chatHistoryModel?.title === '') {
       if(this.inputText===''){
         if(this.chatFileList.length>=1){
@@ -95,18 +94,13 @@ export class ChatMainComponent {
       })
       this.notifyChatHistoryIdentifier = true;
     }
-    assistantModel.showType = this.showTypeService.getPromiseReceiveType(currentRequestModelType); // 设置返回模型的展示类型
-    this.inputText = '';// 清空输入框
-    let response: Observable<string> = this.modelFetchService.getFetchResponse(currentRequestModelType,fetchParam);
-    // 订阅返回的数据
-    this.subscriptionResponse(response,assistantModel,currentRequestModelType);
-
   }
-  subscriptionResponse(subject: Observable<string>, model: ChatModel,type: RequestType){
-    this.responseSubscription = subject!.subscribe({
+  subscriptionResponse(subject: Observable<string>, model: ChatModel,type: RequestType): Subscription{
+    let collector = '';
+    return subject!.subscribe({
       next: (data: any) => {
-        this.receivedDataCollector += data;
-        model.content = this.receivedDataCollector;
+        collector += data;
+        model.content = collector;
         this.nextSubscribe(true);
       },
       error: (error: any) => {
@@ -127,46 +121,6 @@ export class ChatMainComponent {
     });
   }
 
-
-  isBase64Image(fileType: string): boolean {
-    return fileType.startsWith("image");
-  }
-  async buildFileList() {
-    const promises = this.fileList.map((file) => this.readFile(file));
-    await Promise.all(promises);
-  }
-
-  readFile(file: NzUploadFile): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const isImg = this.isBase64Image(file.type!);
-        let fileContent: string | ArrayBuffer | null;
-        if (isImg) {
-          fileContent = reader.result;
-          if (fileContent == null || fileContent instanceof ArrayBuffer) {
-            reject(new Error('File content error'));
-            return;
-          }
-        } else {
-          fileContent = '';
-        }
-        const afile: FileInChat = {
-          fileName: file.name,
-          fileType: file.type,
-          fileSize: file.size,
-          fileContent: fileContent,
-        };
-        this.chatFileList.push(afile);
-        resolve();
-      };
-
-      if (file) {
-        // @ts-ignore
-        reader.readAsDataURL(file);
-      }
-    });
-  }
   // 一个相应的生命周期的结束，清空 文件列表，结束滚动订阅
   //
   finalizeResponse() {
@@ -207,6 +161,11 @@ export class ChatMainComponent {
     if (this.responseSubscription) {
       this.responseSubscription.unsubscribe();
     }
+    for(let subscription of this.responseHolder){
+      if(subscription){
+        subscription.unsubscribe();
+      }
+    }
   }
 
   async typeControlGPT() {
@@ -226,18 +185,142 @@ export class ChatMainComponent {
     }
   }
 
-  resolveContext(requestType: RequestType = RequestType.Chat) {
+  configuration: Configuration | undefined;
+  fileList: NzUploadFile[] = [];
+  inputText: string = '';
+  scrollSubject: Subject<boolean> | undefined;
+  chatFileList: FileInChat[] = [];
+  private _chatHistoryModel: ChatHistoryModel | undefined;
+
+  get chatHistoryModel(): ChatHistoryModel | undefined {
+    return this._chatHistoryModel;
+  }
+
+  set chatHistoryModel(value: ChatHistoryModel | undefined) {
+    this._chatHistoryModel = value;
+    this.chatModels = this._chatHistoryModel?.chatList?.chatModel!;
+  }
+
+  chatModels: ChatModel[] = [];
+  answering: boolean = false;
+  notifyChatHistoryIdentifier: boolean = false;
+  responseSubscription: Subscription | undefined;
+  responseHolder: Subscription[] = [];
+  backContextPointer: number | undefined;
+
+  findLatestTrueRequest(lastId: number): ChatModel | undefined{
+    let index = this.chatModels.findIndex(m=>m.dataId===lastId);
+    for(let id = index;id>=0;id--){
+      let model = this.chatModels[id];
+      if(model.role===UserRole||model.role===SystemRole){
+        return this.chatModels[id];
+      }
+    }
+    return undefined;
+  }
+  async reGenerateHandle($event: number) {
+    let reModel = this.chatModels.find(m=>m.dataId===$event);
+    if(reModel===undefined){
+      this.notification.error("列表中不存在","");
+      return;
+    }
+    let endPointerModel = this.findLatestTrueRequest($event);
+    if(endPointerModel===undefined){
+      this.notification.error("在该消息之前找不到用户信息或者系统信息","");
+      return;
+    }
+    // 添加用户请求
+    const requestType = this.showTypeService.getRequestType(endPointerModel.showType);
+    let back: number | undefined;
+    if(this.backContextPointer === undefined || this.backContextPointer > endPointerModel.dataId!){
+      back = endPointerModel.dataId;
+    }else{
+      back = this.backContextPointer;
+    }
+    let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
+      = this.resolveContext(requestType,back,endPointerModel.dataId,endPointerModel);
+    // 添加返回的 聊天信息模型
+    reModel.finish = false;
+    // console.log(requestType)
+    let response: Observable<string> = this.modelFetchService.getFetchResponse(requestType,fetchParam);
+    // 订阅返回的数据
+    let animalSubscription = this.subscriptionResponse(response,reModel,requestType);
+    this.responseHolder.push(animalSubscription);
+  }
+  @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
+
+  clearContext() {
+    this.backContextPointer = undefined;
+    this.notification.success("清空上下文", "清除成功");
+    this.awareContextChange();
+  }
+
+  isActive(chat: ChatModel) {
+    return this.backContextPointer !== undefined && chat.dataId! >= this.backContextPointer;
+  }
+
+  constructor(private sizeReportService: SizeReportService,
+              public sidebarService: SidebarService,
+              private visionContextHandler: VisionContextHandler,
+              private chatContextHandler: ChatContextHandler,
+              private contextMemoryService: ContextMemoryService,
+              private renderer: Renderer2,
+              private chatDataService: ChatDataService,
+              @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
+              private chatHistoryService: HistoryTitleService,
+              @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
+              private lastSession: LastSessionModel,
+              private configurationService: ConfigurationService,
+              private notification: NzNotificationService,
+              @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
+              private showTypeService: ShowTypeService,
+              private modelFetchService: ModelFetchService,
+  ) {
+
+    this.configurationObserver.subscribe((change)=>{
+      if(change){
+        // 响应更改
+        this.configuration = this.configurationService.configuration!;
+      }
+    });
+    // 初始化configuration
+    this.configuration = this.configurationService.configuration!;
+    this.chatSessionObservable.subscribe(async (dataId) => {
+      this.sync(dataId).then(()=>{
+        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+      });
+    })
+    if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
+      this.sync(this.lastSession.sessionId).then(()=>{
+        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+      });
+    }
+
+  }
+  resolveContext(requestType: RequestType = RequestType.Chat, startPointer: number|undefined = undefined, endPointer: number | undefined = undefined, reModel: ChatModel | undefined = undefined) {
     if (this.chatModels === undefined) {
       console.log("未知错误")
     }
     if (requestType === RequestType.Image) {
-      // return new ImagePacket(this.chatModels[this.chatModels.length-1].content);
+      if(reModel!==undefined){
+        return new ImagePacket(reModel.content);
+      }
       return new ImagePacket(this.inputText);
     }
     if (requestType === RequestType.Speech) {
+      if(reModel!==undefined){
+        // console.log(reModel)
+        // console.log("new"+reModel.content)
+        return new SpeechPacket(reModel.content);
+      }
+      // console.log(this.inputText)
       return new SpeechPacket(this.inputText, this.fileList);
     }
     if (requestType === RequestType.Transcription) {
+      if(reModel!==undefined){
+        this.notification.error("不支持重新生成该响应","");
+        throw new Error("not allowed");
+      }
       if (this.inputText !== '') {
         return new TranscriptionPacket(true, this.fileList, this.inputText);
       } else {
@@ -245,77 +328,20 @@ export class ChatMainComponent {
       }
     }
     if(requestType===RequestType.ChatVision){
-      const back = this.backContextPointer!;
-      let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
-      let messages: VisionMessage[] = [];
-      const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
-      const reversedArray = originalArray.reverse();
-      for (let chatModel of reversedArray) {
-        if (messages.length >= sessionLength) break;
-        if (chatModel.dataId! >= back &&
-          (chatModel.showType === ShowType.staticChat
-            || chatModel.showType === ShowType.promiseChat
-            || chatModel.showType === ShowType.staticChatRequest
-            || chatModel.showType === ShowType.staticVision
-            || chatModel.showType === ShowType.staticVisionRequest
-            || chatModel.showType === ShowType.promiseVision
-          )) {
-          let content: (TextContent | ImageContent)[] = [];
-          if(chatModel.showType === ShowType.staticVision
-            || chatModel.showType === ShowType.staticVisionRequest
-            || chatModel.showType === ShowType.promiseVision){
-            content.push({
-              type: "text",
-              text: chatModel.content
-            });
-            const detail = this.configuration?.chatConfiguration.detail;
-            chatModel.fileList?.forEach(file=>{
-              content.push({
-                type: "image_url",
-                image_url: {
-                  url: file.fileContent!,
-                  detail: detail
-                }
-              })
-            })
-          }else{
-            content.push({
-              type: "text",
-              text: chatModel.content
-            });
-          }
-          messages.splice(0, 0, {
-            role: chatModel.role,
-            content: content
-          })
-        }
-      }
-      // console.log(messages)
+      let messages = this.visionContextHandler.handler(
+        startPointer,
+        this.configurationService.configuration!,
+        this.chatModels,
+        endPointer
+      );
       return new ChatVisionPacket(messages);// todo
     }
-    // normal chat 的上下文处理
-    const back = this.backContextPointer!;
-    let sessionLength = this.configurationService.configuration?.chatConfiguration.historySessionLength!;
-    let messages: Message[] = [];
-    const originalArray = [...this.chatModels]; // 创建 chatModels 的副本
-    const reversedArray = originalArray.reverse();
-    for (let chatModel of reversedArray) {
-      if (messages.length >= sessionLength) break;
-      if (chatModel.dataId! >= back &&
-        (chatModel.showType === ShowType.staticChat
-          || chatModel.showType === ShowType.promiseChat
-          || chatModel.showType === ShowType.staticChatRequest
-          || chatModel.showType === ShowType.staticVision
-          || chatModel.showType === ShowType.staticVisionRequest
-          || chatModel.showType === ShowType.promiseVision
-        )) {
-        // 添加promiseChat是为了容错，避免没有及时的转为静态类型
-        messages.splice(0, 0, {
-          role: chatModel.role,
-          content: chatModel.content
-        })
-      }
-    }
+    let messages = this.chatContextHandler.handler(
+      startPointer,
+      this.configurationService.configuration!,
+      this.chatModels,
+      endPointer
+    );
     return new ChatPacket(messages);
   }
   async sync(dataId: number) {
@@ -347,96 +373,6 @@ export class ChatMainComponent {
     } catch (err) {
       console.error(err);
     }
-  }
-
-  constructor(private sizeReportService: SizeReportService,
-              public sidebarService: SidebarService,
-    private contextMemoryService: ContextMemoryService,
-    private openaiService: OpenaiService,
-    private renderer: Renderer2,
-    private chatDataService: ChatDataService,
-    @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
-    private chatHistoryService: HistoryTitleService,
-    @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
-    private lastSession: LastSessionModel,
-    private configurationService: ConfigurationService,
-    private notification: NzNotificationService,
-    @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
-              private showTypeService: ShowTypeService,
-              private modelFetchService: ModelFetchService
-    ) {
-
-    this.configurationObserver.subscribe((change)=>{
-      if(change){
-        // 响应更改
-        this.configuration = this.configurationService.configuration!;
-      }
-    });
-    // 初始化configuration
-    this.configuration = this.configurationService.configuration!;
-    this.chatSessionObservable.subscribe(async (dataId) => {
-      this.sync(dataId).then(()=>{
-          this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
-      });
-    })
-    if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
-      this.sync(this.lastSession.sessionId).then(()=>{
-        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
-      });
-    }
-
-  }
-
-  configuration: Configuration | undefined;
-  fileList: NzUploadFile[] = [];
-  inputText: string = '';
-  scrollSubject: Subject<boolean> | undefined;
-  private _chatHistoryModel: ChatHistoryModel | undefined;
-
-  get chatHistoryModel(): ChatHistoryModel | undefined {
-    return this._chatHistoryModel;
-  }
-
-  set chatHistoryModel(value: ChatHistoryModel | undefined) {
-    this._chatHistoryModel = value;
-    this.chatModels = this._chatHistoryModel?.chatList?.chatModel!;
-  }
-
-  chatModels: ChatModel[] = [];
-  answering: boolean = false;
-  notifyChatHistoryIdentifier: boolean = false;// 是否向 app-chat-history 组件提交一个新的标题
-  receivedDataCollector: string = '';
-  responseSubscription: Subscription | undefined;
-  backContextPointer: number | undefined;
-  @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
-
-  clearContext() {
-    this.backContextPointer = undefined;
-    this.notification.success("清空上下文", "清除成功");
-    this.awareContextChange();
-  }
-
-  enableTouch() {
-    // 正在回复 | 没有在回复，内容不为空 |  模型为转录或者tts，且添加了文件
-    return this.answering || (!this.answering && this.inputText != '') ||
-      ((
-        this.configurationService.configuration?.requestType === RequestType.Transcription ||
-        this.configurationService.configuration?.requestType === RequestType.Speech
-      ) && this.fileList.length > 0);
-  }
-
-  isFade() {
-    return !this.enableTouch();
-  }
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    this.fileList = this.fileList.concat(file);
-    return false;
-  };
-    protected readonly RequestType = RequestType;
-
-  isActive(chat: ChatModel) {
-    return this.backContextPointer !== undefined && chat.dataId! >= this.backContextPointer;
   }
   editModel: ChatModel | undefined;
   awareContextChange(){
@@ -492,4 +428,62 @@ export class ChatMainComponent {
   switchSidebar() {
     this.sidebarService.switch();
   }
+  enableTouch() {
+    // 正在回复 | 没有在回复，内容不为空 |  模型为转录或者tts，且添加了文件
+    return this.answering || (!this.answering && this.inputText != '') ||
+      ((
+        this.configurationService.configuration?.requestType === RequestType.Transcription ||
+        this.configurationService.configuration?.requestType === RequestType.Speech
+      ) && this.fileList.length > 0);
+  }
+
+  isFade() {
+    return !this.enableTouch();
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    return false;
+  };
+  isBase64Image(fileType: string): boolean {
+    return fileType.startsWith("image");
+  }
+  async buildFileList() {
+    const promises = this.fileList.map((file) => this.readFile(file));
+    await Promise.all(promises);
+  }
+
+  readFile(file: NzUploadFile): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const isImg = this.isBase64Image(file.type!);
+        let fileContent: string | ArrayBuffer | null;
+        if (isImg) {
+          fileContent = reader.result;
+          if (fileContent == null || fileContent instanceof ArrayBuffer) {
+            reject(new Error('File content error'));
+            return;
+          }
+        } else {
+          fileContent = '';
+        }
+        const afile: FileInChat = {
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: file.size,
+          fileContent: fileContent,
+        };
+        this.chatFileList.push(afile);
+        resolve();
+      };
+
+      if (file) {
+        // @ts-ignore
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  protected readonly RequestType = RequestType;
 }

@@ -41,6 +41,9 @@ export class DialogueComponent {
   @Output()
   userTask = new EventEmitter<UserTask>();
 
+  isMiniView(){
+    return this.sizeReportService.miniPhoneView();
+  }
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
@@ -179,6 +182,15 @@ export class DialogueComponent {
   copyAllContent() {
     this.clipboard.copy(this.chatModel?.content!);
     this.notification.success("复制内容成功","");
+  }
+  @Output()
+  reGenerateSignal = new EventEmitter<number>();
+  reRequest() {
+    if(this.chatModel?.finish){
+      this.reGenerateSignal.emit(this.chatModel.dataId);
+    }else{
+      this.notification.error("当前请求还没有结束","");
+    }
   }
 }
 

@@ -5,6 +5,9 @@ import {RequestType, ShowType} from "../models";
   providedIn: "root"
 })
 export class ShowTypeService{
+  public getRequestType(type: ShowType): RequestType{
+    return type % 5;
+  }
   public getSendMessageType(type: RequestType): ShowType{
     switch (type){
       case RequestType.Chat:

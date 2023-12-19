@@ -11,6 +11,9 @@ export class ModelFetchService{
   }
   public getFetchResponse(type: RequestType,
                           param:  ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket){
+    console.log("type");
+    console.log(type)
+    console.log(param)
     let subject: Observable<string>;
     switch (type) {
       case RequestType.Chat:
