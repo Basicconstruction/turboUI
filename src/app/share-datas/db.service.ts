@@ -15,7 +15,7 @@ export class DbService{
     );
   }
   async initDb(){
-    this.idbDb = await openDB('chatDb-v1', 2, {
+    this.idbDb = await openDB('chatDb-v1', 3, {
       upgrade(db) {
         // 删除所有旧版本的数据（与本版本有关联的数据表）
         if (db.objectStoreNames.contains("chatHistories")) {

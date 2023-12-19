@@ -12,7 +12,13 @@ export interface FileInChat{
 export class ChatModel {
 
   public markAsChanged = false;
-  constructor(public role: string = 'user', public content: string = '', public fileList?:FileInChat[], public dataId?: number, public showType: ShowType = ShowType.staticChat, public finish: boolean = true) {
+  constructor(public role: string = 'user',
+              public content: string = '',
+              public fileList?:FileInChat[],
+              public dataId?: number,
+              public showType: ShowType = ShowType.staticChat,
+              public finish: boolean = true,
+              public model?: string) {
     if(dataId==null){
       this.dataId = Date.now() * 1000 + Math.floor(Math.random() * 500) ;
     }
@@ -31,4 +37,5 @@ export interface ChatInterface{
   dataId: number;
   showType: ShowType;
   finish: boolean;
+  model?: string;
 }

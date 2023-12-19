@@ -47,7 +47,7 @@ export class ChatMainComponent {
     const userRequestShowType = this.showTypeService.getSendMessageType(currentRequestModelType);
     const randomId = Date.now()*1000 + Math.floor(Math.random() * 500) + 1;
     const userModel = new ChatModel("user", this.inputText,
-      this.chatFileList, randomId,userRequestShowType,true);
+      this.chatFileList, randomId,userRequestShowType,true,this.configuration!.model);
     this.chatModels.push(userModel);
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
     if (this.backContextPointer === undefined) {
@@ -61,6 +61,7 @@ export class ChatMainComponent {
     const assistantModel = new ChatModel(AssistantRole);
     assistantModel.finish = false;
     assistantModel.reRandom();
+    assistantModel.model = this.configuration!.model;
     this.chatModels.push(assistantModel);
     //  构建新的滚动 订阅
     this.scrollSubject = new Subject<boolean>();
@@ -218,11 +219,38 @@ export class ChatMainComponent {
     }
     return undefined;
   }
+  findNextAssistantModel(id: number):ChatModel | undefined{
+    let index = this.chatModels.findIndex(m=>m.dataId === id);
+    for(let i = index+1;i<this.chatModels.length;i++){
+      let model = this.chatModels[i];
+      if(model.role===AssistantRole){
+        return model;
+      }
+    }
+    return undefined;
+  }
+
   async reGenerateHandle($event: number) {
+    // tackle since model
     let reModel = this.chatModels.find(m=>m.dataId===$event);
     if(reModel===undefined){
       this.notification.error("列表中不存在","");
       return;
+    }
+    let generateModel: ChatModel | undefined;
+    if(reModel.role===AssistantRole){
+      generateModel = reModel;
+    }else{
+      generateModel = this.findNextAssistantModel(reModel.dataId!);
+      if(generateModel===undefined){
+        generateModel = new ChatModel(AssistantRole);
+        generateModel.finish = false;
+        generateModel.model = reModel.model;
+        generateModel.dataId = reModel.dataId;
+        generateModel.reRandom();
+        let index = this.chatModels.findIndex(m=>m.dataId===reModel!.dataId);
+        this.chatModels.splice(index+1,0,generateModel);
+      }
     }
     let endPointerModel = this.findLatestTrueRequest($event);
     if(endPointerModel===undefined){
@@ -240,11 +268,15 @@ export class ChatMainComponent {
     let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
       = this.resolveContext(requestType,back,endPointerModel.dataId,endPointerModel);
     // 添加返回的 聊天信息模型
-    reModel.finish = false;
+    generateModel!.finish = false;
+    generateModel!.markAsChanged = true;
+    generateModel!.showType = this.showTypeService.getPromiseReceiveType(requestType); // 设置返回模型的展示类型
+
     // console.log(requestType)
-    let response: Observable<string> = this.modelFetchService.getFetchResponse(requestType,fetchParam);
+    let response: Observable<string> = this.modelFetchService.getFetchResponse(
+      requestType,fetchParam,generateModel!.model);
     // 订阅返回的数据
-    let animalSubscription = this.subscriptionResponse(response,reModel,requestType);
+    let animalSubscription = this.subscriptionResponse(response,generateModel!,requestType);
     this.responseHolder.push(animalSubscription);
   }
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;

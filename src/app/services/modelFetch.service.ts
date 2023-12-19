@@ -10,26 +10,24 @@ export class ModelFetchService{
   constructor(private openaiService: OpenaiService) {
   }
   public getFetchResponse(type: RequestType,
-                          param:  ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket){
-    console.log("type");
-    console.log(type)
-    console.log(param)
+                          param:  ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket,
+                          model?: string){
     let subject: Observable<string>;
     switch (type) {
       case RequestType.Chat:
-        subject = this.openaiService.fetchChat(param as ChatPacket);
+        subject = this.openaiService.fetchChat(param as ChatPacket,model);
         break;
       case RequestType.Image:
-        subject = this.openaiService.fetchImage(param as ImagePacket);
+        subject = this.openaiService.fetchImage(param as ImagePacket,model);
         break;
       case RequestType.Speech:
-        subject = this.openaiService.fetchTTS(param as SpeechPacket);
+        subject = this.openaiService.fetchTTS(param as SpeechPacket,model);
         break;
       case RequestType.Transcription:
-        subject = this.openaiService.fetchSTT(param as TranscriptionPacket);
+        subject = this.openaiService.fetchSTT(param as TranscriptionPacket,model);
         break;
       case RequestType.ChatVision:
-        subject = this.openaiService.fetchChatVision(param as ChatVisionPacket);
+        subject = this.openaiService.fetchChatVision(param as ChatVisionPacket,model);
         break;
     }
     return subject;

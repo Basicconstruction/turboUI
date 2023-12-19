@@ -22,7 +22,8 @@ export class ChatDataService{
           chatInterface.fileList,
           chatInterface.dataId,
           chatInterface.showType,
-          chatInterface.finish
+          chatInterface.finish,
+          chatInterface.model
         )
       }));
 
@@ -71,7 +72,8 @@ export class ChatDataService{
           fileList: chat.fileList,
           dataId: chat.dataId!,
           showType: chat.showType,
-          finish: chat.finish
+          finish: chat.finish,
+          model: chat.model
         });
         return chat.dataId;
       }

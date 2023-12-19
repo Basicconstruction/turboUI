@@ -12,7 +12,7 @@ import {ChatPacket, ImagePacket, SpeechPacket, TranscriptionPacket} from "../mod
 export class OpenaiService {
   constructor(private configurationService: ConfigurationService, private http: HttpClient) {
   }
-  fetchChat(mp: ChatPacket): Observable<string> {
+  fetchChat(mp: ChatPacket,model?: string): Observable<string> {
     const messages: Message[] = mp.messages;
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
@@ -26,7 +26,7 @@ export class OpenaiService {
       apiKey: config?.apiKey,
       body: {
         messages: messages,
-        model: config?.model,
+        model: model===undefined? config?.model:model,
         frequency_penalty: config?.chatConfiguration.frequency_penalty,
         max_tokens: config?.chatConfiguration.max_tokens,
         presence_penalty: config?.chatConfiguration.presence_penalty,
@@ -38,7 +38,7 @@ export class OpenaiService {
     // console.log(requestBody)
     return this.fetchChatBase(url,requestBody,authorizationToken);
   }
-  fetchChatVision(mp: ChatVisionPacket): Observable<string> {
+  fetchChatVision(mp: ChatVisionPacket,model?: string): Observable<string> {
     const messages:VisionMessage[] = mp.messages;
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
@@ -52,7 +52,7 @@ export class OpenaiService {
       apiKey: config?.apiKey,
       body: {
         messages: messages,
-        model: config?.model,
+        model: model===undefined? config?.model:model,
         max_tokens: config?.chatConfiguration.max_tokens,
         stream: true,
         temperature: config?.chatConfiguration.temperature,
@@ -147,7 +147,7 @@ export class OpenaiService {
       });
     });
   }
-  fetchImage(imp: ImagePacket): Observable<string> {
+  fetchImage(imp: ImagePacket,model?: string): Observable<string> {
     const prompt: string = imp.prompt;
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
@@ -160,7 +160,7 @@ export class OpenaiService {
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
-        model: config?.model,
+        model: model===undefined? config?.model:model,
         prompt: prompt,
         n: config?.imageConfiguration.n,
         size: config?.imageConfiguration.size,
@@ -172,7 +172,7 @@ export class OpenaiService {
     return this.fetchBase(url, requestBody, authorizationToken);
   }
 
-  fetchTTS(sp: SpeechPacket): Observable<string> {
+  fetchTTS(sp: SpeechPacket,model?: string): Observable<string> {
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
     url += "/tts";
@@ -190,7 +190,7 @@ export class OpenaiService {
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
-        model: config?.model,
+        model: model===undefined? config?.model:model,
         input: sp.text,
         voice: config?.speechConfiguration.voice,
         speed: config?.speechConfiguration.speed,
@@ -201,7 +201,7 @@ export class OpenaiService {
     return this.fetchUpload(url, formData, authorizationToken);
   }
 
-  fetchSTT(stt: TranscriptionPacket): Observable<string> {
+  fetchSTT(stt: TranscriptionPacket,model?: string): Observable<string> {
     let config = this.configurationService.configuration;
     let url = config?.endpoint!;
     url += "/stt";
@@ -216,7 +216,7 @@ export class OpenaiService {
     let requestBody: any;
     let body = {
       transcription: stt.transcription,
-      model: config?.model,
+      model: model===undefined? config?.model:model,
       prompt: stt.prompt,
       language: config?.transcriptionConfiguration.language,
       temperature: config?.transcriptionConfiguration.temperature,
