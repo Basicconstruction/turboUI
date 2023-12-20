@@ -1,0 +1,24 @@
+<ng-template #system>
+  <nz-col *ngFor="let info of systemInfoList">
+    <div
+      (click)="release(info)"
+      class="system-info p-1 rounded-3 d-flex flex-column">
+      <div>{{info.title}}</div>
+    </div>
+  </nz-col>
+</ng-template>
+<div class="d-flex flex-column">
+  <div class="m-auto">
+    <button nz-button>
+      查看全部
+    </button>
+    <button class="mx-2" nz-button (click)="release()">
+      跳过选择
+    </button>
+  </div>
+  <div class="scrollable-list">
+    <nz-row class="w-75 m-auto my-2 justify-content-between">
+      <ng-container *ngTemplateOutlet="system"></ng-container>
+    </nz-row>
+  </div>
+</div>

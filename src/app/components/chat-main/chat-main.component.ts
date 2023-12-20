@@ -11,7 +11,7 @@ import {
   ImagePacket,
   LastSessionModel,
   RequestType,
-  SpeechPacket,
+  SpeechPacket, SystemInfo,
   TaskType,
   TranscriptionPacket,
   UserTask,
@@ -74,6 +74,7 @@ export class ChatMainComponent {
     this.inputText = '';// 清空输入框
     let response: Observable<string> = this.modelFetchService.getFetchResponse(currentRequestModelType,fetchParam);
     // 订阅返回的数据
+    this.animalModel = assistantModel;
     this.responseSubscription = this.subscriptionResponse(response,assistantModel,currentRequestModelType);
   }
   handleTitleWhenNewResponse(){
@@ -129,7 +130,10 @@ export class ChatMainComponent {
     this.chatFileList = []
 
     this.scrollSubject?.complete();
-    if (this.responseSubscription) {
+    if (this.responseSubscription&&!this.responseSubscription.closed) {
+      if(this.animalModel){
+        this.animalModel.finish = true;
+      }
       this.responseSubscription.unsubscribe();
     }
     this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
@@ -163,7 +167,7 @@ export class ChatMainComponent {
       this.responseSubscription.unsubscribe();
     }
     for(let subscription of this.responseHolder){
-      if(subscription){
+      if(subscription&&!subscription.closed){
         subscription.unsubscribe();
       }
     }
@@ -189,6 +193,7 @@ export class ChatMainComponent {
   configuration: Configuration | undefined;
   fileList: NzUploadFile[] = [];
   inputText: string = '';
+  animalModel: ChatModel | undefined;
   scrollSubject: Subject<boolean> | undefined;
   chatFileList: FileInChat[] = [];
   private _chatHistoryModel: ChatHistoryModel | undefined;
@@ -451,7 +456,8 @@ export class ChatMainComponent {
   }
 
   showLogo() {
-    return this.chatHistoryModel===undefined || this.chatHistoryModel?.title?.length==0;
+    // return this.chatHistoryModel===undefined || this.chatHistoryModel?.title?.length==0;
+    return this.chatHistoryModel===undefined || this.chatHistoryModel.chatList?.chatModel?.length===0;
   }
   miniPhone() {
     return this.sizeReportService.miniPhoneView();
@@ -518,4 +524,34 @@ export class ChatMainComponent {
   }
 
   protected readonly RequestType = RequestType;
+  showChoice: boolean = false;
+  showBallChoice() {
+    this.showChoice = !this.showChoice;
+  }
+
+  addSystemInfo() {
+    this.choiceVisible = true;
+  }
+
+  manageSystemContext() {
+
+  }
+
+  choiceVisible: boolean = false;
+
+  handleSystemInfoChoice($event: SystemInfo | undefined) {
+    // console.log($event)
+    if($event!==undefined){
+      if (this.chatHistoryModel === undefined) {
+        this.chatHistoryModel = new ChatHistoryModel();
+      }
+      this.chatModels.push(new ChatModel(SystemRole,$event.content,
+      ));
+    }
+  }
+
+  handleChoiceClose() {
+    this.choiceVisible = false;
+    this.showChoice = false;
+  }
 }

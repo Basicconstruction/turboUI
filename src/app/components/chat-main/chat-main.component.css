@@ -5,6 +5,20 @@
 .center{
   margin:  4px auto;
 }
+.tool-ball{
+  z-index: 5!important;
+  right: 20px;
+  top: 80px;
+  width: 40px;
+  height: 40px;
+  border: black 1px solid;
+  /*background: darkgrey;*/
+}
+.choice{
+  z-index: 5!important;
+  right: 20px;
+  top: 120px;
+}
 .fs-mini{
   font-size: 12px;
 }

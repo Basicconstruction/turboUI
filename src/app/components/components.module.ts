@@ -16,7 +16,7 @@ import {
   NgStyle,
   NgSwitch,
   NgSwitchCase,
-  NgSwitchDefault
+  NgSwitchDefault, NgTemplateOutlet
 } from "@angular/common";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {FetchModule} from "../fetch/fetch.module";
@@ -71,6 +71,7 @@ import { ConfigImportComponent } from './settings/config-import/config-import.co
 import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/copied-button.component';
 import {ClipboardService} from "ngx-clipboard";
 import {TableBorderDirective} from "./dialogue/markdown-root/TableBorderDirective";
+import { SystemWordChoiceComponent } from './chat-main/system-word-choice/system-word-choice.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -90,7 +91,7 @@ import {TableBorderDirective} from "./dialogue/markdown-root/TableBorderDirectiv
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
     ServicesModule, NzToolTipModule, NzModalModule, NzDropDownModule,
     ConfigExportComponent, ConfigImportComponent,
-    ClipboardModule
+    ClipboardModule, NgTemplateOutlet
   ],
   declarations: [
     ChatPageComponent,
@@ -117,7 +118,8 @@ import {TableBorderDirective} from "./dialogue/markdown-root/TableBorderDirectiv
     HistoryBtComponent,
     SettingsComponent,
     CopiedButtonComponent,
-    TableBorderDirective
+    TableBorderDirective,
+    SystemWordChoiceComponent
   ],
   exports: [
     ChatPageComponent

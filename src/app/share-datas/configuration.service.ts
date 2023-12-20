@@ -118,7 +118,8 @@ export class ConfigurationService {
       endpoint: "http://localhost:8888",
       accessKey: "",
       baseUrl: "",
-      apiKey: ""
+      apiKey: "",
+      dynamic:""
     };
   }
 

@@ -12,6 +12,7 @@ export interface Configuration{
   accessKey?: string;
   baseUrl?: string;
   apiKey?: string;
+  dynamic?: string;
 }
 export interface DisplayConfiguration{
   fontSize?: string;
@@ -47,5 +48,12 @@ export interface TranscriptionConfiguration{
   // response_format 默认提供json
   temperature?: number;
   transcription?: boolean;
+}
+
+export interface DynamicConfig{
+  systemInfo?: SystemInfoConfig;
+}
+export interface SystemInfoConfig{
+  letChoice?: boolean;// 打开新的聊天时让用户选择系统信息
 }
 

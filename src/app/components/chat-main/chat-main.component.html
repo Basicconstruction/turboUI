@@ -4,6 +4,29 @@
     <app-model-editor [chatModel]="editModel"></app-model-editor>
   </ng-container>
 </nz-modal>
+<nz-modal [(nzVisible)]="choiceVisible" nzTitle="选择系统提示词"
+          (nzOnCancel)="handleChoiceClose()"
+          (nzOnOk)="handleChoiceClose()">
+  <ng-container *nzModalContent>
+    <app-system-word-choice
+      (close)="handleChoiceClose()"
+      (chooseSystemInfo)="handleSystemInfoChoice($event)"
+      ></app-system-word-choice>
+  </ng-container>
+</nz-modal>
+<!-- 球状助手 -->
+<ng-template #ballHelper>
+  <div (click)="showBallChoice()"
+       class="position-fixed rounded-4 tool-ball d-flex align-items-center justify-content-center"
+  >
+    <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+  </div>
+  <div *ngIf="showChoice"
+       class="position-fixed choice d-flex flex-column">
+    <button class="rounded-2 my-2" nz-button (click)="manageSystemContext()">管理系统上下文</button>
+    <button class="rounded-2" nz-button (click)="addSystemInfo()">添加系统信息</button>
+  </div>
+</ng-template>
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
 <!--    chat lists-->
@@ -25,15 +48,18 @@
       </nz-row>
     </div>
     <div *ngIf="!showLogo()"
-      class="flex-grow-1">
+      class="flex-grow-1 position-relative">
       <div class="bg-white sticky-top p-0 z-1">
         <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
       </div>
-      <div *ngFor="let chat of chatModels">
-        <app-dialogue
-          (reGenerateSignal)="reGenerateHandle($event)"
-          (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
-                      [active]="isActive(chat!)"></app-dialogue>
+      <div class="position-relative">
+        <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
+        <div *ngFor="let chat of chatModels">
+          <app-dialogue
+            (reGenerateSignal)="reGenerateHandle($event)"
+            (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
+            [active]="isActive(chat!)"></app-dialogue>
+        </div>
       </div>
     </div>
 <!--    how can i help you! -->
@@ -41,7 +67,8 @@
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
     </div>
     <div *ngIf="showLogo()"
-         class="w-100 h-100 d-flex align-items-center justify-content-center">
+         class="w-100 h-100 d-flex position-relative align-items-center justify-content-center">
+      <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
       <div class="d-flex flex-column">
         <div class="mb-3 h-[72px] w-[72px]">
           <div class="d-flex align-items-center justify-content-center rounded-full text-black">

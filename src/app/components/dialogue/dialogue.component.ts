@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models/chat.model";
 import {ConfigurationService} from "../../share-datas";
-import {SizeReportService} from "../../services/sizeReport.service";
-import {SidebarService} from "../../services/sidebar.service";
+import {SizeReportService} from "../../services";
+import {SidebarService} from "../../services";
 import {ClipboardService} from "ngx-clipboard";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 

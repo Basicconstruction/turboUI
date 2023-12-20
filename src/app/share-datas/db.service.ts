@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, Configuration} from "../models";
+import {ChatHistory, ChatHistoryTitle, Configuration, SystemInfo} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
 @Injectable({
@@ -15,7 +15,7 @@ export class DbService{
     );
   }
   async initDb(){
-    this.idbDb = await openDB('chatDb-v1', 3, {
+    this.idbDb = await openDB('chatDb-v1', 4, {
       upgrade(db) {
         // 删除所有旧版本的数据（与本版本有关联的数据表）
         if (db.objectStoreNames.contains("chatHistories")) {
@@ -40,7 +40,11 @@ export class DbService{
         }
         db.createObjectStore("chatInterface",{
           keyPath: 'dataId'
-        })
+        });
+        if(db.objectStoreNames.contains("systemInfo")){
+          db.deleteObjectStore("systemInfo");
+        }
+        db.createObjectStore("systemInfo");
       },
     });
   }
@@ -95,6 +99,15 @@ export class DbService{
     return this.idbDb?.put('configuration', configuration,CONFIGURATION);
   }
 
+  async getSystemInfoList(){
+    return this.idbDb?.getAll("systemInfo");
+  }
+  async addOrUpdateSystemInfo(systemInfo: SystemInfo){
+    return this.idbDb?.put("systemInfo",systemInfo);
+  }
+  async deleteSystemInfo(id: number){
+    return this.idbDb?.delete("systemInfo",id);
+  }
 
 }
 
@@ -114,5 +127,9 @@ interface ChatDb extends DBSchema{
   chatInterface:{
     key: number,
     value: ChatInterface
+  },
+  systemInfo:{
+    key: number;
+    value: SystemInfo;
   }
 }
