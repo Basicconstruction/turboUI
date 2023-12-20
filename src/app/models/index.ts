@@ -1,4 +1,4 @@
-export {ChatInterface,ChatModel,FileInChat} from "./chat.model";
+export {ChatInterface,ChatModel,FileInChat,UserRole,AssistantRole,SystemRole} from "./chat.model";
 
 export {ChatHistoryModel} from "./chatHistory.model"
 export {ChatListModel} from "./chatList.model"

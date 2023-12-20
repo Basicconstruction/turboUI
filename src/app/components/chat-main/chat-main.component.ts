@@ -17,16 +17,15 @@ import {
   UserTask,
 } from "../../models";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
-import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject,} from "../../share-datas/datas.module";
+import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ContextMemoryService, SidebarService, SizeReportService} from "../../services";
-import {ShowTypeService} from "../../services/showType.service";
-import {ModelFetchService} from "../../services/modelFetch.service";
+import {ShowTypeService} from "../../services";
+import {ModelFetchService} from "../../services";
 import {ChatContextHandler, VisionContextHandler} from "../../handlers";
-import {AssistantRole, SystemRole, UserRole} from "../../models/chat.model";
-import {ChatContext, SystemContext} from "../../services/contextMemory.service";
-
+import {AssistantRole, SystemRole, UserRole} from "../../models";
+import {ChatContext, SystemContext} from "../../services";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -356,19 +355,17 @@ export class ChatMainComponent {
     this.chatSessionObservable.subscribe(async (dataId) => {
       this.initSession = false;
       this.sync(dataId).then(()=>{
-        let chatContext = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+        let chatContext = contextMemoryService.getValue(dataId);
         this.inputChatContext(chatContext);
       });
     })
     if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
       this.initSession = false;
-      this.sync(this.lastSession.sessionId).then(()=>{
-        let chatContext = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+      this.sync(this.lastSession.sessionId).then(async ()=>{
+        let chatContext = contextMemoryService.getValue(this.lastSession.sessionId!);
         this.inputChatContext(chatContext);
       });
     }
-
-
   }
   resolveContext(requestType: RequestType = RequestType.Chat, startPointer: number|undefined = undefined, endPointer: number | undefined = undefined, reModel: ChatModel | undefined = undefined) {
     if (this.chatModels === undefined) {
@@ -456,6 +453,9 @@ export class ChatMainComponent {
   }
   editModel: ChatModel | undefined;
   awareContextChange(){
+    console.log("storage")
+    console.log(this.chatHistoryModel?.dataId!);
+    console.log(this.chatContext)
     this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,
       this.chatContext);
   }
@@ -469,9 +469,13 @@ export class ChatMainComponent {
         this.chatContext.onlyOne = true;
       }
     }else{
+      this.chatContext = {
+        pointer: undefined,
+        systems: [],
+        onlyOne: true
+      };// 更换会话，需要创建新的 会话上下文数据
       await this.waitForSessionInit();
       let ms = this.chatModels.filter(m=>m.role===SystemRole);
-      this.chatContext.systems!.length = 0;
       for(let s of ms){
         this.chatContext.systems?.push({
           id: s.dataId!,
@@ -506,10 +510,13 @@ export class ChatMainComponent {
       case TaskType.delete:
         const index = this.chatHistoryModel?.chatList?.chatModel!.findIndex(item => item.dataId === $event.id);
         if (index !== undefined) {
+          let model = this.chatHistoryModel?.chatList?.chatModel![index]!;
+          if(model.role===SystemRole){
+            this.chatContext.systems = this.chatContext.systems?.filter(si=>si.id!==model.dataId);
+          }
           this.chatHistoryModel?.chatList?.chatModel!.splice(index, 1); // 删除符合条件的元素
         }
         this.chatDataService.putHistory(this.chatHistoryModel!).then((r)=>{
-
         });
         break;
       default:
@@ -609,7 +616,7 @@ export class ChatMainComponent {
   }
 
   manageSystemContext() {
-
+    this.systemPromptManagerVisible = true;
   }
 
   choiceVisible: boolean = false;
@@ -643,6 +650,11 @@ export class ChatMainComponent {
     this.showChoice = false;
   }
 
+  systemPromptManagerVisible: boolean = false;
+  handleManagerClose() {
+    this.systemPromptManagerVisible = false;
+    this.showChoice = false;
+  }
   private async waitForSessionInit() {
     return new Promise<void>((resolve)=>{
       if(this.initSession){
@@ -657,4 +669,6 @@ export class ChatMainComponent {
       }
     });
   }
+
+
 }

@@ -11,7 +11,17 @@
     <app-system-word-choice
       (close)="handleChoiceClose()"
       (chooseSystemInfo)="handleSystemInfoChoice($event)"
-      ></app-system-word-choice>
+    ></app-system-word-choice>
+  </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="systemPromptManagerVisible" nzTitle="选择系统提示词"
+          (nzOnCancel)="handleManagerClose()"
+          (nzOnOk)="handleManagerClose()">
+  <ng-container *nzModalContent>
+    <app-system-prompt-manager
+      [chatContext]="chatContext"
+      [chatModels]="chatModels"
+    ></app-system-prompt-manager>
   </ng-container>
 </nz-modal>
 <!-- 球状助手 -->
@@ -29,7 +39,7 @@
 </ng-template>
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
-<!--    chat lists-->
+    <!--    chat lists-->
     <div *ngIf="miniPhone()" class="sticky-top">
       <nz-row class="justify-content-between bg-white align-items-center">
         <nz-col>
@@ -48,7 +58,7 @@
       </nz-row>
     </div>
     <div *ngIf="!showLogo()"
-      class="flex-grow-1 position-relative">
+         class="flex-grow-1 position-relative">
       <div class="bg-white sticky-top p-0 z-1">
         <app-model-selector *ngIf="!miniPhone()"></app-model-selector>
       </div>
@@ -62,7 +72,7 @@
         </div>
       </div>
     </div>
-<!--    how can i help you! -->
+    <!--    how can i help you! -->
     <div class="position-absolute flex-0" *ngIf="showLogo()&&!miniPhone()">
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
     </div>

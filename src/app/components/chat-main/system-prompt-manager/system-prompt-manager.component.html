@@ -1,0 +1,34 @@
+<div class="d-flex align-items-center justify-content-between">
+  <nz-col>
+    <button nz-button (click)="putAll()">
+      添加所有
+    </button>
+  </nz-col>
+  <nz-col>
+    <button nz-button (click)="removeAll()">
+      去除所有
+    </button>
+  </nz-col>
+  <nz-col>
+    单个系统上下文
+    <nz-switch [(ngModel)]="chatContext!.onlyOne"></nz-switch>
+  </nz-col>
+</div>
+<div *ngIf="chatContext?.systems?.length===0">
+  这里什么都没有哦
+  <nz-skeleton></nz-skeleton>
+</div>
+<div *ngIf="chatContext?.systems?.length!==0" class="scrollable-list my-2">
+  <div class="d-flex flex-column">
+    <div *ngFor="let item of chatContext?.systems!">
+      <nz-row>
+        <nz-col class="w-75">
+          {{getItem(item.id)?.content}}
+        </nz-col>
+        <nz-col>
+          <nz-switch [(ngModel)]="item.in"></nz-switch>
+        </nz-col>
+      </nz-row>
+    </div>
+  </div>
+</div>

@@ -69,9 +69,11 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import { ConfigExportComponent } from './settings/config-export/config-export.component';
 import { ConfigImportComponent } from './settings/config-import/config-import.component';
 import { CopiedButtonComponent } from './dialogue/markdown-root/copied-button/copied-button.component';
-import {ClipboardService} from "ngx-clipboard";
 import {TableBorderDirective} from "./dialogue/markdown-root/TableBorderDirective";
 import { SystemWordChoiceComponent } from './chat-main/system-word-choice/system-word-choice.component';
+import { SystemPromptManagerComponent } from './chat-main/system-prompt-manager/system-prompt-manager.component';
+import {NzSwitchModule} from "ng-zorro-antd/switch";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -91,7 +93,7 @@ import { SystemWordChoiceComponent } from './chat-main/system-word-choice/system
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
     ServicesModule, NzToolTipModule, NzModalModule, NzDropDownModule,
     ConfigExportComponent, ConfigImportComponent,
-    ClipboardModule, NgTemplateOutlet
+    ClipboardModule, NgTemplateOutlet, NzSwitchModule, NzSkeletonModule
   ],
   declarations: [
     ChatPageComponent,
@@ -119,7 +121,8 @@ import { SystemWordChoiceComponent } from './chat-main/system-word-choice/system
     SettingsComponent,
     CopiedButtonComponent,
     TableBorderDirective,
-    SystemWordChoiceComponent
+    SystemWordChoiceComponent,
+    SystemPromptManagerComponent
   ],
   exports: [
     ChatPageComponent
