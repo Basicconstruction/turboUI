@@ -25,6 +25,7 @@ import {ShowTypeService} from "../../services/showType.service";
 import {ModelFetchService} from "../../services/modelFetch.service";
 import {ChatContextHandler, VisionContextHandler} from "../../handlers";
 import {AssistantRole, SystemRole, UserRole} from "../../models/chat.model";
+import {ChatContext, SystemContext} from "../../services/contextMemory.service";
 
 @Component({
   selector: 'app-chat-main',
@@ -50,13 +51,13 @@ export class ChatMainComponent {
       this.chatFileList, randomId,userRequestShowType,true,this.configuration!.model);
     this.chatModels.push(userModel);
     // 如果当前的上下文指针为空，就设置上一条为当前上下文的指针，该指针指示最后一条将要包含到上下文中的对话的id
-    if (this.backContextPointer === undefined) {
-      this.backContextPointer = userModel.dataId;
+    if (this.chatContext.pointer === undefined) {
+      this.chatContext.pointer = userModel.dataId;
       this.awareContextChange();
     }
 
     let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
-      = this.resolveContext(currentRequestModelType,this.backContextPointer,undefined);
+      = this.resolveContext(currentRequestModelType,this.chatContext.pointer,undefined);
     // 添加返回的 聊天信息模型
     const assistantModel = new ChatModel(AssistantRole);
     assistantModel.finish = false;
@@ -206,13 +207,13 @@ export class ChatMainComponent {
     this._chatHistoryModel = value;
     this.chatModels = this._chatHistoryModel?.chatList?.chatModel!;
   }
-
+  initSession = false;
   chatModels: ChatModel[] = [];
   answering: boolean = false;
   notifyChatHistoryIdentifier: boolean = false;
   responseSubscription: Subscription | undefined;
   responseHolder: Subscription[] = [];
-  backContextPointer: number | undefined;
+  chatContext: ChatContext;
 
   findLatestTrueRequest(lastId: number): ChatModel | undefined{
     let index = this.chatModels.findIndex(m=>m.dataId===lastId);
@@ -265,10 +266,10 @@ export class ChatMainComponent {
     // 添加用户请求
     const requestType = this.showTypeService.getRequestType(endPointerModel.showType);
     let back: number | undefined;
-    if(this.backContextPointer === undefined || this.backContextPointer > endPointerModel.dataId!){
+    if(this.chatContext.pointer === undefined || this.chatContext.pointer > endPointerModel.dataId!){
       back = endPointerModel.dataId;
     }else{
-      back = this.backContextPointer;
+      back = this.chatContext.pointer;
     }
     let fetchParam: ChatPacket | ChatVisionPacket | ImagePacket | SpeechPacket | TranscriptionPacket
       = this.resolveContext(requestType,back,endPointerModel.dataId,endPointerModel);
@@ -287,13 +288,37 @@ export class ChatMainComponent {
   @ViewChild('chatPanel') private chatPanel: ElementRef | undefined;
 
   clearContext() {
-    this.backContextPointer = undefined;
+    this.chatContext.pointer = undefined;
     this.notification.success("清空上下文", "清除成功");
     this.awareContextChange();
   }
 
   isActive(chat: ChatModel) {
-    return this.backContextPointer !== undefined && chat.dataId! >= this.backContextPointer;
+    if(chat.role===SystemRole){
+      if(this.chatContext.pointer===undefined){
+        let id = chat.dataId;
+        let sys = this.chatContext.systems?.find(s=>s.id===id);
+        if(sys!==undefined){
+          return sys.in;
+        }else{
+          return false;
+        }
+      }else{
+        if(chat.dataId!>= this.chatContext.pointer){
+          return true;
+        }
+        let id = chat.dataId;
+        let sys = this.chatContext.systems?.find(s=>s.id===id);
+        if(sys!==undefined){
+          return sys.in;
+        }else{
+          return false;
+        }
+      }
+    }else{
+      return this.chatContext.pointer !== undefined && chat.dataId! >= this.chatContext.pointer;
+    }
+
   }
 
   constructor(private sizeReportService: SizeReportService,
@@ -313,6 +338,12 @@ export class ChatMainComponent {
               private showTypeService: ShowTypeService,
               private modelFetchService: ModelFetchService,
   ) {
+    // 添加默认值
+    this.chatContext = {
+      pointer: undefined,
+      systems: [],
+      onlyOne: true
+    };
 
     this.configurationObserver.subscribe((change)=>{
       if(change){
@@ -323,15 +354,20 @@ export class ChatMainComponent {
     // 初始化configuration
     this.configuration = this.configurationService.configuration!;
     this.chatSessionObservable.subscribe(async (dataId) => {
+      this.initSession = false;
       this.sync(dataId).then(()=>{
-        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+        let chatContext = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+        this.inputChatContext(chatContext);
       });
     })
     if (this.chatHistoryModel === undefined && this.lastSession.sessionId) {
+      this.initSession = false;
       this.sync(this.lastSession.sessionId).then(()=>{
-        this.backContextPointer = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+        let chatContext = contextMemoryService.getValue(this.chatHistoryModel?.dataId!);
+        this.inputChatContext(chatContext);
       });
     }
+
 
   }
   resolveContext(requestType: RequestType = RequestType.Chat, startPointer: number|undefined = undefined, endPointer: number | undefined = undefined, reModel: ChatModel | undefined = undefined) {
@@ -346,11 +382,8 @@ export class ChatMainComponent {
     }
     if (requestType === RequestType.Speech) {
       if(reModel!==undefined){
-        // console.log(reModel)
-        // console.log("new"+reModel.content)
         return new SpeechPacket(reModel.content);
       }
-      // console.log(this.inputText)
       return new SpeechPacket(this.inputText, this.fileList);
     }
     if (requestType === RequestType.Transcription) {
@@ -371,6 +404,10 @@ export class ChatMainComponent {
         this.chatModels,
         endPointer
       );
+      // 添加指针之前的系统消息
+      this.visionContextHandler.handlerBefore(this.chatContext,
+        this.chatModels,
+        messages);
       return new ChatVisionPacket(messages);// todo
     }
     let messages = this.chatContextHandler.handler(
@@ -378,6 +415,12 @@ export class ChatMainComponent {
       this.configurationService.configuration!,
       this.chatModels,
       endPointer
+    );
+    // 添加指针之前的系统消息
+    this.chatContextHandler.handlerBefore(
+      this.chatContext,
+      this.chatModels,
+      messages
     );
     return new ChatPacket(messages);
   }
@@ -390,16 +433,16 @@ export class ChatMainComponent {
       this.chatDataService.getChatHistory(dataId).then((chatHistory)=>{
         if (chatHistory) {
           this.chatHistoryModel = chatHistory;
-          // console.log("change session")
           this.lastSession.sessionId = dataId;
         } else {
-          // console.log("not found, create one")
           this.chatHistoryModel = new ChatHistoryModel();
           this.lastSession.sessionId = this.chatHistoryModel.dataId;
         }
+        this.initSession = true;
       });
     } catch (error) {
       console.error('Error fetching chat history:', error);
+      this.initSession = true;
     }
   }
 
@@ -413,7 +456,39 @@ export class ChatMainComponent {
   }
   editModel: ChatModel | undefined;
   awareContextChange(){
-    this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,this.backContextPointer);
+    this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,
+      this.chatContext);
+  }
+  async inputChatContext(chatContext: ChatContext | undefined){
+    if(chatContext!==undefined){
+      this.chatContext = chatContext;
+      if(this.chatContext.systems===undefined){
+        this.chatContext.systems = [];
+      }
+      if(this.chatContext.onlyOne===undefined){
+        this.chatContext.onlyOne = true;
+      }
+    }else{
+      await this.waitForSessionInit();
+      let ms = this.chatModels.filter(m=>m.role===SystemRole);
+      this.chatContext.systems!.length = 0;
+      for(let s of ms){
+        this.chatContext.systems?.push({
+          id: s.dataId!,
+          in: false
+        });
+      }
+      if(this.chatContext.onlyOne){
+        if(this.chatContext.systems!.length>0){
+          this.chatContext.systems![this.chatContext.systems!.length-1].in = true;
+        }
+      }else{
+        for (let s of this.chatContext.systems!){
+          s.in = true;
+        }
+      }
+      this.awareContextChange();
+    }
   }
   handleUserTask($event: UserTask) {
     switch ($event.task){
@@ -425,7 +500,7 @@ export class ChatMainComponent {
         }
         break;
       case TaskType.asContext:
-        this.backContextPointer = $event.id;
+        this.chatContext.pointer = $event.id;
         this.awareContextChange();
         break;
       case TaskType.delete:
@@ -545,13 +620,41 @@ export class ChatMainComponent {
       if (this.chatHistoryModel === undefined) {
         this.chatHistoryModel = new ChatHistoryModel();
       }
-      this.chatModels.push(new ChatModel(SystemRole,$event.content,
-      ));
+      let model = new ChatModel(SystemRole,$event.content,
+      );
+      let systemContext: SystemContext = {
+        id: model.dataId!,
+        in: true
+      };
+      if(this.chatContext.onlyOne){
+        for(let system of this.chatContext.systems!){
+          system.in = false;
+        }
+      }
+      // 将之前的系统信息移除上下文
+      this.chatContext.systems!.push(systemContext);
+      this.chatModels.push(model);
+      this.awareContextChange();
     }
   }
 
   handleChoiceClose() {
     this.choiceVisible = false;
     this.showChoice = false;
+  }
+
+  private async waitForSessionInit() {
+    return new Promise<void>((resolve)=>{
+      if(this.initSession){
+        resolve();
+      }else{
+        const interval = setInterval(()=>{
+          if(this.initSession){
+            clearInterval(interval);
+            resolve();
+          }
+        },10)
+      }
+    });
   }
 }

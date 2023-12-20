@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ChatModel, Configuration, Message, ShowType} from "../models";
+import {ChatContext, SystemContext} from "../services/contextMemory.service";
+import {SystemRole} from "../models/chat.model";
 
 @Injectable({
   providedIn: "root"
@@ -35,5 +37,26 @@ export class ChatContextHandler{
       }
     }
     return messages;
+  }
+
+  handlerBefore(chatContext: ChatContext,
+                chatModels: ChatModel[],
+                messages: Message[]) {
+    let systemMs = chatContext.systems!;
+    let ignores: SystemContext[] = systemMs;
+    if(chatContext.pointer!==undefined){
+      ignores = systemMs.filter(ms=>ms.id < chatContext.pointer! && ms.in);
+    }
+    for (let ms of ignores){
+      let chatModel = chatModels.find(m=>m.dataId===ms.id);
+      if(chatModel!==undefined){
+        messages.splice(0,0,
+          {
+            role: SystemRole,
+            content: chatModel.content,
+          }
+        );
+      }
+    }
   }
 }
