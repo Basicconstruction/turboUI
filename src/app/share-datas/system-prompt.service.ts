@@ -1,7 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import {SystemPromptItem} from "../models";
 import {DbService} from "./db.service";
 import {unwrapConstructorDependencies} from "@angular/compiler-cli/src/ngtsc/annotations/common";
+import {systemPromptChangeSubject} from "./datas.module";
+import {Observable, Observer} from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -9,7 +11,9 @@ import {unwrapConstructorDependencies} from "@angular/compiler-cli/src/ngtsc/ann
 export class SystemPromptService {
   public systemPrompts: SystemPromptItem[] | undefined;
   private initFinish = false;
-  constructor(private dbService: DbService
+  constructor(private dbService: DbService,
+              @Inject(systemPromptChangeSubject)
+              private promptChangeObserver:Observer<boolean>
               ) {
     this.Init();
   }
@@ -25,6 +29,7 @@ export class SystemPromptService {
           for(let info of systemInfoList){
             this.systemPrompts?.push(info)
           }
+          this.promptChangeObserver.next(true);
         }
       });
     });
@@ -70,6 +75,9 @@ export class SystemPromptService {
   private getSystemPrompts():Promise<SystemPromptItem[] | undefined> {
     return this.dbService.getSystemPrompts();
   }
+  public getMaxId():Promise<number>{
+    return this.dbService.getMaxPromptId();
+  }
   private addOrPutPromptsQueue: SystemPromptItem[] = [];
   private isAddOrPutPromptsRunning: boolean = false;
 
@@ -95,8 +103,18 @@ export class SystemPromptService {
 
     this.isAddOrPutPromptsRunning = false;
   }
+  async reLoad() {
+    let items = await this.getSystemPrompts();
+    if(items===undefined) return;
+    this.systemPrompts!.length = 0;
+    for (let item of items){
+      this.systemPrompts?.push(item);
+    }
+    this.promptChangeObserver.next(true);
+  }
 
-  public getMaxId():Promise<number>{
-    return this.dbService.getMaxPromptId();
+
+  async deletePrompt(id: number) {
+    return this.dbService.deleteSystemPrompt(id);
   }
 }

@@ -5,6 +5,7 @@
   </ng-container>
 </nz-modal>
 <nz-modal [(nzVisible)]="choiceVisible" nzTitle="选择系统提示词"
+          [nzFooter]="[]"
           (nzOnCancel)="handleChoiceClose()"
           (nzOnOk)="handleChoiceClose()">
   <ng-container *nzModalContent>
@@ -14,7 +15,9 @@
     ></app-system-word-choice>
   </ng-container>
 </nz-modal>
-<nz-modal [(nzVisible)]="systemPromptManagerVisible" nzTitle="选择系统提示词"
+<nz-modal [(nzVisible)]="systemPromptManagerVisible"
+          nzTitle="管理系统上下文"
+          [nzFooter]="[]"
           (nzOnCancel)="handleManagerClose()"
           (nzOnOk)="handleManagerClose()">
   <ng-container *nzModalContent>

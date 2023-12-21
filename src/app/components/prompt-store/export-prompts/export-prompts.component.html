@@ -1,1 +1,17 @@
-<p>export-prompts works!</p>
+<div class="d-flex flex-row-reverse">
+  <nz-col class="d-flex align-items-center mb-2">
+    <button nz-button (click)="exportToFile()">
+      导出到文件
+    </button>
+  </nz-col>
+</div>
+<div>
+  <textarea
+    ngxClipboard
+    #textAreaElement
+    class="w-100" rows="10" [ngModel]="getJson()"  readonly>
+  </textarea>
+</div>
+<button nz-button (click)="copyToClipboard()" >
+  复制到剪切板
+</button>

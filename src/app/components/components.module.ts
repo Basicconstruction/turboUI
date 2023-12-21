@@ -3,7 +3,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import {AuthModule} from "../auth/auth.module";
 import {ComponentsRoutingModule} from "./components-routing.module";
 import {NzInputModule} from "ng-zorro-antd/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {HttpClientModule} from "@angular/common/http";
@@ -59,7 +59,6 @@ import {
 } from "ngx-markdown";
 import { MarkdownRootComponent } from './dialogue/markdown-root/markdown-root.component';
 import {ServicesModule} from "../services/services.module";
-import {ClipboardModule} from "@angular/cdk/clipboard";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { ModelEditorComponent } from './chat-main/model-editor/model-editor.component';
@@ -77,6 +76,9 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import { PromptStoreComponent } from './prompt-store/prompt-store.component';
 import { ExportPromptsComponent } from './prompt-store/export-prompts/export-prompts.component';
 import { ImportPromptsComponent } from './prompt-store/import-prompts/import-prompts.component';
+import {ClipboardModule} from "ngx-clipboard";
+import { CreatePromptComponent } from './prompt-store/create-prompt/create-prompt.component';
+import { LookUpdatePromptComponent } from './prompt-store/look-update-prompt/look-update-prompt.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -96,7 +98,8 @@ import { ImportPromptsComponent } from './prompt-store/import-prompts/import-pro
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
     ServicesModule, NzToolTipModule, NzModalModule, NzDropDownModule,
     ConfigExportComponent, ConfigImportComponent,
-    ClipboardModule, NgTemplateOutlet, NzSwitchModule, NzSkeletonModule
+    NgTemplateOutlet, NzSwitchModule, NzSkeletonModule,
+    ClipboardModule, ReactiveFormsModule
   ],
   declarations: [
     ChatPageComponent,
@@ -128,7 +131,9 @@ import { ImportPromptsComponent } from './prompt-store/import-prompts/import-pro
     SystemPromptManagerComponent,
     PromptStoreComponent,
     ExportPromptsComponent,
-    ImportPromptsComponent
+    ImportPromptsComponent,
+    CreatePromptComponent,
+    LookUpdatePromptComponent
   ],
   exports: [
     ChatPageComponent

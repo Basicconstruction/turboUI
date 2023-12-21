@@ -1,1 +1,25 @@
-<p>import-prompts works!</p>
+<div>
+  <textarea
+    ngxClipboard
+    #textAreaElement
+    class="w-100" rows="10" [(ngModel)]="json">
+  </textarea>
+</div>
+<div class="d-flex flex-row-reverse">
+  <div class="d-flex flex-row">
+    <nz-upload
+      [nzBeforeUpload]="beforeUpload"
+      [nzMultiple]="false"
+      >
+      <button nz-button>
+        <span nz-icon nzType="link" nzTheme="outline"></span>
+        从文件中导入
+      </button>
+    </nz-upload>
+    <button
+      class="mx-2 rounded-3"
+      nz-button (click)="analysis()">
+      导入
+    </button>
+  </div>
+</div>

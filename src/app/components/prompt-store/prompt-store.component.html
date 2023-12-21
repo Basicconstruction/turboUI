@@ -1,20 +1,34 @@
 <nz-modal [(nzVisible)]="exportVisible"
           nzTitle="导出系统预设"
-          (nzOnCancel)="exportVisible = false"
-          (nzOnOk)="exportVisible = false">
+          (nzOnCancel)="exportClose()"
+          (nzOnOk)="exportClose()"
+          [nzFooter]="[]"
+    >
   <ng-container *nzModalContent>
     <app-export-prompts></app-export-prompts>
   </ng-container>
 </nz-modal>
 <nz-modal [(nzVisible)]="importVisible"
           nzTitle="导入系统预设"
-          (nzOnCancel)="importVisible = false"
-          (nzOnOk)="importVisible = false">
+          (nzOnCancel)="importClose()"
+          (nzOnOk)="importClose()"
+          [nzFooter]="[]"
+    >
   <ng-container *nzModalContent>
     <app-import-prompts></app-import-prompts>
   </ng-container>
 </nz-modal>
-<div class="d-flex flex-column w-100 h-100 bg-light text-dark">
+<nz-modal [(nzVisible)]="createVisible"
+          nzTitle="新建系统预设信息"
+          (nzOnCancel)="createClose()"
+          (nzOnOk)="createClose()"
+          [nzFooter]="[]"
+          >
+  <ng-container *nzModalContent>
+    <app-create-prompt (close)="createClose()"></app-create-prompt>
+  </ng-container>
+</nz-modal>
+<div class="d-flex flex-column w-100 h-100 bg-white text-dark">
   <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
     <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
       <div class="d-flex flex-column p-2 mx-2">
@@ -55,13 +69,24 @@
           <input nz-input [(ngModel)]="filterText"
                  (ngModelChange)="filter()"
                  class="flex-grow-1 h-input" placeholder="输入关键字进行查找">
-          <button
+          <button (click)="createVisible = true"
             nz-button class="flex-grow-0 ms-2 rounded-3">
             新建
           </button>
         </div>
       </nz-card>
       <nz-card class="rounded-2">
+        <div class="d-flex flex-row-reverse m-2">
+          <div>
+            <button nz-button (click)="deleteAllFilterPrompts()">
+              全部删除
+            </button>
+          </div>
+        </div>
+        <div *ngIf="filterPrompts.length===0">
+          这里什么都没有哦
+          <nz-skeleton></nz-skeleton>
+        </div>
         <div class="d-flex flex-column">
           <div *ngFor="let prompt of filterPrompts">
             <nz-card>
@@ -76,10 +101,14 @@
                 </nz-col>
                 <nz-col>
                   <nz-row>
-                    <button nz-button class="rounded-3 ms-1 mb-1">
+                    <button nz-button class="rounded-3 ms-1 mb-1"
+
+                      >
                       查看
                     </button>
-                    <button nz-button class="rounded-3 ms-1 mb-1">
+                    <button nz-button class="rounded-3 ms-1 mb-1"
+                      (click)="deletePrompt(prompt.id)"
+                      >
                       删除
                     </button>
                   </nz-row>

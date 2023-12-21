@@ -44,7 +44,9 @@ export class DbService{
         if(db.objectStoreNames.contains("systemPrompt")){
           db.deleteObjectStore("systemPrompt");
         }
-        db.createObjectStore("systemPrompt");
+        db.createObjectStore("systemPrompt",{
+          keyPath: "id"
+        });
       },
     });
   }
