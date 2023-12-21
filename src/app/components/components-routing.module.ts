@@ -5,7 +5,8 @@ import {SettingsComponent} from "./settings/settings.component";
 import {ChatMainComponent} from "./chat-main/chat-main.component";
 import {ConfigurationResolver} from "../share-datas";
 import {LoginPageComponent} from "./login-page/login-page.component";
-import {SystemInfoResolver} from "../share-datas/systemInfo.resolver";
+import {SystemPromptResolver} from "../share-datas/system-prompt-resolver.service";
+import {PromptStoreComponent} from "./prompt-store/prompt-store.component";
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
         path: "",component: ChatMainComponent,
         resolve: {
           model: ConfigurationResolver,
-          model2: SystemInfoResolver,
+          model2: SystemPromptResolver,
         }
       },
       {
@@ -26,6 +27,12 @@ const routes: Routes = [
       },
       {
         path: "login", component: LoginPageComponent,
+      },
+      {
+        path: "prompts", component: PromptStoreComponent,
+        resolve: {
+          model: SystemPromptResolver,
+        }
       }
     ]
   },

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {DBSchema, IDBPDatabase, openDB} from "idb";
-import {ChatHistory, ChatHistoryTitle, Configuration, SystemInfo} from "../models";
+import {ChatHistory, ChatHistoryTitle, Configuration, SystemPromptItem} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
 @Injectable({
@@ -41,10 +41,10 @@ export class DbService{
         db.createObjectStore("chatInterface",{
           keyPath: 'dataId'
         });
-        if(db.objectStoreNames.contains("systemInfo")){
-          db.deleteObjectStore("systemInfo");
+        if(db.objectStoreNames.contains("systemPrompt")){
+          db.deleteObjectStore("systemPrompt");
         }
-        db.createObjectStore("systemInfo");
+        db.createObjectStore("systemPrompt");
       },
     });
   }
@@ -99,14 +99,27 @@ export class DbService{
     return this.idbDb?.put('configuration', configuration,CONFIGURATION);
   }
 
-  async getSystemInfoList(){
-    return this.idbDb?.getAll("systemInfo");
+  async getSystemPrompts(){
+    return this.idbDb?.getAll("systemPrompt");
   }
-  async addOrUpdateSystemInfo(systemInfo: SystemInfo){
-    return this.idbDb?.put("systemInfo",systemInfo);
+  async addOrUpdateSystemPrompt(systemPromptItem: SystemPromptItem){
+    return this.idbDb?.put("systemPrompt",systemPromptItem);
   }
-  async deleteSystemInfo(id: number){
-    return this.idbDb?.delete("systemInfo",id);
+  async deleteSystemPrompt(id: number){
+    return this.idbDb?.delete("systemPrompt",id);
+  }
+  async getMaxPromptId(){
+    let prompts = await this.getSystemPrompts();
+    if(prompts===undefined){
+      return 1;
+    }
+    let id = 1;
+    for(let prompt of prompts!) {
+      if (prompt.id! > id) {
+        id = prompt.id!;
+      }
+    }
+    return id;
   }
 
 }
@@ -128,8 +141,8 @@ interface ChatDb extends DBSchema{
     key: number,
     value: ChatInterface
   },
-  systemInfo:{
+  systemPrompt:{
     key: number;
-    value: SystemInfo;
+    value: SystemPromptItem;
   }
 }

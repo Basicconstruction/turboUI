@@ -49,7 +49,13 @@ export class ConfigurationService {
   public async accept() {
     if (this.configuration !== undefined) {
       return true;
-    } else {
+    }
+    else if(this.initFinish){
+      this.configuration = this.default_configuration();
+      this.configurationObserver.next(true);
+      return true;
+    }
+    else {
       await this.waitThisInit();
       return true;
     }

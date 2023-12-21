@@ -1,5 +1,5 @@
 <ng-template #system>
-  <nz-col *ngFor="let info of systemInfoList">
+  <nz-col *ngFor="let info of systemPrompts">
     <div
       (click)="release(info)"
       class="system-info p-1 rounded-3 d-flex flex-column">
@@ -9,7 +9,7 @@
 </ng-template>
 <div class="d-flex flex-column">
   <div class="m-auto">
-    <button nz-button>
+    <button nz-button [routerLink]="['/chat','prompts']">
       查看全部
     </button>
     <button class="mx-2" nz-button (click)="release()">

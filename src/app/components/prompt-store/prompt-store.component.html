@@ -1,0 +1,94 @@
+<nz-modal [(nzVisible)]="exportVisible"
+          nzTitle="导出系统预设"
+          (nzOnCancel)="exportVisible = false"
+          (nzOnOk)="exportVisible = false">
+  <ng-container *nzModalContent>
+    <app-export-prompts></app-export-prompts>
+  </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="importVisible"
+          nzTitle="导入系统预设"
+          (nzOnCancel)="importVisible = false"
+          (nzOnOk)="importVisible = false">
+  <ng-container *nzModalContent>
+    <app-import-prompts></app-import-prompts>
+  </ng-container>
+</nz-modal>
+<div class="d-flex flex-column w-100 h-100 bg-light text-dark">
+  <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
+    <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
+      <div class="d-flex flex-column p-2 mx-2">
+        <div style="font-size: 20px;font-weight: bold;">
+          设置
+        </div>
+        <div style="font-size: 14px">
+          设置默认属性
+        </div>
+      </div>
+      <div class="p-2 mx-0 my-auto px-4">
+        <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
+          <span nz-icon nzType="close" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+    <nz-card class="d-flex flex-column rounded-2">
+      <nz-card class="rounded-2">
+        <div class="d-flex flex-row-reverse mb-2">
+          <nz-row>
+            <nz-col>
+              <button nz-button class="rounded-3"
+                (click)="exportVisible = true"
+                >
+                导出
+              </button>
+            </nz-col>
+            <nz-col class="ms-2">
+              <button nz-button class="rounded-3"
+                (click)="importVisible = true"
+                >
+                导入
+              </button>
+            </nz-col>
+          </nz-row>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <input nz-input [(ngModel)]="filterText"
+                 (ngModelChange)="filter()"
+                 class="flex-grow-1 h-input" placeholder="输入关键字进行查找">
+          <button
+            nz-button class="flex-grow-0 ms-2 rounded-3">
+            新建
+          </button>
+        </div>
+      </nz-card>
+      <nz-card class="rounded-2">
+        <div class="d-flex flex-column">
+          <div *ngFor="let prompt of filterPrompts">
+            <nz-card>
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <nz-col>
+                  <div>
+                    {{prompt.title}}
+                  </div>
+                  <div>
+                    {{prompt.content.substring(0,20)}}...
+                  </div>
+                </nz-col>
+                <nz-col>
+                  <nz-row>
+                    <button nz-button class="rounded-3 ms-1 mb-1">
+                      查看
+                    </button>
+                    <button nz-button class="rounded-3 ms-1 mb-1">
+                      删除
+                    </button>
+                  </nz-row>
+                </nz-col>
+              </div>
+            </nz-card>
+          </div>
+        </div>
+      </nz-card>
+    </nz-card>
+  </div>
+</div>

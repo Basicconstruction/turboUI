@@ -12,7 +12,7 @@ export {Configuration,ImageConfiguration,ChatStreamConfiguration,
   DynamicConfig,
 DisplayConfiguration} from "./configuration.interface"
 export {ChatHistory,ChatHistoryTitle} from "./chat.interface";
-export {SystemInfo} from "./systemInfo.interface";
+export {SystemPromptItem} from "./systemPrompt.interface";
 
 export {ChatPacket,ChatVisionPacket,ImagePacket,SpeechPacket,TranscriptionPacket} from "./params/send.param.model"
 export {ShowType,RequestType} from "./type/GPTType"

@@ -10,7 +10,7 @@
   <ng-container *nzModalContent>
     <app-system-word-choice
       (close)="handleChoiceClose()"
-      (chooseSystemInfo)="handleSystemInfoChoice($event)"
+      (chooseSystemPrompt)="handleSystemPromptChoice($event)"
     ></app-system-word-choice>
   </ng-container>
 </nz-modal>
@@ -73,7 +73,7 @@
       </div>
     </div>
     <!--    how can i help you! -->
-    <div class="position-absolute flex-0" *ngIf="showLogo()&&!miniPhone()">
+    <div class="position-fixed z-1" *ngIf="showLogo()&&!miniPhone()">
       <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
     </div>
     <div *ngIf="showLogo()"

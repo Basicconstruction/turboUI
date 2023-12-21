@@ -3,7 +3,7 @@ import {ModelsModule} from "../models/models.module";
 import {Subject} from "rxjs";
 import {ChatHistoryTitle} from "../models";
 import {ConfigurationResolver} from "./configuration.resolver";
-import {SystemInfoResolver} from "./systemInfo.resolver";
+import {SystemPromptResolver} from "./system-prompt-resolver.service";
 export const chatSessionSubject = new InjectionToken("chat-session-subject");
 export const backChatHistorySubject = new InjectionToken("back-chat-history-subject");
 export const configurationChangeSubject = new InjectionToken("configuration-change");
@@ -20,7 +20,7 @@ export const configurationChangeSubject = new InjectionToken("configuration-chan
     {
       provide: backChatHistorySubject, useValue: new Subject<ChatHistoryTitle>()
     },ConfigurationResolver,
-    SystemInfoResolver,
+    SystemPromptResolver,
     {
       provide: configurationChangeSubject, useValue: new Subject<boolean>()
     },

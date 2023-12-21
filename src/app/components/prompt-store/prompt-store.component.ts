@@ -1,24 +1,35 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SystemPromptItem} from "../../../models";
-import {SystemPromptService} from "../../../share-datas/system-prompt.service";
+import { Component } from '@angular/core';
+import {SystemPromptService} from "../../share-datas/system-prompt.service";
+import {SystemPromptItem} from "../../models";
 
 @Component({
-  selector: 'app-system-word-choice',
-  templateUrl: './system-word-choice.component.html',
-  styleUrl: './system-word-choice.component.css'
+  selector: 'app-prompt-store',
+  templateUrl: './prompt-store.component.html',
+  styleUrl: './prompt-store.component.css'
 })
-export class SystemWordChoiceComponent implements OnInit{
-  @Output()
-  chooseSystemPrompt = new EventEmitter<SystemPromptItem | undefined>();
+export class PromptStoreComponent {
   systemPrompts: SystemPromptItem[] | undefined;
+  filterText: string = '';
   constructor(private systemInfoService: SystemPromptService) {
     this.systemPrompts = this.systemInfoService.systemPrompts;
-  }
-  @Output()
-  close = new EventEmitter<any>();
-  ngOnInit(){
     this.fill();
+    for(let item of this.systemPrompts!){
+      this.filterPrompts.push(item);
+    }
   }
+  filterPrompts: SystemPromptItem[] = [];
+  filter(){
+    this.filterPrompts.length = 0;
+    this.fill();
+    console.log(this.systemPrompts)
+    for(let item of
+      this.systemPrompts!.filter(s=>s.content.includes(this.filterText) || s.title!.includes(this.filterText))){
+      this.filterPrompts.push(item);
+    }
+  }
+  exportVisible: boolean = false;
+  importVisible: boolean = false;
+
   fill(){
     if(this.systemPrompts?.length===0) {
       this.systemPrompts.push({
@@ -41,11 +52,17 @@ export class SystemWordChoiceComponent implements OnInit{
         title: "后勤人员",
         content: "我要你担任后勤人员。我将为您提供即将举行的活动的详细信息，例如参加人数、地点和其他相关因素。您的职责是为活动制定有效的后勤计划，其中考虑到事先分配资源、交通设施、餐饮服务等。您还应该牢记潜在的安全问题，并制定策略来降低与大型活动相关的风险。我的第一个请求是"
       });
+      this.systemPrompts.push({
+        id: 3,
+        title: "机器学习",
+        content: "我想让你担任机器学习工程师。我会写一些机器学习的概念，你的工作就是用通俗易懂的术语来解释它们。这可能包括提供构建模型的分步说明、给出所用的技术或者理论、提供评估函数等。我的问题是"
+      });
+      this.systemPrompts.push({
+        id: 4,
+        title: "后勤人员",
+        content: "我要你担任后勤人员。我将为您提供即将举行的活动的详细信息，例如参加人数、地点和其他相关因素。您的职责是为活动制定有效的后勤计划，其中考虑到事先分配资源、交通设施、餐饮服务等。您还应该牢记潜在的安全问题，并制定策略来降低与大型活动相关的风险。我的第一个请求是"
+      });
+      console.log("filled")
     }
-  }
-
-  release(info?: SystemPromptItem) {
-    this.chooseSystemPrompt.emit(info);
-    this.close.emit(true);
   }
 }

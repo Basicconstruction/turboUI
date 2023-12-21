@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
-import {SystemInfoService} from "./systemInfo.service";
+import {SystemPromptService} from "./system-prompt.service";
 
 @Injectable()
-export class SystemInfoResolver{
-  constructor(private systemInfoService: SystemInfoService) {
+export class SystemPromptResolver {
+  constructor(private systemPromptService: SystemPromptService) {
 
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.systemInfoService.accept();
+    return this.systemPromptService.accept();
   }
 }

@@ -74,6 +74,9 @@ import { SystemWordChoiceComponent } from './chat-main/system-word-choice/system
 import { SystemPromptManagerComponent } from './chat-main/system-prompt-manager/system-prompt-manager.component';
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import { PromptStoreComponent } from './prompt-store/prompt-store.component';
+import { ExportPromptsComponent } from './prompt-store/export-prompts/export-prompts.component';
+import { ImportPromptsComponent } from './prompt-store/import-prompts/import-prompts.component';
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -122,7 +125,10 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
     CopiedButtonComponent,
     TableBorderDirective,
     SystemWordChoiceComponent,
-    SystemPromptManagerComponent
+    SystemPromptManagerComponent,
+    PromptStoreComponent,
+    ExportPromptsComponent,
+    ImportPromptsComponent
   ],
   exports: [
     ChatPageComponent

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ChatModel, ShowType, TaskType, UserTask} from "../../models";
-import {UserRole} from "../../models/chat.model";
+import {ChatModel, ShowType, SystemRole, TaskType, UserTask} from "../../models";
+import {UserRole} from "../../models";
 import {ConfigurationService} from "../../share-datas";
 import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
@@ -94,6 +94,8 @@ export class DialogueComponent {
     if(role===undefined) return "assets/";
     if(role===UserRole){
       return 'assets/programmer.png';
+    }else if(role===SystemRole){
+      return 'assets/system.svg';
     }
     if(type===undefined) return 'assets/chat-gpt.png';
     switch (type){
@@ -144,6 +146,9 @@ export class DialogueComponent {
     }
     if(chatModel.role===UserRole){
       return "You";
+    }
+    if(chatModel.role===SystemRole){
+      return "System";
     }
     const index = chatModel.showType.valueOf()%5;
     switch (index){

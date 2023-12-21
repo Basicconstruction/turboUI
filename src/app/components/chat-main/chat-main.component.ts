@@ -11,7 +11,7 @@ import {
   ImagePacket,
   LastSessionModel,
   RequestType,
-  SpeechPacket, SystemInfo,
+  SpeechPacket, SystemPromptItem,
   TaskType,
   TranscriptionPacket,
   UserTask,
@@ -621,7 +621,7 @@ export class ChatMainComponent {
 
   choiceVisible: boolean = false;
 
-  handleSystemInfoChoice($event: SystemInfo | undefined) {
+  handleSystemPromptChoice($event: SystemPromptItem | undefined) {
     // console.log($event)
     if($event!==undefined){
       if (this.chatHistoryModel === undefined) {

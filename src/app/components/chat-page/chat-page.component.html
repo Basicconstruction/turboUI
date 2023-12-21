@@ -24,9 +24,18 @@
     <div class="bg-dark sticky-bottom z-0">
       <!-- 登录标记 -->
       <div class="w-100">
-        <button class="rounded-5 m-2" nz-button
-                (click)="openSettingPage()"
-        ><span nz-icon nzType="edit" nzTheme="outline"></span></button>
+        <div class="d-flex flex-row">
+          <button class="rounded-5 m-2" nz-button
+                  (click)="openSettingPage()"
+          >
+            <span nz-icon nzType="setting" nzTheme="outline"></span>
+          </button>
+          <button class="rounded-5 m-2 d-flex flex-row align-items-center" nz-button
+                  [routerLink]="['/chat','prompts']"
+          >
+            P<span nz-icon nzType="appstore" nzTheme="outline"></span>
+          </button>
+        </div>
         <app-login-label></app-login-label>
       </div>
     </div>
