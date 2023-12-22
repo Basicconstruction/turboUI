@@ -37,6 +37,7 @@ export class PromptStoreComponent {
   exportVisible: boolean = false;
   importVisible: boolean = false;
   createVisible: boolean = false;
+  lookVisible: boolean = false;
 
   deletePrompt(id: number | undefined) {
     if(id===undefined) return;
@@ -71,9 +72,23 @@ export class PromptStoreComponent {
     this.filter();
   }
 
+  lookClose() {
+    this.lookVisible = false;
+    this.filter();
+  }
+
   deleteAllFilterPrompts() {
     for(let prompt of this.filterPrompts){
       this.deletePrompt(prompt.id);
     }
+  }
+
+  lookPrompt: SystemPromptItem | undefined;
+  lookModalOpen(id: number | undefined) {
+    if(id===undefined) return;
+    let prompt = this.systemPrompts?.find(p=>p.id===id);
+    if(prompt===undefined) return;
+    this.lookPrompt = prompt;
+    this.lookVisible = true;
   }
 }

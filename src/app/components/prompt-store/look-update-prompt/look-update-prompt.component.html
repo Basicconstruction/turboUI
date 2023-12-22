@@ -1,1 +1,20 @@
-<p>look-update-prompt works!</p>
+<form nz-form [formGroup]="validateForm"
+      (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title">系统提示词标题</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid title! 最少一个字符">
+      <input nz-input formControlName="title" id="title" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="content">系统提示词内容</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid content! 最少两个字符">
+      <textarea nz-input
+                [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+                formControlName="content" id="content"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="d-flex flex-row-reverse">
+    <button nz-button type="submit" class="login-form-button login-form-margin" [nzType]="'primary'">更改</button>
+  </div>
+</form>

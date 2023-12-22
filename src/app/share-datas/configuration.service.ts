@@ -24,6 +24,7 @@ export class ConfigurationService {
     this.waitForInit().then(async () => {
       this.getConfiguration().then((config) => {
         if (config !== undefined) {
+          console.info("系统配置加载成功")
           this.configuration = config;
           this.configurationObserver.next(true);
         }
@@ -40,6 +41,7 @@ export class ConfigurationService {
           if (this.dbService.initFinish) {
             clearInterval(interval);
             resolve();
+            console.info("索引数据库打开成功")
           }
         }, 10);
       }

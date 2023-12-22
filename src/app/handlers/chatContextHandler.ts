@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ChatModel, Configuration, Message, ShowType} from "../models";
-import {ChatContext, SystemContext} from "../services/contextMemory.service";
-import {SystemRole} from "../models/chat.model";
+import {ChatContext, SystemContext} from "../services";
+import {SystemRole} from "../models";
 
 @Injectable({
   providedIn: "root"

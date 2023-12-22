@@ -24,7 +24,7 @@ export class SystemPromptService {
       this.getSystemPrompts().then(
                   (systemInfoList) => {
         if (systemInfoList !== undefined) {
-          console.log("init occur")
+          console.info("系统预设加载成功")
           this.systemPrompts!.length = 0;
           for(let info of systemInfoList){
             this.systemPrompts?.push(info)

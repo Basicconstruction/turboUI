@@ -257,6 +257,7 @@ export class ChatMainComponent {
         this.chatModels.splice(index+1,0,generateModel);
       }
     }
+    // 向上查找 用户model，作为 聊天的完成对象
     let endPointerModel = this.findLatestTrueRequest($event);
     if(endPointerModel===undefined){
       this.notification.error("在该消息之前找不到用户信息或者系统信息","");
@@ -265,6 +266,9 @@ export class ChatMainComponent {
     // 添加用户请求
     const requestType = this.showTypeService.getRequestType(endPointerModel.showType);
     let back: number | undefined;
+    // back 指针，是为了进行细粒度控制上下文引入的指针，
+    // 如果上下文后指针为空，就设置当前 “重新生成”的
+    // 后指针为 查找到的上一条用户模型的id（指针就是一个id）
     if(this.chatContext.pointer === undefined || this.chatContext.pointer > endPointerModel.dataId!){
       back = endPointerModel.dataId;
     }else{
@@ -453,9 +457,9 @@ export class ChatMainComponent {
   }
   editModel: ChatModel | undefined;
   awareContextChange(){
-    console.log("storage")
-    console.log(this.chatHistoryModel?.dataId!);
-    console.log(this.chatContext)
+    // console.log("storage")
+    // console.log(this.chatHistoryModel?.dataId!);
+    // console.log(this.chatContext)
     this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,
       this.chatContext);
   }

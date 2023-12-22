@@ -28,6 +28,16 @@
     <app-create-prompt (close)="createClose()"></app-create-prompt>
   </ng-container>
 </nz-modal>
+<nz-modal [(nzVisible)]="lookVisible"
+          nzTitle="查看系统预设信息"
+          (nzOnCancel)="lookClose()"
+          (nzOnOk)="lookClose()"
+          [nzFooter]="[]"
+>
+  <ng-container *nzModalContent>
+    <app-look-update-prompt [prompt]="lookPrompt" (close)="lookClose()"></app-look-update-prompt>
+  </ng-container>
+</nz-modal>
 <div class="d-flex flex-column w-100 h-100 bg-white text-dark">
   <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
     <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
@@ -102,7 +112,7 @@
                 <nz-col>
                   <nz-row>
                     <button nz-button class="rounded-3 ms-1 mb-1"
-
+                            (click)="lookModalOpen(prompt.id)"
                       >
                       查看
                     </button>
