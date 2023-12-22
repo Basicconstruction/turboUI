@@ -31,7 +31,7 @@
             设置<span nz-icon nzType="setting" nzTheme="outline"></span>
           </button>
           <button class="rounded-5 m-2 d-flex flex-row align-items-center" nz-button
-                  [routerLink]="['/chat','prompts']"
+                  (click)="openPromptPage()"
           >
             预设<span nz-icon nzType="appstore" nzTheme="outline"></span>
           </button>

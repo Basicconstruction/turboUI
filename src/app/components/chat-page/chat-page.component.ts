@@ -87,6 +87,15 @@ export class ChatPageComponent implements OnInit {
       }
     );
   }
+  openPromptPage() {
+    this.router.navigate(['/chat','prompts']).then(
+      ()=>{
+        if(this.sizeReportService.miniPhoneView()){
+          this.sidebarService.close();
+        }
+      }
+    );
+  }
 
   async handleChatHistoryAction($event: ChatHistoryTitleActionInfo) {
     switch ($event.action){
@@ -110,4 +119,6 @@ export class ChatPageComponent implements OnInit {
         break;
     }
   }
+
+
 }
