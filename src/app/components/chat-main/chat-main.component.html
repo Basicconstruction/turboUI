@@ -43,7 +43,7 @@
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
     <!--    chat lists-->
-    <div *ngIf="miniPhone()" class="sticky-top">
+    <div *ngIf="miniPhone()" class="sticky-top z-1">
       <nz-row class="justify-content-between bg-white align-items-center">
         <nz-col>
           <button nz-button (click)="switchSidebar()">
@@ -150,7 +150,7 @@
           <button nz-button class="rounded-5 bg-dark"
                   [nzSize]="'small'"
                   [class.bg-opacity-10]="isFade()"
-                  nz-tooltip nzTooltipTitle="使用快捷键 Ctrl + Enter, 快人一步"
+                  nz-tooltip [nzTooltipTitle]="miniPhone()? '': '使用快捷键 Ctrl + Enter, 快人一步'"
                   (click)="buttonControlGPT()"
                   [disabled]="!enableTouch()">
                             <span *ngIf="!answering" data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"

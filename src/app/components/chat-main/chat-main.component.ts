@@ -510,6 +510,7 @@ export class ChatMainComponent {
             this.chatContext.systems = this.chatContext.systems?.filter(si=>si.id!==model.dataId);
           }
           this.chatHistoryModel?.chatList?.chatModel!.splice(index, 1); // 删除符合条件的元素
+          this.chatDataService.deleteChatModel($event.id);
         }
         this.chatDataService.putHistory(this.chatHistoryModel!).then(()=>{
         });

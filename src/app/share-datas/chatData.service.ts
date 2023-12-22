@@ -100,4 +100,7 @@ export class ChatDataService{
   }
 
 
+  deleteChatModel(id: number) {
+    return this.dbService.deleteChatInterface(id);
+  }
 }
