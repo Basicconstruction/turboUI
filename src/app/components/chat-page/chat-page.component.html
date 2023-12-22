@@ -1,8 +1,8 @@
 <div class="d-flex w-100 h-100 overflow-hidden"
   [class.position-relative]="miniPhone()"
 >
-  <button nz-button
-          class="position-absolute z-1"
+  <button nz-button nzSize="large"
+          class="position-absolute z-1 shadow"
           [style]="'margin-left: 260px;'"
           *ngIf="miniPhone()&&!sidebarService.isSideBarClosed"
           [class.z-max]="miniPhone()"
@@ -44,10 +44,11 @@
     >
     <span
       *ngIf="!miniPhone()"
-      class="position-absolute top-50 translate-middle-y z-1"
+      class="position-absolute top-50 translate-middle-y z-1 shift-scale"
           nz-icon style="left: 30px;" (click)="toggleSidebar()"
           [nzType]="sidebarService.isSideBarClosed?'right':'left'"
-          nzTheme="outline"></span>
+          nzTheme="outline">
+    </span>
     <router-outlet></router-outlet>
   </div>
 </div>

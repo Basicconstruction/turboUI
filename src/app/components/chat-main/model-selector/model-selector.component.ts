@@ -19,7 +19,7 @@ export class ModelSelectorComponent {
               @Inject(configurationChangeSubject) private configurationObservable: Subject<boolean>) {
     this.buildSelector();
     this.model = this.configurationService.configuration?.model;
-    this.configurationObservable.subscribe((ele: boolean)=>{
+    this.configurationObservable.subscribe(()=>{
       this.buildSelector();
       this.model = this.configurationService.configuration?.model;
     })
@@ -42,7 +42,7 @@ export class ModelSelectorComponent {
       this.sttChildren.push(model)
     }
   }
-  async onSelectChange($event: string) {
+  async onSelectChange() {
     this.configurationService!.configuration!.model! = this.model!;
     if(this.model!.includes("vision")){
       this.configurationService.configuration!.requestType! = RequestType.ChatVision;

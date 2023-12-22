@@ -1,20 +1,9 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {NzUploadFile} from "ng-zorro-antd/upload";
 import {
-  ChatHistoryModel,
-  ChatHistoryTitle,
-  ChatModel,
-  ChatPacket,
-  ChatVisionPacket,
-  Configuration,
-  FileInChat,
-  ImagePacket,
-  LastSessionModel,
-  RequestType,
-  SpeechPacket, SystemPromptItem,
-  TaskType,
-  TranscriptionPacket,
-  UserTask,
+  ChatHistoryModel, ChatHistoryTitle, ChatModel, ChatPacket, ChatVisionPacket,
+  Configuration, FileInChat, ImagePacket, LastSessionModel, RequestType, SpeechPacket,
+  SystemPromptItem, TaskType, TranscriptionPacket, UserTask,
 } from "../../models";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
 import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../share-datas/datas.module";
@@ -136,8 +125,7 @@ export class ChatMainComponent {
       }
       this.responseSubscription.unsubscribe();
     }
-    this.chatDataService.putHistory(this.chatHistoryModel!).then(r => {
-      // console.log("add database " + r)
+    this.chatDataService.putHistory(this.chatHistoryModel!).then(() => {
       if (this.notifyChatHistoryIdentifier) {
         this.backHistoryObserver.next({
           dataId: this.chatHistoryModel!.dataId!,
@@ -281,7 +269,6 @@ export class ChatMainComponent {
     generateModel!.markAsChanged = true;
     generateModel!.showType = this.showTypeService.getPromiseReceiveType(requestType); // 设置返回模型的展示类型
 
-    // console.log(requestType)
     let response: Observable<string> = this.modelFetchService.getFetchResponse(
       requestType,fetchParam,generateModel!.model);
     // 订阅返回的数据
@@ -520,7 +507,7 @@ export class ChatMainComponent {
           }
           this.chatHistoryModel?.chatList?.chatModel!.splice(index, 1); // 删除符合条件的元素
         }
-        this.chatDataService.putHistory(this.chatHistoryModel!).then((r)=>{
+        this.chatDataService.putHistory(this.chatHistoryModel!).then(()=>{
         });
         break;
       default:
@@ -542,7 +529,6 @@ export class ChatMainComponent {
   }
 
   showLogo() {
-    // return this.chatHistoryModel===undefined || this.chatHistoryModel?.title?.length==0;
     return this.chatHistoryModel===undefined || this.chatHistoryModel.chatList?.chatModel?.length===0;
   }
   miniPhone() {

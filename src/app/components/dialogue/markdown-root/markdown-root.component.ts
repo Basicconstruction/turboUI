@@ -10,7 +10,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 })
 export class MarkdownRootComponent
 {
-  constructor(private notification: NzNotificationService) {
+  constructor() {
 
   }
   @Input()

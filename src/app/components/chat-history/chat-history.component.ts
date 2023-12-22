@@ -55,7 +55,7 @@ export class ChatHistoryComponent implements OnChanges
     this.miniPhoneAction();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if(this.chatHistoryTitle){
       if(this.chatHistoryTitle.length>=1){
         this.selectFirst();
@@ -63,7 +63,6 @@ export class ChatHistoryComponent implements OnChanges
     }
   }
   selectFirst(){
-    // console.log("try select")
     const first = this.chatHistoryTitle![0];
     this.selectId = first.dataId;
     this.chatSessionObserver.next(this.selectId);

@@ -12,7 +12,7 @@ export class ChatComponent {
   time: number = 0;
   pending: boolean = true;
   private timerInterval: any;
-  constructor(private notification: NzNotificationService) {
+  constructor() {
     this.startTimer();
   }
 

@@ -2,9 +2,9 @@ import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle} from "../../models";
 import {ChatDataService, DbService, HistoryTitleService} from "../../share-datas";
 import {backChatHistorySubject} from "../../share-datas/datas.module";
-import {min, Observable, Subject} from "rxjs";
-import {SizeReportService} from "../../services/sizeReport.service";
-import {SidebarService} from "../../services/sidebar.service";
+import {min, Subject} from "rxjs";
+import {SizeReportService} from "../../services";
+import {SidebarService} from "../../services";
 import {Router} from "@angular/router";
 export const MagicDataId = -2;
 @Component({

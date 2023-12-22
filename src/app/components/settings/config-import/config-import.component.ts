@@ -24,7 +24,7 @@ export class ConfigImportComponent {
   constructor(private notification: NzNotificationService) {
   }
   analysis() {
-    let ujson = '';
+    let ujson: string;
     if(this.json.startsWith(turboMask)){
       const buffer = Buffer.Buffer.from(this.json.substring(turboMask.length), 'base64');
       ujson = buffer.toString('utf-8');

@@ -141,7 +141,7 @@
       <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
           <textarea nz-input
                     #promptBox
-                    placeholder="Message ChatGPT..."
+                    placeholder="向ChatGPT提问..."
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
                     [(ngModel)]="inputText"
                     (keydown.control.enter)="typeControlGPT()"
@@ -150,6 +150,7 @@
           <button nz-button class="rounded-5 bg-dark"
                   [nzSize]="'small'"
                   [class.bg-opacity-10]="isFade()"
+                  nz-tooltip nzTooltipTitle="使用快捷键 Ctrl + Enter, 快人一步"
                   (click)="buttonControlGPT()"
                   [disabled]="!enableTouch()">
                             <span *ngIf="!answering" data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"

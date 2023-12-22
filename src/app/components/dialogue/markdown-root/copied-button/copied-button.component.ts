@@ -9,11 +9,11 @@ export class CopiedButtonComponent {
   buttonElement: ElementRef | undefined;
   onCopyToClipboard() {
     if(!this.buttonElement) return;
-    this.buttonElement.nativeElement.textContent = "copied";
+    this.buttonElement.nativeElement.textContent = "复制成功";
 
     setTimeout(() =>
       {
-        this.buttonElement!.nativeElement.textContent = "copy code";
+        this.buttonElement!.nativeElement.textContent = "复制代码";
         }
       , 2000);
   }

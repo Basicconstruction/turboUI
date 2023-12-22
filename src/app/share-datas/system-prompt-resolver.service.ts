@@ -7,7 +7,7 @@ export class SystemPromptResolver {
   constructor(private systemPromptService: SystemPromptService) {
 
   }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve() {
     return this.systemPromptService.accept();
   }
 }

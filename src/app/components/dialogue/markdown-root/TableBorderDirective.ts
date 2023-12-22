@@ -4,7 +4,7 @@ import {Directive, ElementRef, Renderer2, AfterViewInit, AfterViewChecked} from 
   selector: 'markdown'
 })
 export class TableBorderDirective implements AfterViewChecked {
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef) {}
   ngAfterViewChecked(): void {
     const tables = this.el.nativeElement.querySelectorAll('table');
     tables.forEach((table:any) => {

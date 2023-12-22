@@ -9,7 +9,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 })
 export class StaticRequestComponent {
   private _chatModel: ChatModel | undefined;
-  constructor(private notification: NzNotificationService) {
+  constructor() {
   }
 
   fallback =

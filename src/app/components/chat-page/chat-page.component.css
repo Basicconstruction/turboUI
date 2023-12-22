@@ -6,19 +6,17 @@
 .sidebar.d-none {
   display: none;
 }
-
+.shift-scale{
+  scale: 2;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
 .scrollbar-y-none::-webkit-scrollbar {
     display: none; /* WebKit (Chrome, Safari) */
 }
 .z-max{
   z-index: 9999!important;
 }
-/*.flex-0{*/
-/*  flex: 0 0 auto;*/
-/*}*/
-/*.flex-1{*/
-/*  flex: 1;*/
-/*}*/
 .full{
   width: 100vw !important;
   height: 100vh !important;
