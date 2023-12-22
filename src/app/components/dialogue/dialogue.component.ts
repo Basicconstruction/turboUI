@@ -6,6 +6,7 @@ import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
 import {ClipboardService} from "ngx-clipboard";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {StaticAssetsLoaderService} from "../../services/static-assets-loader.service";
 
 
 @Component({

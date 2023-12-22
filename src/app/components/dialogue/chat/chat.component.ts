@@ -35,7 +35,7 @@ export class ChatComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
-  delta = 200;
+  delta = 100;
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.time++;
