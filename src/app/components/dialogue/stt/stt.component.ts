@@ -39,9 +39,13 @@ export class SttComponent {
   loading() {
     return this.chatModel?.finish === false;
   }
+  delta = 200;
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.time++;
+      if(this.time>this.delta){
+        clearInterval(this.timerInterval);
+      }
     },100);
   }
 

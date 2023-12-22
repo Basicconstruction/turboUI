@@ -1,2 +1,17 @@
 ng build --output-path docs --base-href /turboUI/
 https://angular.cn/guide/deployment
+
+//
+dependencies
+ npm r katex
+ npm r mermaid
+css
+"node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/prismjs/themes/prism-okaidia.css",
+
+//              "node_modules/katex/dist/katex.min.css",
+js
+              "node_modules/prismjs/prism.js",
+//              "node_modules/katex/dist/katex.min.js",
+//              "node_modules/katex/dist/contrib/auto-render.min.js",
+//              "node_modules/mermaid/dist/mermaid.min.js",

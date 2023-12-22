@@ -2,21 +2,12 @@
 使用介绍和简要的设计目的  
 http://t.csdnimg.cn/6P2FF  
 ### 预览或者体验：  
-http:  
-前端地址  
-nginx http://47.95.39.25/chat  
-turbo-pool(.net) http://47.95.39.25:10000/chat    
-后端地址  
-python http://47.95.39.25:8888  
 
 https:  
 前端地址  
-iis(pwa) https://info.atpgroup.work  
 .net with iis(full pwa) https://turbo.atpgroup.work  
-iis(pwa) https://turbo2.atpgroup.work  
 后端地址  
-
-iis with python https://translator.atpgroup.work  
+ 
 iis with python https://pp.atpgroup.work
 
 ### 展示效果
@@ -132,6 +123,6 @@ https://angular.cn/guide/deployment
 chrome 性能测试
 v1.11  
 桌面设备：  
-![img_4.png](img_4.png)
+![img_2.png](img_2.png)
 移动设备: 
 ![img_7.png](img_7.png)

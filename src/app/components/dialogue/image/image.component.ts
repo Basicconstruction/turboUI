@@ -68,9 +68,13 @@ export class ImageComponent {
   loading() {
     return this.imageList === undefined && this.chatModel?.finish === false;
   }
+  delta = 200;
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.time++;
+      if(this.time>this.delta){
+        clearInterval(this.timerInterval);
+      }
     },100);
   }
 

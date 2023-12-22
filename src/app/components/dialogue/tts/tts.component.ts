@@ -1,6 +1,7 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {ChatModel, ImageList} from "../../../models";
+import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {Bs64Handler} from "../../../handlers/bs64Handler";
 
 @Component({
   selector: 'app-tts',
@@ -32,7 +33,7 @@ export class TtsComponent {
     this._content = value;
     if(this.chatModel?.content===undefined) return;
     try{
-      const blob = this.base64toBlob(this.chatModel?.content, 'audio/mpeg');
+      const blob = this.bs64Handler.base64toBlob(this.chatModel?.content, 'audio/mpeg');
       this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
     }catch (e){
 
@@ -51,7 +52,7 @@ export class TtsComponent {
   get chatModel(): ChatModel | undefined {
     return this._chatModel;
   }
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer,private bs64Handler: Bs64Handler) {
     this.startTimer();
   }
   audioSrc: SafeUrl | undefined;
@@ -59,41 +60,23 @@ export class TtsComponent {
     const base64Data = this.chatModel?.content; // 获取 Base64 数据
     if(base64Data===undefined) return;
     try{
-      const blob = this.base64toBlob(base64Data, 'audio/mpeg');
+      const blob = this.bs64Handler.base64toBlob(base64Data, 'audio/mpeg');
       this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
     }catch (e){
 
     }
-
-  }
-
-  // 辅助函数，将 Base64 数据转换为 Blob URL
-  base64toBlob(base64Data: string, contentType: string): Blob {
-    const sliceSize = 512;
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    return new Blob(byteArrays, { type: contentType });
   }
 
   loading() {
     return this.chatModel?.finish === false;
   }
+  delta = 200;
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.time++;
+      if(this.time>this.delta){
+        clearInterval(this.timerInterval);
+      }
     },100);
   }
 

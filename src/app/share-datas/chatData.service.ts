@@ -22,7 +22,7 @@ export class ChatDataService{
           chatInterface.fileList,
           chatInterface.dataId,
           chatInterface.showType,
-          chatInterface.finish,
+          true,
           chatInterface.model
         )
       }));
@@ -72,7 +72,7 @@ export class ChatDataService{
           fileList: chat.fileList,
           dataId: chat.dataId!,
           showType: chat.showType,
-          finish: chat.finish,
+          finish: true,
           model: chat.model
         });
         return chat.dataId;
