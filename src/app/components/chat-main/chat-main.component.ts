@@ -230,6 +230,10 @@ export class ChatMainComponent {
       this.notification.error("列表中不存在","");
       return;
     }
+    if(reModel.role===SystemRole){
+      this.notification.error("不允许的操作","不要重新生成 系统级prompt。");
+      return;
+    }
     let generateModel: ChatModel | undefined;
     if(reModel.role===AssistantRole){
       generateModel = reModel;

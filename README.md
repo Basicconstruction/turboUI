@@ -58,10 +58,6 @@ dall-e,tts,stt 不使用上下文
 制作二维码，进行图片检测等与api无关的功能。
 新前端： 通过前端来管理后端的功能  
 
-
-
-
-
 可以在自己windows上运行，部署在服务器上时，所有设备均可以在浏览器中使用，但是
 没有适配移动端。  
 源码可以运行在电脑平台，不过需要 进行各自的平台编译。  
@@ -77,28 +73,31 @@ release有打包好的exe
 
 使用方式  
 ## 小白级别
-下载最大的all in one, release中的最大的压缩包
+下载最大的turbo-light.rar  
 目录结构是
-![img.png](img.png)  
-turbo-server 包含了,子托管的前端服务器turbo-pool，后端解析服务器
-turbo-proxy
+![img.png](img.png)
+turbo-light 文件夹包含了,子托管的前端服务器turbo-pool，后端解析服务器
+turbo-proxy。  
+直接启动turbo-light即可。  
 ![img_1.png](img_1.png)
-打开turbo
-![img_2.png](img_2.png)
-启动两个服务，（可以更改端口），
-启动成功会打开两个命令行，turbo两个栏目的id后面对应
-进程id
-然后在浏览器中访问即可
-![img_5.png](img_5.png)
-如果使用turbo本机部署，注意如果端口被占用，可以更改端口
-，但是注意也要修改网页中的后端地址，图中为8888，对应上图中的8888端口
-![img_6.png](img_6.png)
+还可以通过修改 config.ini来进行细粒度的控制。  
+其中前两个分别是 turbo_pool.exe, turbo_proxy的启动端口，
+会在 0.0.0.0 上监听端口，这意味着可以在路由器局域网内的设备
+甚至公网的设备均可以访问。  
+后两个分别指示的是是否启动对应的exe，这两个可以全部在本地启动，
+如果你有云服务器，只使用 turbo-proxy 也是可以的。  
+tips: 如果需要进行文件上传，图片生成，会占用大量带宽，放置turbo-proxy
+在服务器端会浪费大量的 数据传递的时间。  
+```json
+{
+  "pool_port": 8887,
+  "proxy_port": 8888,
+  "pool_start": true,
+  "proxy_start": true
+}
+```
 
-## 无依赖最小方式
-下载release中间大小的压缩包
-也就是all in one的turbo-server文件夹
-![img_1.png](img_1.png)
-直接启动两个服务  
+### 细粒度控制
 turbo-proxy可以接受一个可选的端口参数  
 参数形式如下，默认端口是8888
 ```bash
@@ -126,7 +125,7 @@ python install -r requirements.txt
 python main.py
 ```
 ### 前端
-下载解压 browser.rar 仅包含编译的前端代码
+下载解压 browser.rar / wwwroot.rar 仅包含编译的前端代码
 直接编译部署到nginx或者iis等服务器软件上
 参考  
 https://angular.cn/guide/deployment

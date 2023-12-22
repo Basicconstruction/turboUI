@@ -51,6 +51,7 @@
                 <nz-row>
                   <nz-col>
                     <nz-modal [(nzVisible)]="outputConfigVisible"
+                              [nzFooter]="[]"
                               nzTitle="配置导出"
                               (nzOnCancel)="closeOutput()" (nzOnOk)="okAndCloseOutput()"
                       >
@@ -65,6 +66,7 @@
                   <nz-col class="mx-1">
                     <nz-modal [(nzVisible)]="inputConfigVisible"
                               nzTitle="配置导入"
+                              [nzFooter]="[]"
                               (nzOnCancel)="handleInputCancel()"
                               (nzOnOk)="handleInputConfigOk()">
                       <ng-container *nzModalContent>
