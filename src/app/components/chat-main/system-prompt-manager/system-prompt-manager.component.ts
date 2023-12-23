@@ -1,11 +1,27 @@
 import {Component, Input} from '@angular/core';
 import {ChatContext} from "../../../services";
 import {ChatModel} from "../../../models";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzSwitchModule} from "ng-zorro-antd/switch";
+import {FormsModule} from "@angular/forms";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-system-prompt-manager',
   templateUrl: './system-prompt-manager.component.html',
-  styleUrl: './system-prompt-manager.component.css'
+  styleUrl: './system-prompt-manager.component.css',
+  imports: [
+    NzFormModule,
+    NzButtonModule,
+    NzSwitchModule,
+    FormsModule,
+    NzSkeletonModule,
+    NgIf,
+    NgForOf
+  ],
+  standalone: true
 })
 export class SystemPromptManagerComponent{
   @Input()

@@ -2,14 +2,25 @@ import {Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges
 import {ChatHistoryTitleActionInfo, ChatHistoryTitle, LastSessionModel} from "../../models";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
-import {SizeReportService} from "../../services/sizeReport.service";
-import {SidebarService} from "../../services/sidebar.service";
+import {SizeReportService} from "../../services";
+import {SidebarService} from "../../services";
 import {MagicDataId} from "../chat-page/chat-page.component";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {HistoryBtComponent} from "./history-bt/history-bt.component";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-chat-history',
   templateUrl: './chat-history.component.html',
-  styleUrl: './chat-history.component.css'
+  styleUrl: './chat-history.component.css',
+  imports: [
+    NzButtonModule,
+    NzIconModule,
+    HistoryBtComponent,
+    NgForOf
+  ],
+  standalone: true
 })
 export class ChatHistoryComponent implements OnChanges
 {

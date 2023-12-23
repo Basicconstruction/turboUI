@@ -10,7 +10,8 @@ const routes: Routes = [
     path: "chat", loadChildren: () => import("./components/chat.module").then(m=>m.ChatModule)
   },
   {
-    path: "**", component: ErrorPageComponent
+    path: "**", loadComponent: () => import("./components/error-page/./error-page.component")
+      .then(m=>m.ErrorPageComponent)
   },
 
 ];

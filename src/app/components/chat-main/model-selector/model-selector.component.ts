@@ -3,11 +3,20 @@ import {ConfigurationService} from "../../../share-datas";
 import {configurationChangeSubject} from "../../../share-datas/datas.module";
 import {Subject} from "rxjs";
 import {RequestType} from "../../../models";
+import {FormsModule} from "@angular/forms";
+import {NzSelectModule} from "ng-zorro-antd/select";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-model-selector',
   templateUrl: './model-selector.component.html',
-  styleUrl: './model-selector.component.css'
+  styleUrl: './model-selector.component.css',
+  imports: [
+    FormsModule,
+    NzSelectModule,
+    NgForOf
+  ],
+  standalone: true
 })
 export class ModelSelectorComponent {
   chatStreamChildren: string[] = [];

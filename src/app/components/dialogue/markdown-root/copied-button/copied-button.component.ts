@@ -3,6 +3,7 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 @Component({
   selector: 'app-copied-button',
   templateUrl: './copied-button.component.html',
+  standalone: true
 })
 export class CopiedButtonComponent {
   @ViewChild("buttonElement")

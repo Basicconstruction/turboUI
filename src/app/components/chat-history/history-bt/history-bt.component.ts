@@ -1,10 +1,21 @@
 import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle, ChatHistoryTitleDeleteInfo} from "../../../models";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NgIf} from "@angular/common";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NzButtonModule} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-history-bt',
   templateUrl: './history-bt.component.html',
-  styleUrl: './history-bt.component.css'
+  styleUrl: './history-bt.component.css',
+  imports: [
+    NzIconModule,
+    NgIf,
+    NzButtonModule,
+    NzDropDownModule,
+  ],
+  standalone: true
 })
 export class HistoryBtComponent {
   @Input()
@@ -21,10 +32,8 @@ export class HistoryBtComponent {
   changeSession(dataId: number | undefined,$event: MouseEvent) {
     if(!dataId) return;
     if(this.spanBt ===undefined || !this.spanBt.nativeElement.contains($event.target)){
-      // console.log("触发的元素不属于span")
       this.historyChangeEvent.emit(dataId);
     }else{
-      // console.log("span clicked")
     }
   }
 

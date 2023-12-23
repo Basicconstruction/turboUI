@@ -1,7 +1,8 @@
 import {Directive, ElementRef, Renderer2, AfterViewInit, AfterViewChecked} from '@angular/core';
 
 @Directive({
-  selector: 'markdown'
+  selector: 'markdown',
+  standalone: true
 })
 export class TableBorderDirective implements AfterViewChecked {
   constructor(private el: ElementRef) {}

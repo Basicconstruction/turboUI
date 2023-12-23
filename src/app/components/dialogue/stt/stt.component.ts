@@ -1,11 +1,20 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {ConfigurationService} from "../../../share-datas";
+import {NzSpinModule} from "ng-zorro-antd/spin";
+import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-stt',
   templateUrl: './stt.component.html',
-  styleUrl: './stt.component.css'
+  styleUrl: './stt.component.css',
+  imports: [
+    NzSpinModule,
+    MarkdownRootComponent,
+    NgIf
+  ],
+  standalone: true
 })
 export class SttComponent {
 

@@ -1,11 +1,24 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel} from "../../../models";
-import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzImageModule} from "ng-zorro-antd/image";
+import {NgForOf, NgIf} from "@angular/common";
+import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 
 @Component({
   selector: 'app-static-request',
   templateUrl: './static-request.component.html',
-  styleUrl: './static-request.component.css'
+  styleUrl: './static-request.component.css',
+  imports: [
+    NzCardModule,
+    NzFormModule,
+    NzImageModule,
+    NgIf,
+    NgForOf,
+    MarkdownRootComponent
+  ],
+  standalone: true
 })
 export class StaticRequestComponent {
   private _chatModel: ChatModel | undefined;

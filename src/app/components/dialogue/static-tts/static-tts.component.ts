@@ -3,11 +3,16 @@ import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {ConfigurationService} from "../../../share-datas";
 import {Bs64Handler} from "../../../handlers/bs64Handler";
+import {NzCardModule} from "ng-zorro-antd/card";
 
 @Component({
   selector: 'app-static-tts',
   templateUrl: './static-tts.component.html',
-  styleUrl: './static-tts.component.css'
+  styleUrl: './static-tts.component.css',
+  imports: [
+    NzCardModule
+  ],
+  standalone: true
 })
 export class StaticTtsComponent {
   private _chatModel: ChatModel | undefined;

@@ -1,9 +1,22 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, DallImage, ImageList} from "../../../models";
+import {NzImageModule} from "ng-zorro-antd/image";
+import {ChatModule} from "../../chat.module";
+import {NzSpinModule} from "ng-zorro-antd/spin";
+import {NgForOf, NgIf} from "@angular/common";
+import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
-  styleUrl: './image.component.css'
+  styleUrl: './image.component.css',
+  imports: [
+    NzImageModule,
+    NzSpinModule,
+    NgIf,
+    NgForOf,
+    MarkdownRootComponent
+  ],
+  standalone: true
 })
 export class ImageComponent {
   private _chatModel: ChatModel | undefined;

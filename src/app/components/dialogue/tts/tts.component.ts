@@ -2,11 +2,20 @@ import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {Bs64Handler} from "../../../handlers/bs64Handler";
+import {NzSpinModule} from "ng-zorro-antd/spin";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-tts',
   templateUrl: './tts.component.html',
-  styleUrl: './tts.component.css'
+  styleUrl: './tts.component.css',
+  imports: [
+    NzSpinModule,
+    NzCardModule,
+    NgIf
+  ],
+  standalone: true
 })
 export class TtsComponent {
   private _chatModel: ChatModel | undefined;

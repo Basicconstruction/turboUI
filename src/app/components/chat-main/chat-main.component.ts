@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
-import {NzUploadFile} from "ng-zorro-antd/upload";
+import {NzUploadFile, NzUploadModule} from "ng-zorro-antd/upload";
 import {
   ChatHistoryModel, ChatHistoryTitle, ChatModel, ChatPacket, ChatVisionPacket,
   Configuration, FileInChat, ImagePacket, LastSessionModel, RequestType, SpeechPacket,
@@ -15,10 +15,54 @@ import {ModelFetchService} from "../../services";
 import {ChatContextHandler, VisionContextHandler} from "../../handlers";
 import {AssistantRole, SystemRole, UserRole} from "../../models";
 import {ChatContext, SystemContext} from "../../services";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {ModelEditorComponent} from "./model-editor/model-editor.component";
+import {SystemWordChoiceComponent} from "./system-word-choice/system-word-choice.component";
+import {SystemPromptManagerComponent} from "./system-prompt-manager/system-prompt-manager.component";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet} from "@angular/common";
+import {ModelSelectorComponent} from "./model-selector/model-selector.component";
+import {DialogueComponent} from "../dialogue/dialogue.component";
+import {VisionBannerComponent} from "./vision-banner/vision-banner.component";
+import {SttBannerComponent} from "./stt-banner/stt-banner.component";
+import {TtsBannerComponent} from "./tts-banner/tts-banner.component";
+import {DallBannerComponent} from "./dall-banner/dall-banner.component";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {FormsModule} from "@angular/forms";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
-  styleUrl: './chat-main.component.css'
+  styleUrl: './chat-main.component.css',
+  standalone: true,
+  imports: [
+    NzModalModule,
+    ModelEditorComponent,
+    SystemWordChoiceComponent,
+    SystemPromptManagerComponent,
+    NzIconModule,
+    NzButtonModule,
+    NzFormModule,
+    NgIf,
+    ModelSelectorComponent,
+    NgForOf,
+    NgTemplateOutlet,
+    DialogueComponent,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    VisionBannerComponent,
+    SttBannerComponent,
+    TtsBannerComponent,
+    DallBannerComponent,
+    NzUploadModule,
+    NzToolTipModule,
+    NzInputModule,
+    FormsModule
+
+  ]
 })
 export class ChatMainComponent {
 

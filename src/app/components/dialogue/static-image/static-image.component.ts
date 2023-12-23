@@ -1,11 +1,20 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, DallImage, ImageList} from "../../../models";
-import {ConfigurationService} from "../../../share-datas";
+import {NzImageModule} from "ng-zorro-antd/image";
+import {NgForOf, NgIf} from "@angular/common";
+import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 
 @Component({
   selector: 'app-static-image',
   templateUrl: './static-image.component.html',
-  styleUrl: './static-image.component.css'
+  styleUrl: './static-image.component.css',
+  imports: [
+    NzImageModule,
+    NgForOf,
+    MarkdownRootComponent,
+    NgIf
+  ],
+  standalone: true
 })
 export class StaticImageComponent {
   private _chatModel: ChatModel | undefined;

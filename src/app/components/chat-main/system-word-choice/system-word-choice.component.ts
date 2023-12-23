@@ -1,11 +1,25 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SystemPromptItem} from "../../../models";
 import {SystemPromptService} from "../../../share-datas/system-prompt.service";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NgForOf, NgTemplateOutlet} from "@angular/common";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {RouterLink} from "@angular/router";
+import {NzCardModule} from "ng-zorro-antd/card";
 
 @Component({
   selector: 'app-system-word-choice',
   templateUrl: './system-word-choice.component.html',
-  styleUrl: './system-word-choice.component.css'
+  styleUrl: './system-word-choice.component.css',
+  imports: [
+    NzFormModule,
+    NgForOf,
+    NzButtonModule,
+    RouterLink,
+    NzCardModule,
+    NgTemplateOutlet
+  ],
+  standalone: true
 })
 export class SystemWordChoiceComponent{
   @Output()

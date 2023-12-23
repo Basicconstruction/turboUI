@@ -2,11 +2,18 @@ import {
   Component, Input
 } from '@angular/core';
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {CopiedButtonComponent} from "./copied-button/copied-button.component";
+import {MarkdownComponent} from "ngx-markdown";
 
 @Component({
   selector: 'app-markdown-root',
   templateUrl: './markdown-root.component.html',
-  styleUrl: './markdown-root.component.css'
+  styleUrl: './markdown-root.component.css',
+  imports: [
+    CopiedButtonComponent,
+    MarkdownComponent
+  ],
+  standalone: true
 })
 export class MarkdownRootComponent
 {

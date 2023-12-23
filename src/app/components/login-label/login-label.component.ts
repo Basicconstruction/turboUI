@@ -1,13 +1,20 @@
 import {Component, Inject} from '@angular/core';
 import {AuthService} from "../../auth";
-import {SizeReportService} from "../../services/sizeReport.service";
-import {SidebarService} from "../../services/sidebar.service";
+import {SizeReportService} from "../../services";
+import {SidebarService} from "../../services";
 import {Router} from "@angular/router";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login-label',
   templateUrl: './login-label.component.html',
-  styleUrl: './login-label.component.css'
+  styleUrl: './login-label.component.css',
+  imports: [
+    NzButtonModule,
+    NgIf
+  ],
+  standalone: true
 })
 export class LoginLabelComponent {
   constructor(private authService: AuthService,
