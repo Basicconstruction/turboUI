@@ -10,7 +10,7 @@ import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ComponentsModule} from "./components/components.module";
+import {ChatModule} from "./components/chat.module";
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(zh);
@@ -26,7 +26,7 @@ registerLocaleData(zh);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ComponentsModule,
+    ChatModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // enabled: true,

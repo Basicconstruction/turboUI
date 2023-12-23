@@ -1,5 +1,5 @@
-import {AfterViewChecked, Component, Input} from '@angular/core';
-import {ChatContext} from "../../../services/contextMemory.service";
+import {Component, Input} from '@angular/core';
+import {ChatContext} from "../../../services";
 import {ChatModel} from "../../../models";
 
 @Component({

@@ -20,16 +20,22 @@ const routes: Routes = [
         }
       },
       {
-        path: "settings",component: SettingsComponent,
+        path: "settings",
+        loadChildren:()=>import("./settings/setting.module")
+          .then(m=>m.SettingModule),
         resolve: {
           model: ConfigurationResolver
         }
       },
       {
-        path: "login", component: LoginPageComponent,
+        path: "login",
+        loadChildren: ()=>import("./login-page/rights-logins.module")
+          .then(m=>m.RightsLoginsModule),
       },
       {
-        path: "prompts", component: PromptStoreComponent,
+        path: "prompts",
+        loadChildren: ()=>import("./prompt-store/prompts.module")
+          .then(m=>m.PromptsModule),
         resolve: {
           model: SystemPromptResolver,
         }
@@ -45,4 +51,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ComponentsRoutingModule { }
+export class ChatsRoutingModule { }

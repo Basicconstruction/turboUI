@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import {AuthModule} from "../auth/auth.module";
-import {ComponentsRoutingModule} from "./components-routing.module";
+import {ChatsRoutingModule} from "./chats-routing.module";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
@@ -79,6 +79,7 @@ import { ImportPromptsComponent } from './prompt-store/import-prompts/import-pro
 import {ClipboardModule} from "ngx-clipboard";
 import { CreatePromptComponent } from './prompt-store/create-prompt/create-prompt.component';
 import { LookUpdatePromptComponent } from './prompt-store/look-update-prompt/look-update-prompt.component';
+import {SettingModule} from "./settings/setting.module";
 @NgModule({
   imports: [
     MarkdownModule.forRoot({
@@ -89,23 +90,27 @@ import { LookUpdatePromptComponent } from './prompt-store/look-update-prompt/loo
         },
       },
     }),
-    AuthModule, ComponentsRoutingModule, NzInputModule, FormsModule, NzButtonModule, NzCardModule
+    ChatsRoutingModule,
+
+    NzInputModule, FormsModule, NzButtonModule, NzCardModule
     , HttpClientModule, NzTypographyModule, NgClass, NzIconModule,
-    FetchModule,
     NgIf, NzUploadModule, NzRadioModule, NgForOf, NzImageModule, NzImageModule, NgOptimizedImage,
-    DatasModule, NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
+    NzAvatarModule, NzTreeSelectModule, NzSelectModule, NzSliderModule, NzFormModule,
     NzInputNumberModule, NgStyle, NzPopoverModule, NgSwitch, NgSwitchCase, NgSwitchDefault,
     NzSpinModule, NzPopconfirmModule, NzBackTopModule,
-    ServicesModule, NzToolTipModule, NzModalModule, NzDropDownModule,
-    ConfigExportComponent, ConfigImportComponent,
+    NzToolTipModule, NzModalModule, NzDropDownModule,
     NgTemplateOutlet, NzSwitchModule, NzSkeletonModule,
-    ClipboardModule, ReactiveFormsModule
+    ClipboardModule, ReactiveFormsModule,
+
+    // 独立组件
+    ConfigExportComponent, ConfigImportComponent,
+    // 提供订阅和拦截器
+    DatasModule
   ],
   declarations: [
     ChatPageComponent,
     LoginLabelComponent,
     ChatHistoryComponent,
-    LoginPageComponent,
     ErrorPageComponent,
     ChatMainComponent,
     DialogueComponent,
@@ -124,23 +129,17 @@ import { LookUpdatePromptComponent } from './prompt-store/look-update-prompt/loo
     ModelEditorComponent,
     DallBannerComponent,
     HistoryBtComponent,
-    SettingsComponent,
     CopiedButtonComponent,
     TableBorderDirective,
     SystemWordChoiceComponent,
     SystemPromptManagerComponent,
-    PromptStoreComponent,
-    ExportPromptsComponent,
-    ImportPromptsComponent,
-    CreatePromptComponent,
-    LookUpdatePromptComponent
   ],
   exports: [
-    ChatPageComponent
+
   ],
   providers: [
   ]
 })
-export class ComponentsModule{
+export class ChatModule {
 
 }

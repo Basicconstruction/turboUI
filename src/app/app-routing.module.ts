@@ -7,7 +7,7 @@ const routes: Routes = [
     path: "", pathMatch: "full", redirectTo: "/chat",
   },
   {
-    path: "chat", loadChildren: () => import("./components/components.module").then(m=>m.ComponentsModule)
+    path: "chat", loadChildren: () => import("./components/chat.module").then(m=>m.ChatModule)
   },
   {
     path: "**", component: ErrorPageComponent
