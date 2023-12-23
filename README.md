@@ -119,10 +119,10 @@ python main.py
 下载解压 browser.rar / wwwroot.rar 仅包含编译的前端代码
 直接编译部署到nginx或者iis等服务器软件上
 参考  
-https://angular.cn/guide/deployment
-chrome 性能测试
-v1.11  
+https://angular.cn/guide/deployment  
+chrome 性能测试  
+v2.01
 桌面设备：  
-![img_2.png](img_2.png)
+![img_4.png](img_4.png)
 移动设备: 
-![img_7.png](img_7.png)
+![img_2.png](img_2.png)
