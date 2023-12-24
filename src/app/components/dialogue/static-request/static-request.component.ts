@@ -4,7 +4,6 @@ import {NzCardModule} from "ng-zorro-antd/card";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
-import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
 
 @Component({
   selector: 'app-static-request',
@@ -14,7 +13,7 @@ import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
     NzCardModule,
     NzFormModule,
     NzImageModule,
-    MiniMarkdownModule
+    MarkdownRootComponent
   ],
   standalone: true
 })

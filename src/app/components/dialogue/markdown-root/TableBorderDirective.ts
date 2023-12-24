@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Renderer2, AfterViewInit, AfterViewChecked} from '@angular/core';
+import {Directive, ElementRef, AfterViewChecked} from '@angular/core';
 
 @Directive({
   selector: 'markdown',

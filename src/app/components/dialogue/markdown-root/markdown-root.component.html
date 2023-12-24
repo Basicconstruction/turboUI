@@ -3,7 +3,7 @@
 </ng-template>
 <!--katex-->
 <!--mermaid-->
-<markdown class="" [data]="content"
+<markdown class="" [data]="content | htmlSanitizer"
           [disableSanitizer]="false"
           lineNumbers
           emoji

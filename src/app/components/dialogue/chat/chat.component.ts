@@ -3,7 +3,6 @@ import {ChatModel} from "../../../models";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
-import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -11,7 +10,7 @@ import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
   imports: [
     NzIconModule,
     NzSpinModule,
-    MiniMarkdownModule
+    MarkdownRootComponent
   ],
   standalone: true
 })
