@@ -3,6 +3,7 @@ import {ChatModel, DallImage, ImageList} from "../../../models";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NgForOf, NgIf} from "@angular/common";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
+import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
 
 @Component({
   selector: 'app-static-image',
@@ -11,7 +12,7 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
   imports: [
     NzImageModule,
     NgForOf,
-    MarkdownRootComponent,
+    MiniMarkdownModule,
     NgIf
   ],
   standalone: true

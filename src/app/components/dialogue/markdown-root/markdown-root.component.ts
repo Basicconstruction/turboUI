@@ -1,20 +1,10 @@
 import {
   Component, Input
 } from '@angular/core';
-import {CopiedButtonComponent} from "./copied-button/copied-button.component";
-import {MarkdownComponent} from "ngx-markdown";
-import {SafeHtmlPipe} from "./safeHtml.directive";
-
 @Component({
   selector: 'app-markdown-root',
   templateUrl: './markdown-root.component.html',
   styleUrl: './markdown-root.component.css',
-  imports: [
-    CopiedButtonComponent,
-    MarkdownComponent,
-    SafeHtmlPipe
-  ],
-  standalone: true
 })
 export class MarkdownRootComponent
 {

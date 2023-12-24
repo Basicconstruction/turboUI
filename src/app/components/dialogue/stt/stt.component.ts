@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
+import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
 
 @Component({
   selector: 'app-stt',
@@ -9,7 +10,7 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
   styleUrl: './stt.component.css',
   imports: [
     NzSpinModule,
-    MarkdownRootComponent,
+    MiniMarkdownModule
   ],
   standalone: true
 })

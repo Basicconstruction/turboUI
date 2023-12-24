@@ -1,43 +1,28 @@
-import {NgModule} from "@angular/core";
-import { ChatPageComponent } from './chat-page/chat-page.component';
+import {NgModule, SecurityContext} from "@angular/core";
+import {ChatPageComponent} from './chat-page/chat-page.component';
 import {ChatsRoutingModule} from "./chats-routing.module";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import { LoginLabelComponent } from './login-label/login-label.component';
-import { ChatHistoryComponent } from './chat-history/chat-history.component';
-import {
-  CLIPBOARD_OPTIONS,
-  ClipboardButtonComponent,
-  MarkdownModule,
-} from "ngx-markdown";
+import {LoginLabelComponent} from './login-label/login-label.component';
+import {ChatHistoryComponent} from './chat-history/chat-history.component';
 import {DatasModule} from "../share-datas/datas.module";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+
 @NgModule({
-    imports: [
-        MarkdownModule.forRoot({
-            clipboardOptions: {
-                provide: CLIPBOARD_OPTIONS,
-                useValue: {
-                    buttonComponent: ClipboardButtonComponent,
-                },
-            },
-        }),
-        ChatsRoutingModule,
-        DatasModule,
-        NzButtonModule,
-        NzIconModule,
-        ChatHistoryComponent,
-        LoginLabelComponent,
-        NzSkeletonModule,
-    ],
+  imports: [
+    ChatsRoutingModule,
+    DatasModule,
+    NzButtonModule,
+    NzIconModule,
+    ChatHistoryComponent,
+    LoginLabelComponent,
+    NzSkeletonModule,
+  ],
   declarations: [
     ChatPageComponent,
   ],
-  exports: [
-
-  ],
-  providers: [
-  ]
+  exports: [],
+  providers: []
 })
 export class ChatModule {
 

@@ -3,6 +3,7 @@ import {ChatModel, DallImage, ImageList} from "../../../models";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
+import {MiniMarkdownModule} from "../markdown-root/miniMarkdown.module";
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
@@ -10,7 +11,7 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
   imports: [
     NzImageModule,
     NzSpinModule,
-    MarkdownRootComponent
+    MiniMarkdownModule
   ],
   standalone: true
 })

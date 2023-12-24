@@ -1,14 +1,14 @@
-@defer (on viewport){
+@defer (on viewport) {
   <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑"
             (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
       <app-model-editor [chatModel]="editModel"></app-model-editor>
     </ng-container>
   </nz-modal>
-} @placeholder{
+} @placeholder {
   <div></div>
 }
-@defer (on viewport){
+@defer (on viewport) {
   <nz-modal [(nzVisible)]="choiceVisible" nzTitle="选择系统提示词"
             [nzFooter]="[]"
             (nzOnCancel)="handleChoiceClose()"
@@ -20,10 +20,10 @@
       ></app-system-word-choice>
     </ng-container>
   </nz-modal>
-} @placeholder{
+} @placeholder {
   <div></div>
 }
-@defer (on viewport){
+@defer (on viewport) {
   <nz-modal [(nzVisible)]="systemPromptManagerVisible"
             nzTitle="管理系统上下文"
             [nzFooter]="[]"
@@ -36,7 +36,7 @@
       ></app-system-prompt-manager>
     </ng-container>
   </nz-modal>
-} @placeholder{
+} @placeholder {
   <div></div>
 }
 <!-- 球状助手 -->
@@ -46,7 +46,7 @@
   >
     <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
   </div>
-  @if(showChoice){
+  @if (showChoice) {
     <div
       class="position-fixed choice d-flex flex-column">
       <button class="rounded-2 my-2" nz-button (click)="manageSystemContext()">管理系统上下文</button>
@@ -84,13 +84,13 @@
         </button>
       </div>
       <div>
-        @defer (on viewport){
+        @defer (on viewport) {
           <app-model-selector class=""></app-model-selector>
-        } @placeholder{
+        } @placeholder {
           <select></select>
         }
       </div>
-      @if(!superMini()){
+      @if (!superMini()) {
         <div>
           <button nz-button (click)="promptBox.focus()">
             <span nz-icon nzType="edit" nzTheme="outline"></span>
@@ -102,37 +102,37 @@
 </ng-template>
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
-    @if(showLogo()){
-      @if(miniPhone()){
+    @if (showLogo()) {
+      @if (miniPhone()) {
         <ng-container *ngTemplateOutlet="miniHead">
         </ng-container>
-      }@else{
+      } @else {
         <div class="position-fixed z-1">
           <app-model-selector class="opacity-75 position-sticky"></app-model-selector>
         </div>
       }
       <ng-container *ngTemplateOutlet="logo"></ng-container>
-    }@else{
+    } @else {
       <div
         class="flex-grow-1 position-relative">
-        @if(miniPhone()){
+        @if (miniPhone()) {
           <ng-container *ngTemplateOutlet="miniHead">
           </ng-container>
-        }@else{
+        } @else {
           <div class="bg-white sticky-top p-0 z-1">
             <app-model-selector></app-model-selector>
           </div>
         }
         <div class="position-relative">
           <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
-          @defer (on viewport){
-            @for(chat of chatModels; track chat.dataId){
+          @defer (on viewport) {
+            @for (chat of chatModels; track chat.dataId) {
               <app-dialogue
                 (reGenerateSignal)="reGenerateHandle($event)"
                 (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
                 [active]="isActive(chat!)"></app-dialogue>
             }
-          } @placeholder{
+          } @placeholder {
             <div>
               <div class="text-center">
                 正在加载资源，请稍后
@@ -148,17 +148,17 @@
   </div>
   <div class="d-flex flex-grow-0">
     <div class="center-input rounded-2" style="border: 1px solid #ccc;">
-      @switch (configuration?.requestType){
-        @case (RequestType.Image){
+      @switch (configuration?.requestType) {
+        @case (RequestType.Image) {
           <app-dall-banner [configuration]="configuration"></app-dall-banner>
         }
-        @case (RequestType.Speech){
+        @case (RequestType.Speech) {
           <app-tts-banner [configuration]="configuration"></app-tts-banner>
         }
-        @case (RequestType.Transcription){
+        @case (RequestType.Transcription) {
           <app-stt-banner [configuration]="configuration"></app-stt-banner>
         }
-        @case (RequestType.ChatVision){
+        @case (RequestType.ChatVision) {
           <app-vision-banner [configuration]="configuration"></app-vision-banner>
         }
         @default {
@@ -200,13 +200,18 @@
                   nz-tooltip [nzTooltipTitle]="miniPhone()? '': '使用快捷键 Ctrl + Enter, 快人一步'"
                   (click)="buttonControlGPT()"
                   [disabled]="!enableTouch()">
-                            <span *ngIf="!answering" data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"
-                                                                              fill="none"
-                                                                              class="text-white dark:text-black"><path
-                              d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2"
-                              stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            <span *ngIf="answering" class="text-white dark:text-black" nz-icon nzType="pause-circle"
-                  nzTheme="outline"></span>
+            @if(answering){
+              <span class="text-white dark:text-black" nz-icon nzType="pause-circle"
+                    nzTheme="outline"></span>
+            }@else{
+              <span data-state="closed"><svg width="24" height="24" viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                class="text-white dark:text-black"><path
+                d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            }
+
+
           </button>
         </div>
 

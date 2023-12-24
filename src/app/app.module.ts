@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import {NgModule, isDevMode, SecurityContext} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,21 +12,36 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChatModule} from "./components/chat.module";
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {CLIPBOARD_OPTIONS, ClipboardButtonComponent, MarkdownModule, MARKED_OPTIONS} from "ngx-markdown";
 
 registerLocaleData(zh);
 
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
+    MarkdownModule.forRoot({
+      clipboardOptions: {
+        provide: CLIPBOARD_OPTIONS,
+        useValue: {
+          buttonComponent: ClipboardButtonComponent,
+        },
+      },
+      // markedOptions: {
+      //   provide: MARKED_OPTIONS,
+      //   useValue: {
+      //     sanitize: true
+      //   }
+      // },
+      sanitize: SecurityContext.HTML,
+    }),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ChatModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ChatModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // enabled: true,
