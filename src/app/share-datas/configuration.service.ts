@@ -3,7 +3,7 @@ import {DbService} from "./db.service";
 import {Configuration, RequestType} from "../models";
 import {Subject} from "rxjs";
 import {configurationChangeSubject} from "./datas.module";
-
+export const timeToWait = 1;
 @Injectable({
   providedIn: "root"
 })
@@ -21,7 +21,7 @@ export class ConfigurationService {
     this.configuration = this.default_configuration();
     this.initFinish = true;
     // 等待数据库加载存储的配置
-    this.waitForInit().then(async () => {
+    this.dbService.waitForDbInit().then(async () => {
       this.getConfiguration().then((config) => {
         if (config !== undefined) {
           console.info("系统配置加载成功")
@@ -32,21 +32,7 @@ export class ConfigurationService {
     });
   }
 
-  private waitForInit(): Promise<void> {
-    return new Promise((resolve) => {
-      if (this.dbService.initFinish) {
-        resolve();
-      } else {
-        const interval = setInterval(() => {
-          if (this.dbService.initFinish) {
-            clearInterval(interval);
-            resolve();
-            console.info("索引数据库打开成功")
-          }
-        }, 10);
-      }
-    });
-  }
+
 
   public async accept() {
     if (this.configuration !== undefined) {
@@ -73,7 +59,7 @@ export class ConfigurationService {
             clearInterval(interval);
             resolve();
           }
-        }, 10);
+        }, timeToWait);
       }
     });
   }

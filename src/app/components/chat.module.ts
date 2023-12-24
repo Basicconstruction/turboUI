@@ -14,24 +14,26 @@ import {
   MarkdownModule,
 } from "ngx-markdown";
 import {DatasModule} from "../share-datas/datas.module";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 @NgModule({
-  imports: [
-    MarkdownModule.forRoot({
-      clipboardOptions: {
-        provide: CLIPBOARD_OPTIONS,
-        useValue: {
-          buttonComponent: ClipboardButtonComponent,
-        },
-      },
-    }),
-    ChatsRoutingModule,
-    DatasModule,
-    NzButtonModule,
-    NzIconModule,
-    NgIf,
-    ChatHistoryComponent,
-    LoginLabelComponent,
-  ],
+    imports: [
+        MarkdownModule.forRoot({
+            clipboardOptions: {
+                provide: CLIPBOARD_OPTIONS,
+                useValue: {
+                    buttonComponent: ClipboardButtonComponent,
+                },
+            },
+        }),
+        ChatsRoutingModule,
+        DatasModule,
+        NzButtonModule,
+        NzIconModule,
+        NgIf,
+        ChatHistoryComponent,
+        LoginLabelComponent,
+        NzSkeletonModule,
+    ],
   declarations: [
     ChatPageComponent,
   ],

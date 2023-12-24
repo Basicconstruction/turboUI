@@ -3,7 +3,8 @@
 </ng-template>
 <!--katex-->
 <!--mermaid-->
-<markdown class="" [data]="content"
+<markdown class="" [data]="content | safeHtml"
+
           lineNumbers
           emoji
           clipboard

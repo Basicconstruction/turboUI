@@ -42,7 +42,7 @@ export class ChatPageComponent implements OnInit {
     if(this.sizeReportService.miniPhoneView()){
       this.sidebarService.close();
     }
-    this.waitForInit().then(async ()=>{
+    this.dbService.waitForDbInit().then(async ()=>{
       this.historyTitles = await this.historyTitleService.getHistoryTitles();
       if (this.historyTitles === undefined) {
         this.historyTitles = [];
@@ -56,21 +56,6 @@ export class ChatPageComponent implements OnInit {
     this.sizeReportService.width = event.target.innerWidth;
     this.sizeReportService.height = event.target.innerHeight;
   }
-  private waitForInit(): Promise<void> {
-    return new Promise((resolve) => {
-      if (this.dbService.initFinish) {
-        resolve();
-      } else {
-        const interval = setInterval(() => {
-          if (this.dbService.initFinish) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 10);
-      }
-    });
-  }
-
 
   miniPhone() {
     return this.sizeReportService.miniPhoneView();

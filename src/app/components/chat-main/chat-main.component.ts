@@ -32,6 +32,8 @@ import {DallBannerComponent} from "./dall-banner/dall-banner.component";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {FormsModule} from "@angular/forms";
+import {NzImageModule} from "ng-zorro-antd/image";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -60,7 +62,9 @@ import {FormsModule} from "@angular/forms";
     NzUploadModule,
     NzToolTipModule,
     NzInputModule,
-    FormsModule
+    FormsModule,
+    NzImageModule,
+    NzSkeletonModule
   ]
 })
 export class ChatMainComponent {

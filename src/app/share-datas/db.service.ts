@@ -3,16 +3,25 @@ import {DBSchema, IDBPDatabase, openDB} from "idb";
 import {ChatHistory, ChatHistoryTitle, Configuration, SystemPromptItem} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
+import {timeToWait} from "./configuration.service";
 @Injectable({
   providedIn: "root"
 })
 export class DbService{
   private idbDb: IDBPDatabase<ChatDb> | undefined;
-  public initFinish = false;
+  initFinish: boolean = false;
+  private readonly initPromise: Promise<void>;
+
   constructor() {
-    this.initDb().then(
-      ()=>this.initFinish = true
-    );
+    this.initPromise = this.initDb().then(() => {
+      this.initFinish = true;
+    });
+  }
+
+  public async waitForDbInit(): Promise<void> {
+    if (!this.initFinish) {
+      await this.initPromise;
+    }
   }
   async initDb(){
     this.idbDb = await openDB('chatDb-v1', 4, {

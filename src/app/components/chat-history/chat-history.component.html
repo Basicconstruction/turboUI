@@ -11,15 +11,14 @@
     <span nz-icon nzType="edit" nzTheme="outline"></span>
   </button>
   <div class="m-4"></div>
-  <app-history-bt
-    class="w-100"
-    *ngFor="let history of chatHistoryTitle"
-    [history]="history"
-    (historyChangeEvent)="handleHistoryChange($event)"
-    (chatHistoryAction)="reEmit($event)"
-    [selectId]="selectId">
-  </app-history-bt>
-
-
+  @for(history of chatHistoryTitle; track history.dataId){
+    <app-history-bt
+      class="w-100"
+      [history]="history"
+      (historyChangeEvent)="handleHistoryChange($event)"
+      (chatHistoryAction)="reEmit($event)"
+      [selectId]="selectId">
+    </app-history-bt>
+  }
 </div>
 

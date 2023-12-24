@@ -1,25 +1,30 @@
 <div class="d-flex w-100 h-100 overflow-hidden"
-  [class.position-relative]="miniPhone()"
+     [class.position-relative]="miniPhone()"
 >
-  <button nz-button nzSize="large"
-          class="position-absolute z-1 shadow"
-          [style]="'margin-left: 260px;'"
-          *ngIf="miniPhone()&&!sidebarService.isSideBarClosed"
-          [class.z-max]="miniPhone()"
-          (click)="toggleSidebar()">
-    <span nz-icon nzType="close" nzTheme="outline"></span>
-  </button>
+  @if(miniPhone()&&!sidebarService.isSideBarClosed){
+    <button nz-button nzSize="large"
+            class="position-absolute z-1 shadow"
+            [style]="'margin-left: 260px;'"
+            [class.z-max]="miniPhone()"
+            (click)="toggleSidebar()">
+      <span nz-icon nzType="close" nzTheme="outline"></span>
+    </button>
+  }
   <div class="sidebar p-0 m-0 d-flex flex-column"
        [class.d-none]="sidebarService.isSideBarClosed"
        [class.position-fixed]="miniPhone()"
        [class.z-2]="miniPhone()"
        [class.h-100]="miniPhone()"
        [class.z-max]="miniPhone()"
-    >
+  >
     <div class="bg-dark overflow-y-scroll scrollbar-y-none flex-grow-1">
       <!-- 历史记录标记 -->
-      <app-chat-history [chatHistoryTitle]="historyTitles"
-                        (chatHistoryChangeEvent)="handleChatHistoryAction($event)"></app-chat-history>
+      @defer (on viewport) {
+        <app-chat-history [chatHistoryTitle]="historyTitles"
+                          (chatHistoryChangeEvent)="handleChatHistoryAction($event)"></app-chat-history>
+      } @placeholder {
+        <nz-skeleton></nz-skeleton>
+      }
     </div>
     <div class="bg-dark sticky-bottom z-0">
       <!-- 登录标记 -->
@@ -36,19 +41,24 @@
             预设<span nz-icon nzType="appstore" nzTheme="outline"></span>
           </button>
         </div>
-        <app-login-label></app-login-label>
+        @defer (on viewport) {
+          <app-login-label></app-login-label>
+        } @placeholder {
+          <nz-skeleton></nz-skeleton>
+        }
       </div>
     </div>
   </div>
   <div class="content bg-info col position-relative p-0 flex-grow-1"
-    >
-    <span
-      *ngIf="!miniPhone()"
-      class="position-absolute top-50 translate-middle-y z-1 shift-scale"
-          nz-icon style="left: 30px;" (click)="toggleSidebar()"
-          [nzType]="sidebarService.isSideBarClosed?'right':'left'"
-          nzTheme="outline">
-    </span>
+  >
+    @if (!miniPhone()) {
+      <span
+        class="position-absolute top-50 translate-middle-y z-1 shift-scale"
+        nz-icon style="left: 30px;" (click)="toggleSidebar()"
+        [nzType]="sidebarService.isSideBarClosed?'right':'left'"
+        nzTheme="outline">
+      </span>
+    }
     <router-outlet></router-outlet>
   </div>
 </div>

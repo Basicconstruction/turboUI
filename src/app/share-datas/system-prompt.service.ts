@@ -1,9 +1,9 @@
 import {Inject, Injectable} from "@angular/core";
 import {SystemPromptItem} from "../models";
 import {DbService} from "./db.service";
-import {unwrapConstructorDependencies} from "@angular/compiler-cli/src/ngtsc/annotations/common";
 import {systemPromptChangeSubject} from "./datas.module";
-import {Observable, Observer} from "rxjs";
+import {Observer} from "rxjs";
+import {timeToWait} from "./configuration.service";
 
 @Injectable({
   providedIn: "root"
@@ -20,7 +20,7 @@ export class SystemPromptService {
   public async Init(){
     this.systemPrompts = [];
     this.initFinish = true;
-    this.waitForInit().then(async () => {
+    this.dbService.waitForDbInit().then(async () => {
       this.getSystemPrompts().then(
                   (systemInfoList) => {
         if (systemInfoList !== undefined) {
@@ -32,20 +32,6 @@ export class SystemPromptService {
           this.promptChangeObserver.next(true);
         }
       });
-    });
-  }
-  private waitForInit(): Promise<void> {
-    return new Promise((resolve) => {
-      if (this.dbService.initFinish) {
-        resolve();
-      } else {
-        const interval = setInterval(() => {
-          if (this.dbService.initFinish) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 10);
-      }
     });
   }
   public async accept() {
@@ -67,7 +53,7 @@ export class SystemPromptService {
             clearInterval(interval);
             resolve();
           }
-        }, 10);
+        }, timeToWait);
       }
     });
   }

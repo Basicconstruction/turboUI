@@ -49,7 +49,6 @@ export class ChatHistoryComponent implements OnChanges
   changeSession(dataId: number) {
     this.selectId = dataId;
     this.chatSessionObserver.next(dataId);
-    // console.log("回调,数据")
     this.lastSession.sessionId = dataId;
     this.miniPhoneAction();
 

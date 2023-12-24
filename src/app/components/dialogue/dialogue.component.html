@@ -5,9 +5,13 @@
     <img class="mx-2" nz-image [ngSrc]="getIcon(chatModel?.role,type)" [nzFallback]="'assets/programmer.png'" width="20" height="20" alt="图标"/>
     <div class="mx-2">{{ getHeadName(chatModel) }}</div>
     <div *ngIf="active" nz-tooltip nzTooltipTitle="该信息包含在上下文中" class="active rounded-4 mx-2"></div>
-    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'重新生成'" class="rounded-4 mx-0" nz-button>
+    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'重新生成'" class="rounded-4 mx-0"
+            [class.d-flex]="isMiniView()"
+            [class.flex-row]="isMiniView()"
+            [class.align-items-center]="isMiniView()"
+            nz-button>
       <span nz-icon nzType="redo" nzTheme="outline"></span>
-      <span *ngIf="isMiniView()">重新生成</span>
+      <span *ngIf="isMiniView()">重试</span>
     </button>
     <div class="d-flex flex-row" *ngIf="isHover">
       <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2" nz-button>

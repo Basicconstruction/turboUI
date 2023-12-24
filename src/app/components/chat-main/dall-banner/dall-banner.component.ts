@@ -5,6 +5,7 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {FormsModule} from "@angular/forms";
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-dall-banner',
@@ -14,7 +15,8 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
     NzFormModule,
     NzSelectModule,
     FormsModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NgForOf
   ],
   standalone: true
 })

@@ -1,15 +1,23 @@
 <nz-select ngModel="lucy" class="rounded-5 select m-3" [(ngModel)]="model" nzMode="default"
            (ngModelChange)="onSelectChange()">
   <nz-option-group nzLabel="chat">
-    <nz-option *ngFor="let chat of chatStreamChildren" [nzLabel]="chat" [nzValue]="chat"></nz-option>
+    @for (chat of chatStreamChildren; track chat) {
+      <nz-option [nzLabel]="chat" [nzValue]="chat"></nz-option>
+    }
   </nz-option-group>
   <nz-option-group nzLabel="image">
-    <nz-option *ngFor="let image of imageChildren" [nzLabel]="image" [nzValue]="image"></nz-option>
+    @for(image of imageChildren; track image){
+      <nz-option [nzLabel]="image" [nzValue]="image"></nz-option>
+    }
   </nz-option-group>
   <nz-option-group nzLabel="tts">
-    <nz-option *ngFor="let tts of ttsChildren" [nzLabel]="tts" [nzValue]="tts"></nz-option>
+    @for(tts of ttsChildren;track tts){
+      <nz-option  [nzLabel]="tts" [nzValue]="tts"></nz-option>
+    }
   </nz-option-group>
   <nz-option-group nzLabel="transcription">
-    <nz-option *ngFor="let stt of sttChildren" [nzLabel]="stt" [nzValue]="stt"></nz-option>
+    @for(stt of sttChildren;track stt){
+      <nz-option [nzLabel]="stt" [nzValue]="stt"></nz-option>
+    }
   </nz-option-group>
 </nz-select>
