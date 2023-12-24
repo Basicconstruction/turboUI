@@ -10,4 +10,8 @@ export class SizeReportService{
     if(!this.width) return false;
     return this.width <= 606;
   }
+  public superMiniView(){
+    if(!this.width) return false;
+    return this.width <= 300;
+  }
 }

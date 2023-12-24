@@ -3,7 +3,6 @@ import {ChatModel} from "../../../models";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzImageModule} from "ng-zorro-antd/image";
-import {NgForOf, NgIf} from "@angular/common";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 
 @Component({
@@ -14,8 +13,6 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
     NzCardModule,
     NzFormModule,
     NzImageModule,
-    NgIf,
-    NgForOf,
     MarkdownRootComponent
   ],
   standalone: true

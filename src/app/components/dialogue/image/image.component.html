@@ -1,17 +1,23 @@
-<div *ngIf="imageList!==undefined">
-  <div *ngFor="let image of imageList!.images">
-
-    <img nz-image class="show"
-         [nzFallback]="fallback"
-         [nzSrc]="autoShow(image)" alt="图片"/>
-    <app-markdown-root [content]="image.revised_prompt"></app-markdown-root>
+@if (imageList !== undefined) {
+  <div>
+    @for (image of imageList!.images; track image) {
+      <img nz-image class="show"
+           [nzFallback]="fallback"
+           [nzSrc]="autoShow(image)" alt="图片"/>
+      <app-markdown-root [content]="image.revised_prompt"></app-markdown-root>
+    }
   </div>
-</div>
-<div *ngIf="errors()">
-  <app-markdown-root [content]="chatModel?.content"></app-markdown-root>
-  error.
-</div>
-<div *ngIf="loading()">
-  <nz-spin nzSize="large" nzSimple></nz-spin>
-  {{getPendingText()}}
-</div>
+}
+@if (errors()) {
+  <div>
+    <app-markdown-root [content]="chatModel?.content"></app-markdown-root>
+    error.
+  </div>
+}
+@if(loading()){
+  <div>
+    <nz-spin nzSize="large" nzSimple></nz-spin>
+    {{getPendingText()}}
+  </div>
+}
+

@@ -123,6 +123,6 @@ https://angular.cn/guide/deployment
 chrome 性能测试  
 v2.01
 桌面设备：  
-![img_2.png](img_2.png)
-移动设备: 
 ![img_7.png](img_7.png)
+移动设备: 
+![img_10.png](img_10.png)

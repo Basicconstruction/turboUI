@@ -396,6 +396,7 @@ export class ChatMainComponent {
     this.configuration = this.configurationService.configuration!;
     this.chatSessionObservable.subscribe(async (dataId) => {
       this.initSession = false;
+      console.info(`切换会话: 会话Id: ${dataId}`)
       this.sync(dataId).then(()=>{
         let chatContext = contextMemoryService.getValue(dataId);
         this.inputChatContext(chatContext);
@@ -713,4 +714,7 @@ export class ChatMainComponent {
   }
 
 
+  superMini() {
+    return this.sizeReportService.superMiniView();
+  }
 }

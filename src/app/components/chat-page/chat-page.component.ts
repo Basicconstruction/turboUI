@@ -31,7 +31,8 @@ export class ChatPageComponent implements OnInit {
       if(historyTitle.dataId===MagicDataId) return;
       const existingItem = this.historyTitles!.find(item => item.dataId === historyTitle.dataId);
       if (!existingItem) {
-        this.historyTitles!.splice(0, 0, historyTitle) // 如果不存在具有相同 dataId 的项，则添加 historyTitle
+        this.historyTitles!.splice(0, 0, historyTitle)
+        // 如果不存在具有相同 dataId 的项，则添加 historyTitle
       }
     });
   }
@@ -92,6 +93,7 @@ export class ChatPageComponent implements OnInit {
         await this.historyTitleService.deleteHistoryTitle(historyTitle).then(async ()=>{
           await this.chatDataService.deleteHistoriesByTitleId(historyTitle.dataId)
         });
+        // 推送一个额特殊的 消息，表示历史列表发生了改变
         this.backHistoryObservable.next({
           dataId: MagicDataId,
           title: "none"

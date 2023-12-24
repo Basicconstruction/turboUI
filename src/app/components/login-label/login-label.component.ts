@@ -1,10 +1,9 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../auth";
 import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
 import {Router} from "@angular/router";
 import {NzButtonModule} from "ng-zorro-antd/button";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login-label',
@@ -12,7 +11,6 @@ import {NgIf} from "@angular/common";
   styleUrl: './login-label.component.css',
   imports: [
     NzButtonModule,
-    NgIf
   ],
   standalone: true
 })

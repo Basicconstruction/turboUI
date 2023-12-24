@@ -18,8 +18,8 @@ const routes: Routes = [
       },
       {
         path: "settings",
-        loadChildren:()=>import("./settings/setting.module")
-          .then(m=>m.SettingModule),
+        loadComponent:()=>import("./settings/settings.component")
+          .then(m=>m.SettingsComponent),
         resolve: {
           model: ConfigurationResolver
         }
@@ -31,17 +31,14 @@ const routes: Routes = [
       },
       {
         path: "prompts",
-        loadChildren: ()=>import("./prompt-store/prompts.module")
-          .then(m=>m.PromptsModule),
+        loadComponent: ()=>import("./prompt-store/prompt-store.component")
+          .then(m=>m.PromptStoreComponent),
         resolve: {
           model: SystemPromptResolver,
         }
       }
     ]
   },
-
-
-
 ];
 
 @NgModule({

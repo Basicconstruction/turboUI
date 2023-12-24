@@ -90,12 +90,12 @@
             </button>
           </div>
         </div>
-        <div *ngIf="filterPrompts.length===0">
+        @if(filterPrompts.length===0){
           这里什么都没有哦
           <nz-skeleton></nz-skeleton>
-        </div>
+        }
         <div class="d-flex flex-column">
-          <div *ngFor="let prompt of filterPrompts">
+          @for(prompt of filterPrompts; track prompt.id){
             <nz-card>
               <div class="d-flex flex-row align-items-center justify-content-between">
                 <nz-col>
@@ -110,19 +110,19 @@
                   <nz-row>
                     <button nz-button class="rounded-3 ms-1 mb-1"
                             (click)="lookModalOpen(prompt.id)"
-                      >
+                    >
                       查看
                     </button>
                     <button nz-button class="rounded-3 ms-1 mb-1"
-                      (click)="deletePrompt(prompt.id)"
-                      >
+                            (click)="deletePrompt(prompt.id)"
+                    >
                       删除
                     </button>
                   </nz-row>
                 </nz-col>
               </div>
             </nz-card>
-          </div>
+          }
         </div>
       </nz-card>
     </nz-card>

@@ -1,5 +1,6 @@
-<div class="w-100 my-2" *ngFor="let file of chatModel?.fileList">
-  <ng-container *ngIf="file.fileContent === ''; else showImage">
+<div class="w-100 my-2">
+@for(file of chatModel?.fileList;track file){
+  @if(file.fileContent===''){
     <nz-card  class="rounded-4">
       <div class="d-flex flex-column">
         <nz-row>
@@ -27,12 +28,11 @@
         </nz-row>
       </div>
     </nz-card>
-  </ng-container>
-  <ng-template #showImage>
+  }@else{
     <img nz-image class="show"
          [nzFallback]="fallback"
          [nzSrc]="file.fileContent!" alt="图片"/>
-  </ng-template>
+  }
+}
 </div>
-
 <app-markdown-root [content]="chatModel?.content"></app-markdown-root>

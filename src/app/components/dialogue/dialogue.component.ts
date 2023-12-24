@@ -6,11 +6,10 @@ import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
 import {ClipboardService} from "ngx-clipboard";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {StaticAssetsLoaderService} from "../../services/static-assets-loader.service";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import {NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase, NgSwitchDefault} from "@angular/common";
+import {NgOptimizedImage} from "@angular/common";
 import {StaticRequestComponent} from "./static-request/static-request.component";
 import {StaticImageComponent} from "./static-image/static-image.component";
 import {StaticTtsComponent} from "./static-tts/static-tts.component";
@@ -30,18 +29,14 @@ import {NzButtonModule} from "ng-zorro-antd/button";
     NzToolTipModule,
     NzIconModule,
     NgOptimizedImage,
-    NgSwitch,
     StaticRequestComponent,
     StaticImageComponent,
-    NgSwitchCase,
     StaticTtsComponent,
     ChatComponent,
     ImageComponent,
     TtsComponent,
     SttComponent,
     NzButtonModule,
-    NgIf,
-    NgSwitchDefault
   ],
   standalone: true
 })

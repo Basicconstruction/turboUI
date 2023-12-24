@@ -1,12 +1,24 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {SystemPromptService} from "../../../share-datas/system-prompt.service";
-import {NzUploadFile} from "ng-zorro-antd/upload";
+import {NzUploadFile, NzUploadModule} from "ng-zorro-antd/upload";
+import {FormsModule} from "@angular/forms";
+import {ClipboardModule} from "ngx-clipboard";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 @Component({
   selector: 'app-import-prompts',
   templateUrl: './import-prompts.component.html',
-  styleUrl: './import-prompts.component.css'
+  styleUrl: './import-prompts.component.css',
+  imports: [
+    FormsModule,
+    ClipboardModule,
+    NzUploadModule,
+    NzButtonModule,
+    NzIconModule
+  ],
+  standalone: true
 })
 export class ImportPromptsComponent {
   json: string = '';

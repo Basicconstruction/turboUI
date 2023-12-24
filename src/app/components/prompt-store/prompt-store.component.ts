@@ -4,11 +4,40 @@ import {SystemPromptItem} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {systemPromptChangeSubject} from "../../share-datas/datas.module";
 import {Observable} from "rxjs";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {ExportPromptsComponent} from "./export-prompts/export-prompts.component";
+import {ImportPromptsComponent} from "./import-prompts/import-prompts.component";
+import {CreatePromptComponent} from "./create-prompt/create-prompt.component";
+import {LookUpdatePromptComponent} from "./look-update-prompt/look-update-prompt.component";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {RouterLink} from "@angular/router";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {FormsModule} from "@angular/forms";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {NzInputModule} from "ng-zorro-antd/input";
 
 @Component({
   selector: 'app-prompt-store',
   templateUrl: './prompt-store.component.html',
-  styleUrl: './prompt-store.component.css'
+  styleUrl: './prompt-store.component.css',
+  imports: [
+    NzModalModule,
+    ExportPromptsComponent,
+    ImportPromptsComponent,
+    CreatePromptComponent,
+    LookUpdatePromptComponent,
+    NzButtonModule,
+    RouterLink,
+    NzIconModule,
+    NzCardModule,
+    NzFormModule,
+    FormsModule,
+    NzSkeletonModule,
+    NzInputModule
+  ],
+  standalone: true
 })
 export class PromptStoreComponent {
   systemPrompts: SystemPromptItem[] | undefined;

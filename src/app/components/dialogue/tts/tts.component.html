@@ -1,15 +1,19 @@
-<div class="d-flex align-items-center flex-row" *ngIf="loading()">
-  正在处理中
-  <div class="mx-3">
-    <nz-spin nzSize="large" nzSimple></nz-spin>
-  </div>
-  {{getPendingText()}}
-</div>
-<nz-card class="rounded-4" *ngIf="!loading()">
-  <div class="d-flex flex-row align-items-center">
-    <div class="music-player mx-2">
-      <img #musicIcon class="mx-2 music-icon" [class.playing]="isAudioPlaying" src="assets/audio_play.svg" width="50" height="50" alt="播放旋转的图片"/>
+@if(loading()){
+  <div class="d-flex align-items-center flex-row">
+    正在处理中
+    <div class="mx-3">
+      <nz-spin nzSize="large" nzSimple></nz-spin>
     </div>
-    <audio #player class="mx-1" controls [src]="audioSrc" (play)="onAudioPlay()" (pause)="onAudioPause()"></audio>
+    {{getPendingText()}}
   </div>
-</nz-card>
+}@else{
+  <nz-card class="rounded-4">
+    <div class="d-flex flex-row align-items-center">
+      <div class="music-player mx-2">
+        <img #musicIcon class="mx-2 music-icon" [class.playing]="isAudioPlaying" src="assets/audio_play.svg" width="50" height="50" alt="播放旋转的图片"/>
+      </div>
+      <audio #player class="mx-1" controls [src]="audioSrc" (play)="onAudioPlay()" (pause)="onAudioPause()"></audio>
+    </div>
+  </nz-card>
+}
+

@@ -1,8 +1,11 @@
-<div *ngIf="isLogin" class="loginBox text-white d-flex justify-content-center align-items-center" >
+@if(isLogin){
+  <div class="loginBox text-white d-flex justify-content-center align-items-center" >
     你已经登录
-</div>
-<div *ngIf="!isLogin" class="loginBox d-flex justify-content-center align-items-center"
-    >
+  </div>
+}@else{
+  <div class="loginBox d-flex justify-content-center align-items-center"
+  >
     <button nz-button nzType="primary" (click)="openRightsPage()">版权声明</button>
-</div>
+  </div>
+}
 

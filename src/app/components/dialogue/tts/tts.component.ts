@@ -4,7 +4,6 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {Bs64Handler} from "../../../handlers/bs64Handler";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzCardModule} from "ng-zorro-antd/card";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-tts',
@@ -13,7 +12,6 @@ import {NgIf} from "@angular/common";
   imports: [
     NzSpinModule,
     NzCardModule,
-    NgIf
   ],
   standalone: true
 })

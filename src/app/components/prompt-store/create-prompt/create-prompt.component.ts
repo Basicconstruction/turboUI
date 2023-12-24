@@ -1,13 +1,22 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {SystemPromptService} from "../../../share-datas/system-prompt.service";
-import {FormControl, FormGroup, NonNullableFormBuilder, Validators} from "@angular/forms";
+import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/common";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzButtonModule} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-create-prompt',
   templateUrl: './create-prompt.component.html',
-  styleUrl: './create-prompt.component.css'
+  styleUrl: './create-prompt.component.css',
+  imports: [
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule
+  ],
+  standalone: true
 })
 export class CreatePromptComponent {
   constructor(

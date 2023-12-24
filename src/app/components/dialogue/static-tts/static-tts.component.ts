@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {ConfigurationService} from "../../../share-datas";
 import {Bs64Handler} from "../../../handlers/bs64Handler";
 import {NzCardModule} from "ng-zorro-antd/card";
 

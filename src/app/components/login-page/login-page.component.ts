@@ -1,36 +1,17 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../auth";
 import {Router, RouterLink} from "@angular/router";
-import {NzFormModule} from "ng-zorro-antd/form";
-import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import {NzPopoverModule} from "ng-zorro-antd/popover";
-import {NzInputNumberModule} from "ng-zorro-antd/input-number";
-import {NzSliderModule} from "ng-zorro-antd/slider";
-import {FormsModule} from "@angular/forms";
-import {NzInputModule} from "ng-zorro-antd/input";
-import {NgForOf, NgStyle} from "@angular/common";
-import {NzSelectModule} from "ng-zorro-antd/select";
 
 @Component({
   standalone: true,
   imports: [
-    NzFormModule,
-    NzModalModule,
     NzCardModule,
-    NzButtonModule,
-    NzIconModule,
-    NzPopoverModule,
-    NzInputNumberModule,
-    NzSliderModule,
-    FormsModule,
-    NzInputModule,
     RouterLink,
-    NgStyle,
-    NzSelectModule,
-    NgForOf
+    NzButtonModule,
+    NzIconModule
   ],
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',

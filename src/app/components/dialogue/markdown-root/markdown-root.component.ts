@@ -1,7 +1,6 @@
 import {
   Component, Input
 } from '@angular/core';
-import {NzNotificationService} from "ng-zorro-antd/notification";
 import {CopiedButtonComponent} from "./copied-button/copied-button.component";
 import {MarkdownComponent} from "ngx-markdown";
 import {SafeHtmlPipe} from "./safeHtml.directive";

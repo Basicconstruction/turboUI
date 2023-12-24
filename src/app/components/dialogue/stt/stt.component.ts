@@ -1,9 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel, ImageList} from "../../../models";
-import {ConfigurationService} from "../../../share-datas";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-stt',
@@ -12,7 +10,6 @@ import {NgIf} from "@angular/common";
   imports: [
     NzSpinModule,
     MarkdownRootComponent,
-    NgIf
   ],
   standalone: true
 })

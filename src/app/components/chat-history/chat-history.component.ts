@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitle, LastSessionModel} from "../../models";
 import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
@@ -22,7 +22,7 @@ import {NgForOf} from "@angular/common";
   ],
   standalone: true
 })
-export class ChatHistoryComponent implements OnChanges
+export class ChatHistoryComponent
 {
   @Input()
   chatHistoryTitle: ChatHistoryTitle[] | undefined;
@@ -38,6 +38,7 @@ export class ChatHistoryComponent implements OnChanges
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       if(historyTitle.dataId!==MagicDataId){
+        console.info(`订阅到新的 历史标识 ${historyTitle.dataId} ${historyTitle.title}`);
         this.changeSession(historyTitle.dataId)
       }else{
         this.selectFirst();
@@ -65,18 +66,12 @@ export class ChatHistoryComponent implements OnChanges
     this.miniPhoneAction();
   }
 
-  ngOnChanges(): void {
-    if(this.chatHistoryTitle){
-      if(this.chatHistoryTitle.length>=1){
-        this.selectFirst();
-      }
-    }
-  }
   selectFirst(){
     const first = this.chatHistoryTitle![0];
     this.selectId = first.dataId;
     this.chatSessionObserver.next(this.selectId);
     this.lastSession.sessionId = this.selectId;
+    console.info(`选择历史的第一条 ${first.dataId} ${first.title}`)
   }
 
   reEmit($event: ChatHistoryTitleActionInfo) {
@@ -84,6 +79,7 @@ export class ChatHistoryComponent implements OnChanges
   }
 
   handleHistoryChange($event: number) {
+    console.info(`聊天历史列表响应会话更改 ${$event}`);
     this.selectId = $event;
     this.changeSession($event);
   }

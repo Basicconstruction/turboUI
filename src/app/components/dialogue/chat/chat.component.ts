@@ -1,8 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {ChatModel} from "../../../models";
-import {NzNotificationService} from "ng-zorro-antd/notification";
-import {ChatModule} from "../../chat.module";
-import {NgIf} from "@angular/common";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
@@ -11,7 +8,6 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
   imports: [
-    NgIf,
     NzIconModule,
     NzSpinModule,
     MarkdownRootComponent

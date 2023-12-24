@@ -55,23 +55,6 @@
   }
 
 </ng-template>
-<ng-template #view>
-  <div class="position-relative">
-    <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
-    @defer (on viewport){
-      @for(chat of chatModels; track chat.dataId){
-        <app-dialogue
-          (reGenerateSignal)="reGenerateHandle($event)"
-          (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
-          [active]="isActive(chat!)"></app-dialogue>
-      }
-    } @placeholder{
-      <div>
-        <nz-skeleton></nz-skeleton>
-      </div>
-    }
-  </div>
-</ng-template>
 <ng-template #logo>
   <div
     class="w-100 h-100 d-flex position-relative align-items-center justify-content-center">
@@ -94,24 +77,26 @@
 </ng-template>
 <ng-template #miniHead>
   <div class="sticky-top z-1">
-    <nz-row class="justify-content-between bg-white align-items-center">
-      <nz-col>
+    <nz-row class="d-flex flex-row justify-content-between bg-white align-items-center">
+      <div>
         <button nz-button (click)="switchSidebar()">
           <span nz-icon nzType="align-left" nzTheme="outline"></span>
         </button>
-      </nz-col>
-      <nz-col>
+      </div>
+      <div>
         @defer (on viewport){
           <app-model-selector class=""></app-model-selector>
         } @placeholder{
           <select></select>
         }
-      </nz-col>
-      <nz-col>
-        <button nz-button (click)="promptBox.focus()">
-          <span nz-icon nzType="edit" nzTheme="outline"></span>
-        </button>
-      </nz-col>
+      </div>
+      @if(!superMini()){
+        <div>
+          <button nz-button (click)="promptBox.focus()">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+        </div>
+      }
     </nz-row>
   </div>
 </ng-template>
@@ -138,7 +123,24 @@
             <app-model-selector></app-model-selector>
           </div>
         }
-        <ng-container *ngTemplateOutlet="view"></ng-container>
+        <div class="position-relative">
+          <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
+          @defer (on viewport){
+            @for(chat of chatModels; track chat.dataId){
+              <app-dialogue
+                (reGenerateSignal)="reGenerateHandle($event)"
+                (userTask)="handleUserTask($event)" [chatModel]="chat" [content]="chat.content"
+                [active]="isActive(chat!)"></app-dialogue>
+            }
+          } @placeholder{
+            <div>
+              <div class="text-center">
+                正在加载资源，请稍后
+              </div>
+              <nz-skeleton></nz-skeleton>
+            </div>
+          }
+        </div>
       </div>
     }
 

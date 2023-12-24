@@ -1,13 +1,23 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SystemPromptItem} from "../../../models";
-import {FormControl, FormGroup, NonNullableFormBuilder, Validators} from "@angular/forms";
+import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SystemPromptService} from "../../../share-datas/system-prompt.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzButtonModule} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-look-update-prompt',
   templateUrl: './look-update-prompt.component.html',
-  styleUrl: './look-update-prompt.component.css'
+  styleUrl: './look-update-prompt.component.css',
+  imports: [
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule
+  ],
+  standalone: true
 })
 export class LookUpdatePromptComponent {
   constructor(private fb: NonNullableFormBuilder,

@@ -1,12 +1,22 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {SystemPromptService} from "../../../share-datas/system-prompt.service";
 import {SystemPromptItem} from "../../../models";
-import {ClipboardService} from "ngx-clipboard";
+import {ClipboardModule, ClipboardService} from "ngx-clipboard";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-export-prompts',
   templateUrl: './export-prompts.component.html',
-  styleUrl: './export-prompts.component.css'
+  styleUrl: './export-prompts.component.css',
+  imports: [
+    NzButtonModule,
+    NzFormModule,
+    ClipboardModule,
+    FormsModule
+  ],
+  standalone: true
 })
 export class ExportPromptsComponent {
   prompts: SystemPromptItem[] | undefined;
