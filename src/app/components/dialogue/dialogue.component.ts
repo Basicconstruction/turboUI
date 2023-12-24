@@ -47,7 +47,6 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 })
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
-  private _content: string | undefined;
   constructor(private configurationService: ConfigurationService,
               private sizeReportService: SizeReportService,
               private sideBarService: SidebarService,
@@ -60,7 +59,7 @@ export class DialogueComponent {
   }
   @Input()
   set content(value: string | undefined) {
-    this._content = value;
+
   }
   @Input()
   active: boolean = false;

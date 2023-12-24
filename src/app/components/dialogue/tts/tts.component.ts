@@ -38,19 +38,18 @@ export class TtsComponent {
   }
   private _content: string | undefined;
   @Input()
-  set content(value: string | undefined) {
-    this._content = value;
+  set content(value: number | undefined) {
     if(this.chatModel?.content===undefined) return;
+    if (value === undefined || value === 0) {
+
+    } else {
+      this.stopTimer();
+    }
     try{
       const blob = this.bs64Handler.base64toBlob(this.chatModel?.content, 'audio/mpeg');
       this.audioSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)); // 创建安全的 URL
     }catch (e){
 
-    }
-    if (this._content === undefined || this._content.trim() === '') {
-
-    } else {
-      this.stopTimer();
     }
   }
   @Input()

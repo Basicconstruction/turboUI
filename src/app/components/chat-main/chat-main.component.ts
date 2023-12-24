@@ -61,7 +61,6 @@ import {FormsModule} from "@angular/forms";
     NzToolTipModule,
     NzInputModule,
     FormsModule
-
   ]
 })
 export class ChatMainComponent {
@@ -485,16 +484,16 @@ export class ChatMainComponent {
   scrollToBottom(): void {
     if (!this.chatPanel) return;
     try {
-      this.renderer.setProperty(this.chatPanel.nativeElement, 'scrollTop', this.chatPanel.nativeElement.scrollHeight);
+      setTimeout(()=>{
+        this.renderer.setProperty(this.chatPanel!.nativeElement, 'scrollTop', this.chatPanel!.nativeElement.scrollHeight);
+      },
+        200);
     } catch (err) {
       console.error(err);
     }
   }
   editModel: ChatModel | undefined;
   awareContextChange(){
-    // console.log("storage")
-    // console.log(this.chatHistoryModel?.dataId!);
-    // console.log(this.chatContext)
     this.contextMemoryService.setValue(this.chatHistoryModel?.dataId!,
       this.chatContext);
   }

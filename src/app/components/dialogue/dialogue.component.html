@@ -42,16 +42,16 @@
       </div>
 
       <div *ngSwitchCase="DisplayType.dynamicChatResult">
-        <app-chat [chatModel]="chatModel" [content]="chatModel?.content"></app-chat>
+        <app-chat [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-chat>
       </div>
       <div *ngSwitchCase="DisplayType.dynamicImageResult">
-        <app-image [chatModel]="chatModel" [content]="chatModel?.content"></app-image>
+        <app-image [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-image>
       </div>
       <div *ngSwitchCase="DisplayType.dynamicSpeechResult">
-        <app-tts [chatModel]="chatModel" [content]="chatModel?.content"></app-tts>
+        <app-tts [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-tts>
       </div>
       <div *ngSwitchCase="DisplayType.dynamicTranscriptionResult">
-        <app-stt [chatModel]="chatModel" [content]="chatModel?.content"></app-stt>
+        <app-stt [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-stt>
       </div>
 
       <div *ngSwitchDefault>

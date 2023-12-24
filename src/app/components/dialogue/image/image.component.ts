@@ -20,7 +20,6 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 })
 export class ImageComponent {
   private _chatModel: ChatModel | undefined;
-  private _content: string | undefined;
   public imageList: ImageList | undefined;
   time: number = 0;
   pending: boolean = true;
@@ -29,10 +28,9 @@ export class ImageComponent {
     this.startTimer();
   }
   @Input()
-  set content(value: string | undefined) {
-    this._content = value;// value 是一个json串
+  set content(value: number | undefined) {
     this.segmentsImage();
-    if (this._content === undefined || this._content.trim() === '') {
+    if (value === undefined || value===0) {
 
     } else {
       this.stopTimer();
@@ -61,7 +59,6 @@ export class ImageComponent {
     }
   }
   autoShow(image: DallImage) {
-    // console.log(image)
     if(!image) return "";
     if(image.url===undefined) return '';
     try{

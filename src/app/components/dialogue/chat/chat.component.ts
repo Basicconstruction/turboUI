@@ -20,7 +20,6 @@ import {MarkdownRootComponent} from "../markdown-root/markdown-root.component";
 })
 export class ChatComponent {
   private _chatModel: ChatModel | undefined;
-  private _content: string | undefined;
   time: number = 0;
   pending: boolean = true;
   private timerInterval: any;
@@ -29,10 +28,8 @@ export class ChatComponent {
   }
 
   @Input()
-  set content(value: string | undefined) {
-    // console.log("aware change")
-    this._content = value;
-    if (this._content === undefined || this._content.trim() === '') {
+  set content(value: number | undefined) {
+    if (value === undefined || value===0) {
 
     } else {
       this.stopTimer();
