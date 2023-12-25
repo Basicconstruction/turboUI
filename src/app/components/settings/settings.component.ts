@@ -30,6 +30,7 @@ import {ConfigExportComponent} from "./config-export/config-export.component";
 import {ConfigImportComponent} from "./config-import/config-import.component";
 import {configurationChangeSubject} from "../../tokens/subject.data";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {themes, ThemeSwitcherService} from "../../services";
 
 @Component({
   selector: 'app-settings',
@@ -55,10 +56,14 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
     ConfigExportComponent,
     ConfigImportComponent,
     NgForOf,
-    NzToolTipModule
+    NzToolTipModule,
+  ],
+  providers: [
+    ThemeSwitcherService
   ]
 })
 export class SettingsComponent {
+  theme: string | undefined;
   configuration: Configuration;
   sizes: string[] = sizes;
   image_response_formats: string[] = image_response_formats;
@@ -69,7 +74,8 @@ export class SettingsComponent {
   speech_response_formats: string[] = speech_response_formats;
   details = details;
 
-  constructor(private configurationService: ConfigurationService,
+  constructor(private themeSwitcherService: ThemeSwitcherService,
+              private configurationService: ConfigurationService,
               private notification: NzNotificationService,
               @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
               private renderer: Renderer2,) {
@@ -135,5 +141,11 @@ export class SettingsComponent {
     this.configurationService.configuration = $event;
     this.configuration = $event;
     await this.configurationService.setConfigurationLocal();
+  }
+
+  protected readonly themes = themes;
+
+  themeChange() {
+    this.themeSwitcherService.load(this.theme);
   }
 }

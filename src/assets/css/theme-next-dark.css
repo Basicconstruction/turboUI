@@ -1,0 +1,31 @@
+.ant-select-dropdown{
+  background: #343541 !important;
+}
+.ant-select-item{
+  background: #343541 !important;
+  color: #d1d5db !important;;
+}
+.ant-select-selector{
+  background: #343541 !important;
+}
+.bg-theme{
+  background: black !important;
+}
+.bg-theme2{
+  background: #343541 !important;
+}
+.border-theme{
+  border-color: whitesmoke !important;
+}
+.text-theme{
+  color: white !important;
+}
+.text-theme2{
+  color: #d1d5db !important;;
+}
+.button-hover:hover{
+  background-color: darkgrey !important;
+}
+.selected{
+  background-color: darkgrey !important;
+}

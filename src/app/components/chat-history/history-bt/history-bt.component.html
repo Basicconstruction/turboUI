@@ -1,7 +1,8 @@
-<div class="bg-skyblue w-100 px-2 py-1 px-sm-0 py-sm-0">
+<div class="bg-theme w-100 button-hover px-2 py-1 px-sm-0 py-sm-0">
   <button nz-button
-          class="border-box history mini p-2 rounded-3 bg-skyblue d-flex justify-content-between text-black text-start position-relative"
-          [class.button-hovered]="selectId===history?.dataId"
+          class="border-box w-100 p-2 rounded-3 mini bg-theme d-flex justify-content-between text-theme text-start position-relative"
+          [class.selected]="selectId===history?.dataId"
+          [class.border-1]="selectId===history?.dataId"
           (click)="changeSession(history?.dataId,$event)">
     <span class="overflow-hidden">{{ history?.title }}</span>
     @if(selectId===history?.dataId){

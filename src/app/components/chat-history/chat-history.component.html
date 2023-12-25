@@ -1,18 +1,18 @@
 <div
-  class="d-flex flex-column bg-skyblue w-100 text-white position-relative overflow-visible">
-  <div class="bg-skyblue sticky-top w-100 p-2">
+  class="d-flex flex-column bg-theme w-100 text-theme position-relative overflow-visible">
+  <div class="bg-theme sticky-top w-100 p-2 z-1">
     <button nz-button
             nzSize="large"
             (click)="newChat()"
-            class="bg-skyblue w-100 p-2 z-1 d-flex button-hover justify-content-between text-dark border-0">
+            class="bg-theme w-100 p-2 z-1 d-flex button-hover justify-content-between text-theme border-0">
       <span>
-        <img src="favicon.ico" width="20" height="20" alt="">
+        <img src="favicon.ico" width="20" height="20" alt="ico">
         新的聊天
       </span>
       <span nz-icon nzType="edit" nzTheme="outline"></span>
     </button>
   </div>
-  <div class="m-4"></div>
+  <div class="m-2"></div>
   @for(history of chatHistoryTitle; track history.dataId){
     <app-history-bt
       class="w-100"

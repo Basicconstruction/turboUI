@@ -7,9 +7,6 @@ import {HttpClient} from '@angular/common/http';
 export class StaticAssetsLoaderService {
   constructor(private http: HttpClient) {
   }
-  // 编译后才能用，要求在angular.json 中引入js,css
-  // 在 assets （和对应组件中加载）中也添加和导入，编译之前取消导入
-
   loadStyleSheet(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.http.get(url, {responseType: 'text'})

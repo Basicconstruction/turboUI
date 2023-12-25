@@ -117,12 +117,25 @@
                         示例文本 AaBbCc
                     </div>
                 </div>
+              <div class="d-flex justify-content-between m-1">
+                <div class="title">主题</div>
+                <div>
+                  <nz-select class="select big" [(ngModel)]="theme" (ngModelChange)="themeChange()">
+                    <nz-option-group nzLabel="主题">
+                      @for(theme of themes; track theme){
+                        <nz-option
+                                   [nzValue]="theme" [nzLabel]="theme"></nz-option>
+                      }
+                    </nz-option-group>
+                  </nz-select>
+                </div>
+              </div>
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
                     <span class="title">连接信息</span>
                 </div>
-                <div class="d-flex justify-content-between  m-1">
+                <div class="d-flex justify-content-between m-1">
                     <div>
                         <div>
                             <span class="title">后端服务器地址</span>

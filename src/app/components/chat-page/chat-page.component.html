@@ -10,32 +10,30 @@
       <span nz-icon nzType="close" nzTheme="outline"></span>
     </button>
   }
-  <div class="sidebar p-0 m-0 d-flex flex-column"
+  <div class="sidebar p-0 m-0 d-flex flex-column h-100 z-2"
        [class.d-none]="sidebarService.isSideBarClosed"
        [class.position-fixed]="miniPhone()"
-       [class.z-2]="miniPhone()"
-       [class.h-100]="miniPhone()"
-       [class.z-max]="miniPhone()"
+
   >
-    <div class="bg-skyblue overflow-y-scroll scrollbar-y-none flex-grow-1">
+    <div class="bg-theme overflow-y-scroll scrollbar-y-none flex-grow-1">
       <!-- 历史记录标记 -->
       @defer (on immediate) {
-        <app-chat-history [chatHistoryTitle]="historyTitles"
+        <app-chat-history  [chatHistoryTitle]="historyTitles"
                           (chatHistoryChangeEvent)="handleChatHistoryAction($event)"></app-chat-history>
       } @placeholder {
         <nz-skeleton></nz-skeleton>
       }
     </div>
-    <div class="bg-skyblue sticky-bottom z-0">
+    <div class="bg-theme sticky-bottom z-0">
       <!-- 登录标记 -->
       <div class="w-100">
         <div class="d-flex flex-row">
-          <button class="rounded-5 m-2" nz-button
+          <button class="rounded-5 m-2 bg-theme text-theme" nz-button
                   (click)="openSettingPage()"
           >
             设置<span nz-icon nzType="setting" nzTheme="outline"></span>
           </button>
-          <button class="rounded-5 m-2 d-flex flex-row align-items-center" nz-button
+          <button class="rounded-5 m-2 d-flex flex-row align-items-center bg-theme text-theme" nz-button
                   (click)="openPromptPage()"
           >
             预设<span nz-icon nzType="appstore" nzTheme="outline"></span>
@@ -49,7 +47,7 @@
       </div>
     </div>
   </div>
-  <div class="content bg-info col position-relative p-0 flex-grow-1"
+  <div class="content  bg-theme2 col position-relative p-0 flex-grow-1"
   >
     @if (!miniPhone()) {
       <span

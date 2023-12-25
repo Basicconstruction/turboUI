@@ -42,7 +42,7 @@
 <!-- 球状助手 -->
 <ng-template #ballHelper>
   <div (click)="showBallChoice()"
-       class="position-fixed rounded-4 tool-ball d-flex align-items-center justify-content-center"
+       class="position-fixed rounded-4 border-theme2 tool-ball d-flex align-items-center justify-content-center"
   >
     <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
   </div>
@@ -77,9 +77,9 @@
 </ng-template>
 <ng-template #miniHead>
   <div class="sticky-top z-1">
-    <nz-row class="d-flex flex-row justify-content-between bg-white align-items-center">
+    <nz-row class="d-flex flex-row justify-content-between bg-theme2 align-items-center">
       <div>
-        <button nz-button (click)="switchSidebar()">
+        <button class="bg-theme2 border-theme border-0 text-theme2" nz-button (click)="switchSidebar()">
           <span nz-icon nzType="align-left" nzTheme="outline"></span>
         </button>
       </div>
@@ -92,7 +92,7 @@
       </div>
       @if (!superMini()) {
         <div>
-          <button nz-button (click)="promptBox.focus()">
+          <button class="bg-theme2 border-theme border-0 text-theme2" nz-button (click)="promptBox.focus()">
             <span nz-icon nzType="edit" nzTheme="outline"></span>
           </button>
         </div>
@@ -100,7 +100,7 @@
     </nz-row>
   </div>
 </ng-template>
-<div class="d-flex flex-column w-100 h-100 bg-light text-dark">
+<div class="d-flex flex-column w-100 h-100 bg-theme2 text-theme2">
   <div class="position-relative d-flex flex-column overflow-y-scroll flex-grow-1" #chatPanel>
     @if (showLogo()) {
       @if (miniPhone()) {
@@ -119,7 +119,7 @@
           <ng-container *ngTemplateOutlet="miniHead">
           </ng-container>
         } @else {
-          <div class="bg-white sticky-top p-0 z-1">
+          <div class="bg-theme2 sticky-top p-0 z-1">
             <app-model-selector></app-model-selector>
           </div>
         }
@@ -171,14 +171,14 @@
                      [nzMultiple]="true"
                      [(nzFileList)]="fileList"
                      [nzBeforeUpload]="beforeUpload">
-            <button nz-button>
+            <button nz-button class="bg-theme2 text-theme2">
               <span nz-icon nzType="upload"></span>
               选择文件
             </button>
           </nz-upload>
         </div>
         <div class="d-flex flex-row h-100">
-          <button class="mx-2 my-1 border-1 border-light rounded-2"
+          <button class="mx-2 my-1 border-1 text-theme2 border-theme2 bg-theme2 rounded-2"
                   (click)="clearContext()"
                   nz-tooltip nzTooltipTitle="清空上下文">
             <img src="assets/clear.svg" width="30" height="20" alt="清空">
@@ -192,7 +192,7 @@
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
                     [(ngModel)]="inputText"
                     (keydown.control.enter)="typeControlGPT()"
-                    class="flex-grow-1 ask-box bg-transparent"></textarea>
+                    class="flex-grow-1 text-theme ask-box bg-transparent"></textarea>
         <div class="d-flex flex-column-reverse">
           <button nz-button class="rounded-5 bg-dark"
                   [nzSize]="'small'"

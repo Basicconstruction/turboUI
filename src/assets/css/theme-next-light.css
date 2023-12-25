@@ -1,0 +1,24 @@
+.bg-theme{
+  background: #e7f8ff !important;
+}
+.bg-theme2{
+  background: white !important;
+}
+.border-theme{
+  border-color: cornflowerblue !important;
+}
+.border-theme2{
+  border-color: black !important;
+}
+.text-theme{
+  color: black !important;
+}
+.text-theme2{
+  color: black !important;
+}
+.button-hover:hover{
+  background-color: #f3f3f3 !important; /* 调整按钮悬停时的背景颜色 */
+}
+.selected{
+  background-color: #f3f3f3 !important;
+}

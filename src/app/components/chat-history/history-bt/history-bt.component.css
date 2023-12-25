@@ -1,13 +1,7 @@
-.history{
-  width: 250px;
-}
-.z-max-1{
-  z-index: 10000!important;
-}
 @media (max-width: 576px) {
   .mini{
     height: 60px;
-    border: 1px solid rgb(29, 147, 171);
+    border: 1px solid;
   }
 }
 @media (min-width: 576px) {

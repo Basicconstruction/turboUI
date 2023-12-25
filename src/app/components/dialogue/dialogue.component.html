@@ -7,7 +7,7 @@
     @if(active){
       <div nz-tooltip nzTooltipTitle="该信息包含在上下文中" class="active rounded-4 mx-2"></div>
     }
-    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'重新生成'" class="rounded-4 mx-0"
+    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'重新生成'" class="rounded-4 mx-0 bg-theme2 text-theme2"
             [class.d-flex]="isMiniView()"
             [class.flex-row]="isMiniView()"
             [class.align-items-center]="isMiniView()"
@@ -19,22 +19,22 @@
     </button>
     @if(isHover){
       <div class="d-flex flex-row">
-        <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2" nz-button>
+        <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2 bg-theme2 text-theme2" nz-button>
           <span nz-icon nzType="edit" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="triggerStartAsContext()" [nzTooltipTitle]="'从这里开始上下文'" class="rounded-4" nz-button>
+        <button nz-tooltip (click)="triggerStartAsContext()" [nzTooltipTitle]="'从这里开始上下文'" class="rounded-4 bg-theme2 text-theme2" nz-button>
           <span nz-icon nzType="sort-ascending" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'删除 该条记录'" class="rounded-4 mx-2" nz-button>
+        <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'删除 该条记录'" class="rounded-4 mx-2 bg-theme2 text-theme2" nz-button>
           <span nz-icon nzType="delete" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="copyAllContent()" [nzTooltipTitle]="'复制内容'" class="rounded-4" nz-button>
+        <button nz-tooltip (click)="copyAllContent()" [nzTooltipTitle]="'复制内容'" class="rounded-4 bg-theme2 text-theme2" nz-button>
           <span nz-icon nzType="copy" nzTheme="outline"></span>
         </button>
       </div>
     }@else{
       <div class="d-flex flex-row">
-        <button class="rounded-4 mx-2" nz-button>
+        <button class="rounded-4 mx-2  bg-theme2 text-theme2" nz-button>
           <span nz-icon nzType="fullscreen" nzTheme="outline"></span>
         </button>
       </div>
