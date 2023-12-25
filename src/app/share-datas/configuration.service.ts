@@ -2,7 +2,8 @@ import {Inject, Injectable} from "@angular/core";
 import {DbService} from "./db.service";
 import {Configuration, RequestType} from "../models";
 import {Subject} from "rxjs";
-import {configurationChangeSubject, DatasModule} from "./datas.module";
+import {DatasModule} from "./datas.module";
+import {configurationChangeSubject} from "../tokens/subject.data";
 export const timeToWait = 1;
 @Injectable({
   providedIn: DatasModule

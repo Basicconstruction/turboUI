@@ -1,9 +1,10 @@
 import {Inject, Injectable} from "@angular/core";
 import {SystemPromptItem} from "../models";
 import {DbService} from "./db.service";
-import {DatasModule, systemPromptChangeSubject} from "./datas.module";
+import {DatasModule} from "./datas.module";
 import {Observer} from "rxjs";
 import {timeToWait} from "./configuration.service";
+import {systemPromptChangeSubject} from "../tokens/subject.data";
 
 @Injectable({
   providedIn: DatasModule

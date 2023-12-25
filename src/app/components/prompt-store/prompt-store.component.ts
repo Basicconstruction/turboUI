@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {SystemPromptService} from "../../share-datas/system-prompt.service";
 import {SystemPromptItem} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {systemPromptChangeSubject} from "../../share-datas/datas.module";
 import {Observable} from "rxjs";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {ExportPromptsComponent} from "./export-prompts/export-prompts.component";
@@ -17,6 +16,7 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {FormsModule} from "@angular/forms";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NzInputModule} from "ng-zorro-antd/input";
+import {systemPromptChangeSubject} from "../../tokens/subject.data";
 
 @Component({
   selector: 'app-prompt-store',

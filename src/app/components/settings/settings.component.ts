@@ -2,7 +2,6 @@ import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core
 import {ConfigurationService} from "../../share-datas";
 import {Configuration} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
-import {configurationChangeSubject} from "../../share-datas/datas.module";
 import {Subject} from "rxjs";
 import {
   image_response_formats,
@@ -29,6 +28,7 @@ import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {ConfigExportComponent} from "./config-export/config-export.component";
 import {ConfigImportComponent} from "./config-import/config-import.component";
+import {configurationChangeSubject} from "../../tokens/subject.data";
 
 @Component({
   selector: 'app-settings',

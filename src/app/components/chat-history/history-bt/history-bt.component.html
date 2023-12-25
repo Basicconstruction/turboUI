@@ -3,11 +3,14 @@
         [class.button-hovered]="selectId===history?.dataId"
          (click)="changeSession(history?.dataId,$event)">
   <span class="overflow-hidden">{{ history?.title }}</span>
-  <span  *ngIf="selectId===history?.dataId"
-        nz-icon class="mx-2 py-1"
-         #spanBt
-         nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
-        nzType="dash" nzTheme="outline"></span>
+  @if(selectId===history?.dataId){
+    <span
+      nz-icon class="mx-2 py-1"
+      #spanBt
+      nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+      nzType="dash" nzTheme="outline"></span>
+  }
+
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <div class="d-flex flex-column" >
       <button class="text-start" (click)="deleteAction()" nz-button><span nz-icon class="" nzType="delete" nzTheme="outline"></span>delete</button>

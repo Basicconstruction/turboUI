@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitle, LastSessionModel} from "../../models";
-import {backChatHistorySubject, chatSessionSubject} from "../../share-datas/datas.module";
 import {Observable, Observer} from "rxjs";
 import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
@@ -9,6 +8,8 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {HistoryBtComponent} from "./history-bt/history-bt.component";
 import {NgForOf} from "@angular/common";
+import {backChatHistorySubject, chatSessionSubject} from "../../tokens/subject.data";
+import {lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/singleton";
 
 @Component({
   selector: 'app-chat-history',
@@ -30,11 +31,11 @@ export class ChatHistoryComponent
   chatHistoryChangeEvent = new EventEmitter<ChatHistoryTitleActionInfo>();
   selectId: number | undefined;
   constructor(
-    private sizeReportService: SizeReportService,
-    public sidebarService: SidebarService,
+    @Inject(sizeReportToken) private sizeReportService: SizeReportService,
+    @Inject(sideBarToken) public sidebarService: SidebarService,
     @Inject(chatSessionSubject) private chatSessionObserver:Observer<number> ,
               @Inject(backChatHistorySubject) private backHistoryObservable: Observable<ChatHistoryTitle>,
-              private lastSession: LastSessionModel,
+              @Inject(lastSessionToken) private lastSession: LastSessionModel,
               ) {
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       if(historyTitle.dataId!==MagicDataId){

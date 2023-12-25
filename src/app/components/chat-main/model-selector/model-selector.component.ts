@@ -1,11 +1,11 @@
 import {Component, Inject} from '@angular/core';
 import {ConfigurationService} from "../../../share-datas";
-import {configurationChangeSubject} from "../../../share-datas/datas.module";
 import {Subject} from "rxjs";
 import {RequestType} from "../../../models";
 import {FormsModule} from "@angular/forms";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NgForOf} from "@angular/common";
+import {configurationChangeSubject} from "../../../tokens/subject.data";
 
 @Component({
   selector: 'app-model-selector',

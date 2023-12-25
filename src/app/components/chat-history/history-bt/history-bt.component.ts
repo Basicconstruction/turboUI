@@ -11,7 +11,6 @@ import {NzButtonModule} from "ng-zorro-antd/button";
   styleUrl: './history-bt.component.css',
   imports: [
     NzIconModule,
-    NgIf,
     NzButtonModule,
     NzDropDownModule,
   ],

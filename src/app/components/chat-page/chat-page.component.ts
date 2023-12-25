@@ -1,7 +1,6 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle} from "../../models";
 import {ChatDataService, DbService, HistoryTitleService} from "../../share-datas";
-import {backChatHistorySubject, DatasModule} from "../../share-datas/datas.module";
 import {min, Subject} from "rxjs";
 import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
@@ -11,6 +10,8 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {ChatHistoryComponent} from "../chat-history/chat-history.component";
 import {LoginLabelComponent} from "../login-label/login-label.component";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {backChatHistorySubject} from "../../tokens/subject.data";
+import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
 export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
@@ -33,8 +34,8 @@ export class ChatPageComponent implements OnInit {
   }
 
   historyTitles: ChatHistoryTitle[] | undefined;
-  constructor(private sizeReportService: SizeReportService,
-    public sidebarService: SidebarService,
+  constructor(@Inject(sizeReportToken) private sizeReportService: SizeReportService,
+    @Inject(sideBarToken) public sidebarService: SidebarService,
     private router: Router,
     private historyTitleService: HistoryTitleService,
               private chatDataService: ChatDataService,

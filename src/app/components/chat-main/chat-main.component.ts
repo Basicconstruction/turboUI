@@ -6,7 +6,6 @@ import {
   SystemPromptItem, TaskType, TranscriptionPacket, UserTask,
 } from "../../models";
 import {Observable, Observer, Subject, Subscription} from "rxjs";
-import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../share-datas/datas.module";
 import {ChatDataService, ConfigurationService, HistoryTitleService} from "../../share-datas";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ContextMemoryService, SidebarService, SizeReportService} from "../../services";
@@ -22,7 +21,7 @@ import {SystemPromptManagerComponent} from "./system-prompt-manager/system-promp
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
-import {NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet} from "@angular/common";
+import {NgTemplateOutlet} from "@angular/common";
 import {ModelSelectorComponent} from "./model-selector/model-selector.component";
 import {DialogueComponent} from "../dialogue/dialogue.component";
 import {VisionBannerComponent} from "./vision-banner/vision-banner.component";
@@ -35,6 +34,8 @@ import {FormsModule} from "@angular/forms";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {OpenaiService} from "../../fetch";
+import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../tokens/subject.data";
+import {contextMemoryToken, lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/singleton";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -67,7 +68,10 @@ import {OpenaiService} from "../../fetch";
     ChatContextHandler,
     ShowTypeService,
     OpenaiService,
-    ModelFetchService
+    ModelFetchService,
+    {
+      provide: contextMemoryToken, useValue: new ContextMemoryService()
+    }
   ]
 })
 export class ChatMainComponent {
@@ -365,17 +369,17 @@ export class ChatMainComponent {
 
   }
 
-  constructor(private sizeReportService: SizeReportService,
-              public sidebarService: SidebarService,
+  constructor(@Inject(sizeReportToken) private sizeReportService: SizeReportService,
+              @Inject(sideBarToken) public sidebarService: SidebarService,
               private visionContextHandler: VisionContextHandler,
               private chatContextHandler: ChatContextHandler,
-              private contextMemoryService: ContextMemoryService,
+              @Inject(contextMemoryToken) private contextMemoryService: ContextMemoryService,
               private renderer: Renderer2,
               private chatDataService: ChatDataService,
               @Inject(chatSessionSubject) private chatSessionObservable: Observable<number>,
               private chatHistoryService: HistoryTitleService,
               @Inject(backChatHistorySubject) private backHistoryObserver: Observer<ChatHistoryTitle>,
-              private lastSession: LastSessionModel,
+              @Inject(lastSessionToken) private lastSession: LastSessionModel,
               private configurationService: ConfigurationService,
               private notification: NzNotificationService,
               @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
