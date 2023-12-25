@@ -41,3 +41,19 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #aaa; /* 鼠标悬停时滑块颜色 */
 }
+
+.bg-skyblue{
+  background: #e7f8ff;
+}
+.border-blue{
+  border-color: cornflowerblue;
+}
+.button-hover:hover{
+  background-color: #f3f3f3 !important; /* 调整按钮悬停时的背景颜色 */
+}
+.border-box{
+  box-sizing: border-box;
+}
+.content-box{
+  box-sizing: content-box;
+}
