@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {ConfigurationService} from "./configuration.service";
-import {ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 
 @Injectable()
 export class ConfigurationResolver{

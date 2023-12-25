@@ -4,9 +4,7 @@ import {ImageContent, TextContent} from "../models/message.model";
 import {ChatContext, SystemContext} from "../services";
 import {SystemRole} from "../models";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class VisionContextHandler{
   handlerBefore(chatContext: ChatContext,
                 chatModels: ChatModel[],

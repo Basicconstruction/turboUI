@@ -3,9 +3,7 @@ import {ChatModel, Configuration, Message, ShowType} from "../models";
 import {ChatContext, SystemContext} from "../services";
 import {SystemRole} from "../models";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class ChatContextHandler{
   handler(back: number | undefined,
           configuration: Configuration,

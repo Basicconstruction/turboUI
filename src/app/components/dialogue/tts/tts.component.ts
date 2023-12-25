@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {Bs64Handler} from "../../../handlers/bs64Handler";
+import {Bs64Handler} from "../../../handlers";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzCardModule} from "ng-zorro-antd/card";
 
@@ -12,6 +12,9 @@ import {NzCardModule} from "ng-zorro-antd/card";
   imports: [
     NzSpinModule,
     NzCardModule,
+  ],
+  providers: [
+    Bs64Handler
   ],
   standalone: true
 })

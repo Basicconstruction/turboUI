@@ -42,31 +42,35 @@
   </div>
   <div class="flex-grow-1 centered px-5 my-2 w-100">
     <div [style]="getFontSize()">
-      @switch (getDisplayType(type)){
-        @case (DisplayType.staticRequestOrResult){
-          <app-static-request [chatModel]="chatModel"></app-static-request>
+      @defer (on immediate){
+        @switch (getDisplayType(type)){
+          @case (DisplayType.staticRequestOrResult){
+            <app-static-request [chatModel]="chatModel"></app-static-request>
+          }
+          @case (DisplayType.staticImageResult){
+            <app-static-image [chatModel]="chatModel"></app-static-image>
+          }
+          @case (DisplayType.staticSpeechResult){
+            <app-static-tts [chatModel]="chatModel"></app-static-tts>
+          }
+          @case (DisplayType.dynamicChatResult){
+            <app-chat [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-chat>
+          }
+          @case (DisplayType.dynamicImageResult){
+            <app-image [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-image>
+          }
+          @case (DisplayType.dynamicSpeechResult){
+            <app-tts [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-tts>
+          }
+          @case (DisplayType.dynamicTranscriptionResult){
+            <app-stt [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-stt>
+          }
+          @default {
+            <app-static-request [chatModel]="chatModel"></app-static-request>
+          }
         }
-        @case (DisplayType.staticImageResult){
-          <app-static-image [chatModel]="chatModel"></app-static-image>
-        }
-        @case (DisplayType.staticSpeechResult){
-          <app-static-tts [chatModel]="chatModel"></app-static-tts>
-        }
-        @case (DisplayType.dynamicChatResult){
-          <app-chat [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-chat>
-        }
-        @case (DisplayType.dynamicImageResult){
-          <app-image [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-image>
-        }
-        @case (DisplayType.dynamicSpeechResult){
-          <app-tts [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-tts>
-        }
-        @case (DisplayType.dynamicTranscriptionResult){
-          <app-stt [chatModel]="chatModel" [content]="chatModel?.content?.length"></app-stt>
-        }
-        @default {
-          <app-static-request [chatModel]="chatModel"></app-static-request>
-        }
+      } @placeholder (minimum 50ms){
+        <nz-skeleton></nz-skeleton>
       }
     </div>
 

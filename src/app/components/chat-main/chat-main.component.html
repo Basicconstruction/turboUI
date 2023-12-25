@@ -1,4 +1,4 @@
-@defer (on viewport) {
+@defer (on immediate) {
   <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑"
             (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
@@ -8,7 +8,7 @@
 } @placeholder {
   <div></div>
 }
-@defer (on viewport) {
+@defer (on immediate) {
   <nz-modal [(nzVisible)]="choiceVisible" nzTitle="选择系统提示词"
             [nzFooter]="[]"
             (nzOnCancel)="handleChoiceClose()"
@@ -23,7 +23,7 @@
 } @placeholder {
   <div></div>
 }
-@defer (on viewport) {
+@defer (on immediate) {
   <nz-modal [(nzVisible)]="systemPromptManagerVisible"
             nzTitle="管理系统上下文"
             [nzFooter]="[]"
@@ -84,9 +84,9 @@
         </button>
       </div>
       <div>
-        @defer (on viewport) {
+        @defer (on immediate) {
           <app-model-selector class=""></app-model-selector>
-        } @placeholder {
+        } @placeholder (minimum 100ms){
           <select></select>
         }
       </div>
@@ -125,7 +125,7 @@
         }
         <div class="position-relative">
           <ng-container *ngTemplateOutlet="ballHelper"></ng-container>
-          @defer (on viewport) {
+          @defer (on immediate) {
             @for (chat of chatModels; track chat.dataId) {
               <app-dialogue
                 (reGenerateSignal)="reGenerateHandle($event)"

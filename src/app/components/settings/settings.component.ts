@@ -110,7 +110,7 @@ export class SettingsComponent {
   scrollToTop() {
     if (!this.settingPanel) return;
     this.renderer.setProperty(this.settingPanel.nativeElement, 'scrollTop', 0);
-    console.log("scroll 0")
+    // console.log("scroll 0")
   }
 
   handleInputConfigOk() {

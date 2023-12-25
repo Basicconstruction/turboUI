@@ -2,10 +2,10 @@ import {Inject, Injectable} from "@angular/core";
 import {DbService} from "./db.service";
 import {Configuration, RequestType} from "../models";
 import {Subject} from "rxjs";
-import {configurationChangeSubject} from "./datas.module";
+import {configurationChangeSubject, DatasModule} from "./datas.module";
 export const timeToWait = 1;
 @Injectable({
-  providedIn: "root"
+  providedIn: DatasModule
 })
 export class ConfigurationService {
   public configuration: Configuration | undefined;

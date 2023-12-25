@@ -34,6 +34,7 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {FormsModule} from "@angular/forms";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {OpenaiService} from "../../fetch";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -50,9 +51,6 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
     ModelSelectorComponent,
     NgTemplateOutlet,
     DialogueComponent,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
     VisionBannerComponent,
     SttBannerComponent,
     TtsBannerComponent,
@@ -63,6 +61,13 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
     FormsModule,
     NzImageModule,
     NzSkeletonModule
+  ],
+  providers: [
+    VisionContextHandler,
+    ChatContextHandler,
+    ShowTypeService,
+    OpenaiService,
+    ModelFetchService
   ]
 })
 export class ChatMainComponent {

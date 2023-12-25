@@ -1,12 +1,12 @@
 import {Inject, Injectable} from "@angular/core";
 import {SystemPromptItem} from "../models";
 import {DbService} from "./db.service";
-import {systemPromptChangeSubject} from "./datas.module";
+import {DatasModule, systemPromptChangeSubject} from "./datas.module";
 import {Observer} from "rxjs";
 import {timeToWait} from "./configuration.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: DatasModule
 })
 export class SystemPromptService {
   public systemPrompts: SystemPromptItem[] | undefined;

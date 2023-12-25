@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {DbService} from "./db.service";
 import {ChatHistoryTitle} from "../models";
+import {DatasModule} from "./datas.module";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: DatasModule
 })
 export class HistoryTitleService{
   constructor(private dbService: DbService) {

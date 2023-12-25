@@ -1,8 +1,6 @@
 import {Injectable} from "@angular/core";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class Bs64Handler{
   base64toBlob(base64Data: string, contentType: string): Blob {
     const sliceSize = 512;

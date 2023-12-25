@@ -49,9 +49,10 @@ export class ChatHistoryComponent
 
   changeSession(dataId: number) {
     this.selectId = dataId;
+    this.miniPhoneAction();
     this.chatSessionObserver.next(dataId);
     this.lastSession.sessionId = dataId;
-    this.miniPhoneAction();
+
 
   }
   miniPhoneAction(){

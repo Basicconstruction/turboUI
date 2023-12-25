@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {DbService} from "./db.service";
 import {ChatHistory, ChatHistoryModel, ChatListModel, ChatModel} from "../models";
+import {DatasModule} from "./datas.module";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: DatasModule
 })
 export class ChatDataService{
   constructor(private dbService: DbService) {
@@ -38,7 +39,6 @@ export class ChatDataService{
           data.dataId
         );
       })
-      // return undefined;
     } catch (error) {
       // Handle errors, log or throw if necessary
       console.error('Error fetching chat history:', error);

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class StaticAssetsLoaderService {
   constructor(private http: HttpClient) {

@@ -1,9 +1,7 @@
 import {Injectable} from "@angular/core";
 import {RequestType, ShowType} from "../models";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class ShowTypeService{
   public getRequestType(type: ShowType): RequestType{
     return type % 5;

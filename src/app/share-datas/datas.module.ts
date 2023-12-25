@@ -20,8 +20,7 @@ export const systemPromptChangeSubject = new InjectionToken("system-prompt");
     },
     {
       provide: backChatHistorySubject, useValue: new Subject<ChatHistoryTitle>()
-    },ConfigurationResolver,
-    SystemPromptResolver,
+    },
     {
       provide: configurationChangeSubject, useValue: new Subject<boolean>()
     },

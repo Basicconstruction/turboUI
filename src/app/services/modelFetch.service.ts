@@ -3,9 +3,7 @@ import {OpenaiService} from "../fetch";
 import {ChatPacket, ChatVisionPacket, ImagePacket, RequestType, SpeechPacket, TranscriptionPacket} from "../models";
 import {Observable} from "rxjs";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class ModelFetchService{
   constructor(private openaiService: OpenaiService) {
   }

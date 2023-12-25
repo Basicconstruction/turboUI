@@ -4,8 +4,9 @@ import {ChatHistory, ChatHistoryTitle, Configuration, SystemPromptItem} from "..
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
 import {timeToWait} from "./configuration.service";
+import {DatasModule} from "./datas.module";
 @Injectable({
-  providedIn: "root"
+  providedIn: DatasModule
 })
 export class DbService{
   private idbDb: IDBPDatabase<ChatDb> | undefined;

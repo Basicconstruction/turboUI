@@ -14,17 +14,21 @@ export class EscapeHtmlPipe implements PipeTransform {
     while ((match = regex.exec(value)) !== null) {
       const codeStartIndex = match.index;
       const codeEndIndex = regex.lastIndex;
+      // console.log(`code since ${codeStartIndex}\ncode end ${codeEndIndex}`)
       const precedingText = value.substring(lastIndex, codeStartIndex);
-      if (precedingText.trim().length > 0) {
+      if (precedingText.length > 0) {
         segments.push(precedingText);
+        // console.log(`put int text ${precedingText}`)
       }
       const codeContent = match[1];
       segments.push(codeContent);
+      // console.log(`put in code ${codeContent}`)
       lastIndex = codeEndIndex;
     }
     const remainingText = value.substring(lastIndex);
     if (remainingText.trim().length > 0) {
       segments.push(remainingText);
+      // console.log(`put in remain text ${remainingText}`)
     }
     return segments.map(part => {
       if(part.startsWith('```')&&part.endsWith('```')){

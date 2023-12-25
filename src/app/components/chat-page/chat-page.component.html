@@ -19,7 +19,7 @@
   >
     <div class="bg-dark overflow-y-scroll scrollbar-y-none flex-grow-1">
       <!-- 历史记录标记 -->
-      @defer (on viewport) {
+      @defer (on immediate) {
         <app-chat-history [chatHistoryTitle]="historyTitles"
                           (chatHistoryChangeEvent)="handleChatHistoryAction($event)"></app-chat-history>
       } @placeholder {

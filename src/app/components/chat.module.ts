@@ -1,28 +1,21 @@
-import {NgModule, SecurityContext} from "@angular/core";
-import {ChatPageComponent} from './chat-page/chat-page.component';
+import {NgModule} from "@angular/core";
 import {ChatsRoutingModule} from "./chats-routing.module";
-import {NzButtonModule} from "ng-zorro-antd/button";
-import {NzIconModule} from "ng-zorro-antd/icon";
-import {LoginLabelComponent} from './login-label/login-label.component';
-import {ChatHistoryComponent} from './chat-history/chat-history.component';
 import {DatasModule} from "../share-datas/datas.module";
-import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {ConfigurationResolver} from "../share-datas";
+import {SystemPromptResolver} from "../share-datas/system-prompt-resolver.service";
 
 @NgModule({
   imports: [
     ChatsRoutingModule,
     DatasModule,
-    NzButtonModule,
-    NzIconModule,
-    ChatHistoryComponent,
-    LoginLabelComponent,
-    NzSkeletonModule,
   ],
   declarations: [
-    ChatPageComponent,
   ],
   exports: [],
-  providers: []
+  providers: [
+    ConfigurationResolver,
+    SystemPromptResolver,
+  ]
 })
 export class ChatModule {
 

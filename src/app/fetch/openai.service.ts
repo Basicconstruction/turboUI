@@ -6,9 +6,7 @@ import {ChatVisionPacket, Message, RequestType, VisionMessage} from "../models";
 import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {ChatPacket, ImagePacket, SpeechPacket, TranscriptionPacket} from "../models";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OpenaiService {
   constructor(private configurationService: ConfigurationService, private http: HttpClient) {
   }

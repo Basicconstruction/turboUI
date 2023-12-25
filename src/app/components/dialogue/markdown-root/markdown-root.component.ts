@@ -4,6 +4,7 @@ import {
 import {MarkdownModule} from "ngx-markdown";
 import {CopiedButtonComponent} from "./copied-button/copied-button.component";
 import {EscapeHtmlPipe} from "./simple-sanitizer.pipe";
+import {CwPipe} from "./cw.pipe";
 @Component({
   selector: 'app-markdown-root',
   templateUrl: './markdown-root.component.html',
@@ -12,7 +13,8 @@ import {EscapeHtmlPipe} from "./simple-sanitizer.pipe";
   imports: [
     MarkdownModule,
     CopiedButtonComponent,
-    EscapeHtmlPipe
+    EscapeHtmlPipe,
+    CwPipe
   ]
 })
 export class MarkdownRootComponent

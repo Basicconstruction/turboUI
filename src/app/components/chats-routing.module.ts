@@ -6,7 +6,8 @@ import {SystemPromptResolver} from "../share-datas/system-prompt-resolver.servic
 
 const routes: Routes = [
   {
-    path: "",component: ChatPageComponent,
+    path: "", loadComponent: ()=>import("./chat-page/chat-page.component")
+      .then(m=>m.ChatPageComponent),
     children: [
       {
         path: "", loadComponent: ()=>import('./chat-main/chat-main.component')

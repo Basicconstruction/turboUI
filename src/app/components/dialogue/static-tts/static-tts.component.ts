@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ChatModel} from "../../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {Bs64Handler} from "../../../handlers/bs64Handler";
+import {Bs64Handler} from "../../../handlers";
 import {NzCardModule} from "ng-zorro-antd/card";
 
 @Component({
@@ -10,6 +10,9 @@ import {NzCardModule} from "ng-zorro-antd/card";
   styleUrl: './static-tts.component.css',
   imports: [
     NzCardModule
+  ],
+  providers:[
+    Bs64Handler
   ],
   standalone: true
 })
