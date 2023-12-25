@@ -1,7 +1,9 @@
 <div class="d-flex flex-column w-100 h-100 bg-light text-dark">
-    <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
-        <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
-            <div class="d-flex flex-column p-2 mx-2">
+    <div class="overflow-y-auto flex-grow-1 position-relative"  #settingPanel>
+        <div
+          class="d-flex bg-light flex-row sticky-top z-1 justify-content-sm-between justify-content-md-start"
+            >
+            <div class="d-flex flex-column pt-2 mx-2">
                 <div style="font-size: 20px;font-weight: bold;">
                     设置
                 </div>
@@ -9,7 +11,7 @@
                     设置默认属性
                 </div>
             </div>
-            <div class="p-2 mx-0 my-auto px-4">
+            <div class="py-2 my-auto pe-4 ms-4 ms-sm-0">
                 <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
                     <span nz-icon nzType="close" nzTheme="outline"></span>
                 </button>
@@ -18,7 +20,8 @@
         <div class="w-100 d-flex flex-column" >
             <button class="back-to-top text-center"
                     (click)="scrollToTop()"
-                    nz-popover nzPopoverTitle="回到顶部"><span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+                    nz-tooltip nzTooltipTitle="回到顶部"
+              ><span nz-icon nzType="arrow-up" nzTheme="outline"></span>
             </button>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">

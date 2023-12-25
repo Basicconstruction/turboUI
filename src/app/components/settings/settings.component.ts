@@ -29,6 +29,7 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {ConfigExportComponent} from "./config-export/config-export.component";
 import {ConfigImportComponent} from "./config-import/config-import.component";
 import {configurationChangeSubject} from "../../tokens/subject.data";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 
 @Component({
   selector: 'app-settings',
@@ -53,7 +54,8 @@ import {configurationChangeSubject} from "../../tokens/subject.data";
     NzSkeletonModule,
     ConfigExportComponent,
     ConfigImportComponent,
-    NgForOf
+    NgForOf,
+    NzToolTipModule
   ]
 })
 export class SettingsComponent {

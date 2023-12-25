@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {ChatModel, ShowType, SystemRole, TaskType, UserTask} from "../../models";
 import {UserRole} from "../../models";
 import {ConfigurationService} from "../../share-datas";
@@ -19,6 +19,7 @@ import {TtsComponent} from "./tts/tts.component";
 import {SttComponent} from "./stt/stt.component";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
 @Component({
   selector: 'app-dialogue',
   templateUrl: './dialogue.component.html',
@@ -43,8 +44,8 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 export class DialogueComponent {
   private _chatModel: ChatModel | undefined;
   constructor(private configurationService: ConfigurationService,
-              private sizeReportService: SizeReportService,
-              private sideBarService: SidebarService,
+              @Inject(sizeReportToken) private sizeReportService: SizeReportService,
+              @Inject(sideBarToken) private sideBarService: SidebarService,
               private clipboard: ClipboardService,
               private notification: NzNotificationService
               ) {
