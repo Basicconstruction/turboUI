@@ -25,7 +25,6 @@
 }
 
 .back-to-top {
-  border: none;
   z-index: 2;
   position: fixed;
   right: 40px;
@@ -37,11 +36,6 @@
   width: 40px;
   line-height: 40px;
   border-radius: 4px;
-  color: #fff;
   text-align: center;
   font-size: 20px;
-}
-
-.back-to-top {
-  color: black;
 }

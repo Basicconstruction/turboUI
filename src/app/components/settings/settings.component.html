@@ -1,7 +1,7 @@
-<div class="d-flex flex-column w-100 h-100 bg-light text-dark">
+<div class="d-flex flex-column w-100 h-100 bg-theme2 text-theme2">
     <div class="overflow-y-auto flex-grow-1 position-relative"  #settingPanel>
         <div
-          class="d-flex bg-light flex-row sticky-top z-1 justify-content-start justify-content-sm-between"
+          class="d-flex bg-theme2 flex-row sticky-top z-1 justify-content-start justify-content-sm-between"
             >
             <div class="d-flex flex-column pt-2 mx-2">
                 <div style="font-size: 20px;font-weight: bold;">
@@ -12,13 +12,14 @@
                 </div>
             </div>
             <div class="py-2 my-auto pe-4 ms-5 ms-sm-0">
-                <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
+                <button nz-button class="border-1 rounded-2" [routerLink]="['/chat']">
                     <span nz-icon nzType="close" nzTheme="outline"></span>
                 </button>
             </div>
         </div>
         <div class="w-100 d-flex flex-column" >
             <button class="back-to-top text-center"
+                    nz-button
                     (click)="scrollToTop()"
                     nz-tooltip nzTooltipTitle="回到顶部"
               ><span nz-icon nzType="arrow-up" nzTheme="outline"></span>

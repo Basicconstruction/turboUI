@@ -1,31 +1,65 @@
-.ant-select-dropdown{
+/* Global Styles */
+.ant-modal-content,
+.ant-modal-header,
+.ant-modal-title,
+.ant-modal-close,
+.ant-modal-footer,
+.ant-modal-body {
   background: #343541 !important;
+  color: #d1d5db !important;
 }
-.ant-select-item{
+
+.ant-btn {
   background: #343541 !important;
-  color: #d1d5db !important;;
-}
-.ant-select-selector{
-  background: #343541 !important;
-}
-.bg-theme{
-  background: black !important;
-}
-.bg-theme2{
-  background: #343541 !important;
-}
-.border-theme{
+  color: #d1d5db !important;
   border-color: whitesmoke !important;
 }
-.text-theme{
+
+.ant-card,
+.ant-select-dropdown,
+.ant-select,
+.ant-select-item,
+.ant-select-selection-item,
+.ant-select-selector,
+.bg-theme2 {
+  color: #d1d5db !important;
+  background: #343541 !important;
+}
+
+.ant-card {
+  border-color: whitesmoke !important;
+}
+
+input,
+textarea,
+label {
+  background: #343541 !important;
+  color: #d1d5db !important;
+}
+
+/* Specific Theme Classes */
+.bg-theme {
+  background: black !important;
+}
+
+.border-theme {
+  border-color: whitesmoke !important;
+}
+.border-theme2 {
+  border-color: whitesmoke !important;
+}
+.text-theme {
   color: white !important;
 }
-.text-theme2{
-  color: #d1d5db !important;;
+
+.text-theme2 {
+  color: #d1d5db !important;
 }
-.button-hover:hover{
-  background-color: darkgrey !important;
+
+.button-hover:hover,
+.selected {
+  background-color: #363739 !important;
 }
-.selected{
-  background-color: darkgrey !important;
-}
+
+
+

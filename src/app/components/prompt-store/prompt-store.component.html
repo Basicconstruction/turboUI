@@ -38,16 +38,16 @@
     <app-look-update-prompt [prompt]="lookPrompt" (close)="lookClose()"></app-look-update-prompt>
   </ng-container>
 </nz-modal>
-<div class="d-flex flex-column w-100 h-100 bg-white text-dark">
+<div class="d-flex flex-column w-100 h-100 bg-theme2 text-theme2">
   <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
-    <div class="d-flex bg-light flex-row sticky-top justify-content-between z-1">
+    <div class="d-flex bg-theme2 flex-row sticky-top justify-content-between z-1">
       <div class="d-flex flex-column p-2 mx-2">
         <div style="font-size: 20px;font-weight: bold;">
           预设管理
         </div>
       </div>
       <div class="p-2 mx-0 my-auto px-4">
-        <button nz-button class="bg-light border-1 rounded-2" [routerLink]="['/chat']">
+        <button nz-button class="border-1 rounded-2" [routerLink]="['/chat']">
           <span nz-icon nzType="close" nzTheme="outline"></span>
         </button>
       </div>
