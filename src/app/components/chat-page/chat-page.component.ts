@@ -12,6 +12,7 @@ import {LoginLabelComponent} from "../login-label/login-label.component";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {backChatHistorySubject} from "../../tokens/subject.data";
 import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
+import {TranslateModule} from "@ngx-translate/core";
 export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
@@ -25,6 +26,7 @@ export const MagicDataId = -2;
     LoginLabelComponent,
     NzSkeletonModule,
     RouterOutlet,
+    TranslateModule,
   ]
 })
 export class ChatPageComponent implements OnInit {

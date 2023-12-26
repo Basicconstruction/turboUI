@@ -5,6 +5,7 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-stt-banner',
@@ -15,7 +16,8 @@ import {NgForOf, NgIf} from "@angular/common";
     NzSelectModule,
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    TranslateModule
   ],
   standalone: true
 })

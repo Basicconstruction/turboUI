@@ -36,6 +36,7 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {OpenaiService} from "../../fetch";
 import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../tokens/subject.data";
 import {contextMemoryToken, lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/singleton";
+import {TranslateModule} from "@ngx-translate/core";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -61,7 +62,8 @@ import {contextMemoryToken, lastSessionToken, sideBarToken, sizeReportToken} fro
     NzInputModule,
     FormsModule,
     NzImageModule,
-    NzSkeletonModule
+    NzSkeletonModule,
+    TranslateModule
   ],
   providers: [
     VisionContextHandler,

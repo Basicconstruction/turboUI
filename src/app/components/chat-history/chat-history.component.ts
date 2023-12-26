@@ -10,6 +10,7 @@ import {HistoryBtComponent} from "./history-bt/history-bt.component";
 import {NgForOf} from "@angular/common";
 import {backChatHistorySubject, chatSessionSubject} from "../../tokens/subject.data";
 import {lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/singleton";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-chat-history',
@@ -19,7 +20,8 @@ import {lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/sing
     NzButtonModule,
     NzIconModule,
     HistoryBtComponent,
-    NgForOf
+    NgForOf,
+    TranslateModule
   ],
   standalone: true
 })

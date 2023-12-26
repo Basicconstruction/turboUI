@@ -4,6 +4,7 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NgIf} from "@angular/common";
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-history-bt',
@@ -13,6 +14,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
     NzIconModule,
     NzButtonModule,
     NzDropDownModule,
+    TranslateModule,
   ],
   standalone: true
 })

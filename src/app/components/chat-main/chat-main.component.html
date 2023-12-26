@@ -71,7 +71,7 @@
           </svg>
         </div>
       </div>
-      <div class="mb-5 fs-5">How can I help you today?</div>
+      <div class="mb-5 fs-5">{{ 'help' | translate}}</div>
     </div>
   </div>
 </ng-template>
@@ -173,22 +173,22 @@
                      [nzBeforeUpload]="beforeUpload">
             <button nz-button class="bg-theme2 text-theme2">
               <span nz-icon nzType="upload"></span>
-              选择文件
+              {{'chat-main.selectFile' | translate}}
             </button>
           </nz-upload>
         </div>
         <div class="d-flex flex-row h-100">
           <button class="mx-2 my-1 border-1 text-theme2 border-theme2 bg-theme2 rounded-2"
                   (click)="clearContext()"
-                  nz-tooltip nzTooltipTitle="清空上下文">
-            <img src="assets/clear.svg" width="30" height="20" alt="清空">
+                  nz-tooltip [nzTooltipTitle]="'chat-main.clearContext' | translate ">
+            <img src="assets/clear.svg" width="30" height="20" [alt]="'chat-main.clear' | translate ">
           </button>
         </div>
       </div>
       <div class="d-flex flex-row p-1 m-2 rounded-2" style="border: 1px solid #ccc;">
           <textarea nz-input
                     #promptBox
-                    placeholder="向ChatGPT提问..."
+                    [placeholder]="'chat-main.askChatGPT' | translate "
                     [nzAutosize]="{minRows: 2,maxRows: 6}"
                     [(ngModel)]="inputText"
                     (keydown.control.enter)="typeControlGPT()"
@@ -197,7 +197,7 @@
           <button nz-button class="rounded-5 bg-dark"
                   [nzSize]="'small'"
                   [class.bg-opacity-10]="isFade()"
-                  nz-tooltip [nzTooltipTitle]="miniPhone()? '': '使用快捷键 Ctrl + Enter, 快人一步'"
+                  nz-tooltip [nzTooltipTitle]="miniPhone()? '': 'chat-main.ctrlEnterShortcut' | translate "
                   (click)="buttonControlGPT()"
                   [disabled]="!enableTouch()">
             @if(answering){
@@ -222,7 +222,7 @@
 
   <div class="d-flex flex-grow-0">
     <div class="center fs-mini overflow-hidden">
-      ChatGPT 可能会出错。 考虑检查重要信息。
+      {{'chat-main.potentialErrorNotice' | translate}}
     </div>
   </div>
 </div>

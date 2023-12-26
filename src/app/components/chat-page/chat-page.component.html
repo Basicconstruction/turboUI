@@ -31,12 +31,12 @@
           <button class="rounded-5 m-2 bg-theme text-theme" nz-button
                   (click)="openSettingPage()"
           >
-            设置<span nz-icon nzType="setting" nzTheme="outline"></span>
+            {{ 'chat-history.settings' | translate}}<span nz-icon nzType="setting" nzTheme="outline"></span>
           </button>
           <button class="rounded-5 m-2 d-flex flex-row align-items-center bg-theme text-theme" nz-button
                   (click)="openPromptPage()"
           >
-            预设<span nz-icon nzType="appstore" nzTheme="outline"></span>
+            {{ 'chat-history.prompts' | translate}}<span nz-icon nzType="appstore" nzTheme="outline"></span>
           </button>
         </div>
         @defer (on viewport) {

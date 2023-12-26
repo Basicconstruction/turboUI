@@ -8,19 +8,24 @@ import { zh_CN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChatModule} from "./components/chat.module";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {CLIPBOARD_OPTIONS, ClipboardButtonComponent, MarkdownModule, MARKED_OPTIONS} from "ngx-markdown";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 registerLocaleData(zh);
-
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    HttpClientModule,
     MarkdownModule.forRoot({
       clipboardOptions: {
         provide: CLIPBOARD_OPTIONS,
@@ -28,13 +33,15 @@ registerLocaleData(zh);
           buttonComponent: ClipboardButtonComponent,
         },
       },
-      // markedOptions: {
-      //   provide: MARKED_OPTIONS,
-      //   useValue: {
-      //     sanitize: true
-      //   }
-      // },
       sanitize: SecurityContext.HTML,
+    }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'zh',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
     BrowserModule,
     AppRoutingModule,

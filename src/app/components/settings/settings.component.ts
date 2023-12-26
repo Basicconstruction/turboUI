@@ -31,32 +31,23 @@ import {ConfigImportComponent} from "./config-import/config-import.component";
 import {configurationChangeSubject} from "../../tokens/subject.data";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {themes, ThemeSwitcherService} from "../../services";
-
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
+export const languages: string[] = [
+  'zh','en','jp'
+];
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   standalone: true,
   imports: [
-    NzFormModule,
-    NzModalModule,
-    NzCardModule,
-    NzButtonModule,
-    NzIconModule,
-    NzPopoverModule,
-    NzInputNumberModule,
-    NzSliderModule,
-    FormsModule,
-    NzInputModule,
-    RouterLink,
-    NgStyle,
-    NzSelectModule,
-    NzSwitchModule,
-    NzSkeletonModule,
-    ConfigExportComponent,
-    ConfigImportComponent,
-    NgForOf,
-    NzToolTipModule,
+    NzFormModule, NzModalModule, NzCardModule,
+    NzButtonModule, NzIconModule, NzPopoverModule,
+    NzInputNumberModule, NzSliderModule, FormsModule,
+    NzInputModule, RouterLink, NgStyle,
+    NzSelectModule, NzSwitchModule, NzSkeletonModule,
+    ConfigExportComponent, ConfigImportComponent, NgForOf,
+    NzToolTipModule, TranslateModule,
   ],
   providers: [
     ThemeSwitcherService
@@ -64,6 +55,7 @@ import {themes, ThemeSwitcherService} from "../../services";
 })
 export class SettingsComponent {
   theme: string | undefined;
+  language: string = 'zh';
   configuration: Configuration;
   sizes: string[] = sizes;
   image_response_formats: string[] = image_response_formats;
@@ -78,7 +70,8 @@ export class SettingsComponent {
               private configurationService: ConfigurationService,
               private notification: NzNotificationService,
               @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
-              private renderer: Renderer2,) {
+              private renderer: Renderer2,
+              private translate: TranslateService) {
     this.configuration = this.configurationService.configuration!;
     this.configurationObserver.subscribe((change) => {
       if (change) {
@@ -86,6 +79,11 @@ export class SettingsComponent {
         this.configuration = this.configurationService.configuration!;
       }
     });
+    translate.addLangs(['en', 'zh']);
+    translate.setDefaultLang('zh');
+
+    const browserLang = translate.getBrowserLang()!;
+    translate.use(browserLang.match(/en|zh/) ? browserLang : 'zh');
   }
 
   async resetConfiguration() {
@@ -147,5 +145,11 @@ export class SettingsComponent {
 
   themeChange() {
     this.themeSwitcherService.load(this.theme);
+  }
+
+  protected readonly languages = languages;
+
+  languageChange($event: string) {
+    this.translate.use(this.language);
   }
 }

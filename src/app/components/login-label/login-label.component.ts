@@ -4,6 +4,7 @@ import {SizeReportService} from "../../services";
 import {SidebarService} from "../../services";
 import {Router} from "@angular/router";
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-login-label',
@@ -11,6 +12,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
   styleUrl: './login-label.component.css',
   imports: [
     NzButtonModule,
+    TranslateModule,
   ],
   standalone: true
 })

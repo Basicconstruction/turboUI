@@ -5,10 +5,10 @@
             >
             <div class="d-flex flex-column pt-2 mx-2">
                 <div style="font-size: 20px;font-weight: bold;">
-                    设置
+                    {{'settings.self' | translate}}
                 </div>
                 <div style="font-size: 14px">
-                    设置默认属性
+                    {{'settings.defaultProperties' | translate}}
                 </div>
             </div>
             <div class="py-2 my-auto pe-4 ms-5 ms-sm-0">
@@ -21,25 +21,25 @@
             <button class="back-to-top text-center"
                     nz-button
                     (click)="scrollToTop()"
-                    nz-tooltip nzTooltipTitle="回到顶部"
+                    nz-tooltip [nzTooltipTitle]="'settings.backToTop' | translate"
               ><span nz-icon nzType="arrow-up" nzTheme="outline"></span>
             </button>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">设置</span>
+                    <span class="title">{{'settings.self' | translate}}</span>
                 </div>
                 <div class="d-flex flex-row-reverse setting-action">
                     <button nz-button nzType="primary"
                             (click)="applyChangeRightNow()"
                     >
                         <span nz-icon nzType="fall" nzTheme="outline"></span>
-                        应用设置
+                      {{'settings.applySettings' | translate}}
                     </button>
                     <button nz-button nzType="primary"
                             (click)="resetConfiguration()"
                     >
                         <span nz-icon nzType="undo" nzTheme="outline"></span>
-                        恢复默认设置
+                      {{'settings.restoreDefaultSettings' | translate}}
                     </button>
 
                 </div>
@@ -126,6 +126,19 @@
                       @for(theme of themes; track theme){
                         <nz-option
                                    [nzValue]="theme" [nzLabel]="theme"></nz-option>
+                      }
+                    </nz-option-group>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between m-1">
+                <div class="title">语言</div>
+                <div>
+                  <nz-select class="select big" [(ngModel)]="language" (ngModelChange)="languageChange($event)">
+                    <nz-option-group nzLabel="语言">
+                      @for(language of languages; track language){
+                        <nz-option
+                          [nzValue]="language" [nzLabel]="language"></nz-option>
                       }
                     </nz-option-group>
                   </nz-select>
