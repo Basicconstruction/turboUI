@@ -52,6 +52,9 @@ export interface TranscriptionConfiguration{
 
 export interface DynamicConfig{
   systemInfo?: SystemInfoConfig;
+  theme?: string;
+  language?: string;
+  languageIsSet?: boolean;
 }
 export interface SystemInfoConfig{
   letChoice?: boolean;// 打开新的聊天时让用户选择系统信息

@@ -20,6 +20,7 @@ import {SttComponent} from "./stt/stt.component";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
+import {TranslateModule} from "@ngx-translate/core";
 @Component({
   selector: 'app-dialogue',
   templateUrl: './dialogue.component.html',
@@ -38,6 +39,7 @@ import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
     SttComponent,
     NzButtonModule,
     NzSkeletonModule,
+    TranslateModule,
   ],
   standalone: true
 })

@@ -7,6 +7,7 @@ import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NgForOf, NgIf} from "@angular/common";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-system-prompt-manager',
@@ -19,7 +20,8 @@ import {NgForOf, NgIf} from "@angular/common";
     FormsModule,
     NzSkeletonModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    TranslateModule
   ],
   standalone: true
 })

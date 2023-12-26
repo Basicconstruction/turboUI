@@ -1,21 +1,21 @@
 <div class="d-flex align-items-center justify-content-between">
   <nz-col>
     <button nz-button (click)="putAll()">
-      添加所有
+      {{'ball.addAll' | translate}}
     </button>
   </nz-col>
   <nz-col>
     <button nz-button (click)="removeAll()">
-      去除所有
+      {{'ball.removeAll' | translate}}
     </button>
   </nz-col>
   <nz-col>
-    单个系统上下文
+    {{'ball.singleSystemContext' | translate}}
     <nz-switch [(ngModel)]="chatContext!.onlyOne"></nz-switch>
   </nz-col>
 </div>
 <div *ngIf="chatContext?.systems?.length===0">
-  这里什么都没有哦
+  {{'ball.emptyContent' | translate}}
   <nz-skeleton></nz-skeleton>
 </div>
 <div *ngIf="chatContext?.systems?.length!==0" class="scrollable-list my-2">

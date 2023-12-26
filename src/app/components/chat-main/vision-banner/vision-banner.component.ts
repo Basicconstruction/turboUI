@@ -5,6 +5,7 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {FormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NgForOf} from "@angular/common";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-vision-banner',
@@ -14,7 +15,8 @@ import {NgForOf} from "@angular/common";
     NzSelectModule,
     FormsModule,
     NzFormModule,
-    NgForOf
+    NgForOf,
+    TranslateModule
   ],
   standalone: true
 })

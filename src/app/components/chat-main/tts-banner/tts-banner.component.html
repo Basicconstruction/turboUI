@@ -1,14 +1,14 @@
 <nz-row class="align-items-center my-1 bg-theme2 text-theme2">
   <nz-col>
     <nz-col class="mx-1">
-      音色
+      {{'banner.voiceTone' | translate}}
     </nz-col>
     <nz-col>
       <nz-select class="select big"  [(ngModel)]="configuration!.speechConfiguration.voice">
-        <nz-option-group nzLabel="男声">
+        <nz-option-group [nzLabel]="'banner.manVoice' | translate">
           <nz-option *ngFor="let voice of human_voices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
         </nz-option-group>
-        <nz-option-group nzLabel="女声">
+        <nz-option-group [nzLabel]="'banner.womanVoice' | translate">
           <nz-option *ngFor="let voice of woman_voices" [nzValue]="voice" [nzLabel]="voice"></nz-option>
         </nz-option-group>
       </nz-select>
@@ -16,11 +16,11 @@
   </nz-col>
   <nz-col>
     <nz-col class="mx-1">
-      返回的声音类型
+      {{'banner.soundType' | translate}}
     </nz-col>
     <nz-col>
       <nz-select class="select big"  [(ngModel)]="configuration!.speechConfiguration.response_format">
-        <nz-option-group nzLabel="文件格式">
+        <nz-option-group [nzLabel]="'banner.fileFormat' | translate">
           <nz-option *ngFor="let response_format of speech_response_formats" [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
         </nz-option-group>
       </nz-select>

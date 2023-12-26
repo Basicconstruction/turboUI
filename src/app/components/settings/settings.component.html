@@ -46,17 +46,17 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
               <div class="py-2">
-                <span class="title">快速配置</span>
+                <span class="title">{{'settings.quickConfig' | translate}}</span>
               </div>
               <div class="d-flex justify-content-between m-1">
                 <nz-col>
-                  进行配置导入,导出
+                  {{'settings.importExportConfig' | translate}}
                 </nz-col>
                 <nz-row>
                   <nz-col>
                     <nz-modal [(nzVisible)]="outputConfigVisible"
                               [nzFooter]="[]"
-                              nzTitle="配置导出"
+                              [nzTitle]="'settings.configExport' | translate"
                               (nzOnCancel)="closeOutput()" (nzOnOk)="okAndCloseOutput()"
                       >
                       <ng-container *nzModalContent>
@@ -64,12 +64,12 @@
                       </ng-container>
                     </nz-modal>
                     <button nz-button (click)="outputConfigVisible = true" >
-                      导出配置
+                      {{'settings.exportConfig' | translate}}
                     </button>
                   </nz-col>
                   <nz-col class="mx-1">
                     <nz-modal [(nzVisible)]="inputConfigVisible"
-                              nzTitle="配置导入"
+                              [nzTitle]="'settings.configImport' | translate"
                               [nzFooter]="[]"
                               (nzOnCancel)="handleInputCancel()"
                               (nzOnOk)="handleInputConfigOk()">
@@ -81,7 +81,7 @@
                       </ng-container>
                     </nz-modal>
                     <button nz-button (click)="inputConfigVisible = true">
-                      导入配置
+                      {{'settings.importConfig' | translate}}
                     </button>
                   </nz-col>
                 </nz-row>
@@ -89,11 +89,11 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">显示效果</span>
+                    <span class="title">{{'settings.displayOptions' | translate}}</span>
                 </div>
                 <div class="d-flex justify-content-between m-1">
                     <nz-col>
-                        字体大小
+                      {{'settings.fontSize' | translate}}
                     </nz-col>
                     <nz-row>
                         <nz-col>
@@ -119,10 +119,10 @@
                     </div>
                 </div>
               <div class="d-flex justify-content-between m-1">
-                <div class="title">主题</div>
+                <div class="title">{{'settings.theme' | translate}}</div>
                 <div>
-                  <nz-select class="select big" [(ngModel)]="theme" (ngModelChange)="themeChange()">
-                    <nz-option-group nzLabel="主题">
+                  <nz-select class="select big" [(ngModel)]="dynamicConfig.theme" (ngModelChange)="themeChange()">
+                    <nz-option-group [nzLabel]="'settings.theme' | translate">
                       @for(theme of themes; track theme){
                         <nz-option
                                    [nzValue]="theme" [nzLabel]="theme"></nz-option>
@@ -132,13 +132,13 @@
                 </div>
               </div>
               <div class="d-flex justify-content-between m-1">
-                <div class="title">语言</div>
+                <div class="title">{{'settings.language' | translate}}</div>
                 <div>
-                  <nz-select class="select big" [(ngModel)]="language" (ngModelChange)="languageChange($event)">
-                    <nz-option-group nzLabel="语言">
-                      @for(language of languages; track language){
+                  <nz-select class="select big" [(ngModel)]="dynamicConfig.language" (ngModelChange)="languageChange($event)">
+                    <nz-option-group [nzLabel]="'settings.language' | translate">
+                      @for(language_pair of displayLanguages; track language_pair){
                         <nz-option
-                          [nzValue]="language" [nzLabel]="language"></nz-option>
+                          [nzValue]="language_pair.value" [nzLabel]="language_pair.label"></nz-option>
                       }
                     </nz-option-group>
                   </nz-select>
@@ -147,15 +147,15 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">连接信息</span>
+                    <span class="title">{{'settings.connectionInfo' | translate}}</span>
                 </div>
                 <div class="d-flex justify-content-between m-1">
                     <div>
                         <div>
-                            <span class="title">后端服务器地址</span>
+                            <span class="title">{{'settings.backendServerAddress' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">符合标准的后端服务器地址</span>
+                            <span class="follow">{{'settings.standardBackendServerAddress' | translate}}</span>
                         </div>
                     </div>
                     <div>
@@ -165,10 +165,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">后端服务密钥(accessKey)</span>
+                            <span class="title">{{'settings.backendServiceKeyAccessKey' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">填写认证密钥,不是必须的</span>
+                            <span class="follow">{{'settings.fillAuthenticationKeyNotRequired' | translate}}</span>
                         </div>
                     </div>
                     <div>
@@ -178,10 +178,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">Openai服务地址(baseUrl)</span>
+                            <span class="title">{{'settings.openaiServiceAddressBaseUrl' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">符合Openai标准的服务器地址，示例https://api.open-test.com</span>
+                            <span class="follow">{{'settings.standardOpenaiServerAddressExample' | translate}}https://api.open-test.com</span>
                         </div>
                     </div>
                     <div>
@@ -191,11 +191,11 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">Openai密钥(apiKey)</span>
+                            <span class="title">{{'settings.openaiKeyApiKey' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">{{configuration.baseUrl === undefined || configuration.baseUrl === '' ? '符合Openai标准的服务器' : '特定于' + configuration.baseUrl}}
-                                的密钥</span>
+                            <span class="follow">{{configuration.baseUrl === undefined || configuration.baseUrl === '' ? ('settings.standardOpenAIServers' | translate) : ('settings.keyFrom' | translate) + configuration.baseUrl}}
+                                </span>
                         </div>
                     </div>
                     <div>
@@ -205,16 +205,16 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">对话默认属性</span>
+                    <span class="title">{{'settings.defaultDialogueProperties' | translate}}</span>
                 </div>
 
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">单次回复限制 (max_tokens)</span>
+                            <span class="title">{{'settings.maxTokensPerInteraction' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">单次交互所用的最大 Token 数</span>
+                            <span class="follow">{{'settings.maxTokenUsagePerInteraction' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -236,10 +236,10 @@
                 <div class="d-flex justify-content-between m-1">
                     <div>
                         <div>
-                            <span class="title">随机性(temperature)</span>
+                            <span class="title">{{'settings.randomnessTemperature' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">值越大，回复越随机</span>
+                            <span class="follow">{{'settings.higherValueMoreRandomness' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -262,10 +262,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">核采样 (top_p)</span>
+                            <span class="title">{{'settings.nucleusSamplingTopP' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">与随机性类似，但不要和随机性一起更改</span>
+                            <span class="follow">{{'settings.similarToRandomnessButSeparate' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -289,10 +289,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">话题新鲜度 (presence_penalty)</span>
+                            <span class="title">{{'settings.topicNoveltyPresencePenalty' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">值越大，越有可能扩展到新话题</span>
+                            <span class="follow">{{'settings.higherValueExpandsToNewTopics' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -315,10 +315,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">频率惩罚度 (frequency_penalty)</span>
+                            <span class="title">{{'settings.frequencyPenalty' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">值越大，越有可能降低重复字词</span>
+                            <span class="follow">{{'settings.higherValueReducesRepetitiveWords' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -340,10 +340,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">附带历史消息数</span>
+                            <span class="title">{{'settings.relatedHistoryMessageCount' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">每次请求携带的历史消息数,建议值4-10</span>
+                            <span class="follow">{{'settings.historyMessageCountPerRequest' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -365,16 +365,16 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">低保真度或高保真度图像理解</span>
+                            <span class="title">{{'settings.lowOrHighFidelityImageUnderstanding' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">By controlling the detail parameter, which has three options, low, high, or auto.</span>
+                            <span class="follow">{{'settings.controlDetailsParametersThreeOptions' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big" [(ngModel)]="configuration!.chatConfiguration.detail">
-                                <nz-option-group nzLabel="保真度">
+                                <nz-option-group [nzLabel]="'settings.fidelity' | translate">
                                     <nz-option *ngFor="let detail of details" [nzValue]="detail"
                                                [nzLabel]="detail"></nz-option>
                                 </nz-option-group>
@@ -387,15 +387,15 @@
 
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">绘图默认属性</span>
+                    <span class="title">{{'settings.defaultDrawingProperties' | translate}}</span>
                 </div>
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">单次绘制图片数(n)</span>
+                            <span class="title">{{'settings.numberOfImagesPerDrawing' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">建议值1-4,范围1-10</span>
+                            <span class="follow">{{'settings.recommendedRange' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -417,16 +417,16 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">绘制图片大小(size)</span>
+                            <span class="title">{{'settings.imageSize' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">1024x1024...图片的大小</span>
+                            <span class="follow">{{'settings.imageSizeExample' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select [(ngModel)]="configuration!.imageConfiguration.size">
-                                <nz-option-group nzLabel="图片大小">
+                                <nz-option-group [nzLabel]="'settings.sizeOfImage' | translate">
                                     <nz-option *ngFor="let size of sizes" [nzValue]="size" [nzLabel]="size"></nz-option>
                                 </nz-option-group>
                             </nz-select>
@@ -437,17 +437,17 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">请求类型(response_format)</span>
+                            <span class="title">{{'settings.requestTypeResponseFormat' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">url可能会失效</span>
+                            <span class="follow">{{'settings.urlMayBecomeInvalid' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big"
                                        [(ngModel)]="configuration!.imageConfiguration.response_format">
-                                <nz-option-group nzLabel="请求类型">
+                                <nz-option-group [nzLabel]="'settings.requestTypeResponseFormat' | translate">
                                     <nz-option *ngFor="let response_format of image_response_formats"
                                                [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
                                 </nz-option-group>
@@ -458,16 +458,16 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">绘图质量(quality)</span>
+                            <span class="title">{{'settings.drawingQuality' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">绘图的质量</span>
+                            <span class="follow">{{'settings.imageDrawingQuality' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.quality">
-                                <nz-option-group nzLabel="绘图质量">
+                                <nz-option-group [nzLabel]="'settings.drawingQuality' | translate">
                                     <nz-option *ngFor="let quality of qualities" [nzValue]="quality"
                                                [nzLabel]="quality"></nz-option>
                                 </nz-option-group>
@@ -478,16 +478,16 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">绘图风格(style)</span>
+                            <span class="title">{{'settings.imageDrawingStyle' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">The style of the generated images.</span>
+                            <span class="follow">{{'settings.generatedImageStyle' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big" [(ngModel)]="configuration!.imageConfiguration.style">
-                                <nz-option-group nzLabel="绘图风格">
+                                <nz-option-group [nzLabel]="'settings.imageDrawingStyle' | translate">
                                     <nz-option *ngFor="let style of styles" [nzValue]="style"
                                                [nzLabel]="style"></nz-option>
                                 </nz-option-group>
@@ -498,25 +498,25 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">文字转语音属性(TTS)</span>
+                    <span class="title">{{'settings.textToSpeechPropertiesTTS' | translate}}</span>
                 </div>
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">使用谁的声音(voice)</span>
+                            <span class="title">{{'settings.voiceSelection' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">不同人的音色不一样</span>
+                            <span class="follow">{{'settings.differentPeopleDifferentVoices' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big" [(ngModel)]="configuration!.speechConfiguration.voice">
-                                <nz-option-group nzLabel="男声">
+                                <nz-option-group [nzLabel]="'settings.manVoice' | translate">
                                     <nz-option *ngFor="let voice of humanVoices" [nzValue]="voice"
                                                [nzLabel]="voice"></nz-option>
                                 </nz-option-group>
-                                <nz-option-group nzLabel="女声">
+                                <nz-option-group [nzLabel]="'settings.womanVoice' | translate">
                                     <nz-option *ngFor="let voice of womanVoices" [nzValue]="voice"
                                                [nzLabel]="voice"></nz-option>
                                 </nz-option-group>
@@ -527,17 +527,17 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">返回的文件格式(response_format)</span>
+                            <span class="title">{{'settings.returnedFileFormatResponseFormat' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">返回的文件的格式,播放的时候你可能无法判断格式，可能会产生损失</span>
+                            <span class="follow">{{'settings.fileFormatReturnedLossOnPlayback' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
                         <nz-col>
                             <nz-select class="select big"
                                        [(ngModel)]="configuration!.speechConfiguration.response_format">
-                                <nz-option-group nzLabel="文件格式">
+                                <nz-option-group [nzLabel]="'settings.fileFormat' | translate">
                                     <nz-option *ngFor="let response_format of speech_response_formats"
                                                [nzValue]="response_format" [nzLabel]="response_format"></nz-option>
                                 </nz-option-group>
@@ -548,10 +548,10 @@
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">语速(speed)</span>
+                            <span class="title">{{'settings.speechSpeed' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">使用1.0是标准语速</span>
+                            <span class="follow">{{'settings.standardSpeedIs1' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>
@@ -575,15 +575,15 @@
             </nz-card>
             <nz-card class="m-2 rounded-4">
                 <div class="py-2">
-                    <span class="title">语音转文字属性(STT)</span>
+                    <span class="title">{{'settings.speechToTextPropertiesSTT' | translate}}</span>
                 </div>
                 <div class="d-flex justify-content-between  m-1">
                     <div>
                         <div>
-                            <span class="title">STT 采样温度(temperature)</span>
+                            <span class="title">{{'settings.samplingTemperature' | translate}}</span>
                         </div>
                         <div>
-                            <span class="follow">The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hi</span>
+                          <span class="follow">{{'settings.temperatureSamplingBetweenZeroAndOne' | translate}}</span>
                         </div>
                     </div>
                     <nz-row>

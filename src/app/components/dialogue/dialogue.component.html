@@ -5,30 +5,30 @@
     <img class="mx-2" nz-image [ngSrc]="getIcon(chatModel?.role,type)" [nzFallback]="'assets/programmer.png'" width="20" height="20" alt="图标"/>
     <div class="mx-2">{{ getHeadName(chatModel) }}</div>
     @if(active){
-      <div nz-tooltip nzTooltipTitle="该信息包含在上下文中" class="active rounded-4 mx-2"></div>
+      <div nz-tooltip [nzTooltipTitle]="'dialog.inContext' | translate" class="active rounded-4 mx-2"></div>
     }
-    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'重新生成'" class="rounded-4 mx-0"
+    <button nz-tooltip (click)="reRequest()" [nzTooltipTitle]="'dialog.regenerate' | translate" class="rounded-4 mx-0"
             [class.d-flex]="isMiniView()"
             [class.flex-row]="isMiniView()"
             [class.align-items-center]="isMiniView()"
             nz-button>
       <span nz-icon nzType="redo" nzTheme="outline"></span>
       @if(isMiniView()){
-        <span>重试</span>
+        <span>{{'dialog.retry' | translate}}</span>
       }
     </button>
     @if(isHover){
       <div class="d-flex flex-row">
-        <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'编辑'" class="rounded-4 mx-2" nz-button>
+        <button nz-tooltip (click)="triggerEdit()" [nzTooltipTitle]="'dialog.edit' | translate" class="rounded-4 mx-2" nz-button>
           <span nz-icon nzType="edit" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="triggerStartAsContext()" [nzTooltipTitle]="'从这里开始上下文'" class="rounded-4" nz-button>
+        <button nz-tooltip (click)="triggerStartAsContext()" [nzTooltipTitle]="'dialog.startContextFromHere' | translate" class="rounded-4" nz-button>
           <span nz-icon nzType="sort-ascending" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'删除 该条记录'" class="rounded-4 mx-2" nz-button>
+        <button nz-tooltip (click)="triggerDelete()" [nzTooltipTitle]="'dialog.deleteContent' | translate" class="rounded-4 mx-2" nz-button>
           <span nz-icon nzType="delete" nzTheme="outline"></span>
         </button>
-        <button nz-tooltip (click)="copyAllContent()" [nzTooltipTitle]="'复制内容'" class="rounded-4" nz-button>
+        <button nz-tooltip (click)="copyAllContent()" [nzTooltipTitle]="'dialog.copyContent' | translate" class="rounded-4" nz-button>
           <span nz-icon nzType="copy" nzTheme="outline"></span>
         </button>
       </div>

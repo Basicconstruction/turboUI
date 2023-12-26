@@ -1,8 +1,8 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
-import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle} from "../../models";
-import {ChatDataService, DbService, HistoryTitleService} from "../../share-datas";
-import {min, Subject} from "rxjs";
-import {SizeReportService} from "../../services";
+import {ChatHistoryTitleActionInfo, ChatHistoryTitleAction, ChatHistoryTitle, Configuration} from "../../models";
+import {ChatDataService, ConfigurationService, DbService, HistoryTitleService} from "../../share-datas";
+import {min, Observable, Subject} from "rxjs";
+import {SizeReportService, ThemeSwitcherService} from "../../services";
 import {SidebarService} from "../../services";
 import {Router, RouterOutlet} from "@angular/router";
 import {NzButtonModule} from "ng-zorro-antd/button";
@@ -10,9 +10,10 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {ChatHistoryComponent} from "../chat-history/chat-history.component";
 import {LoginLabelComponent} from "../login-label/login-label.component";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
-import {backChatHistorySubject} from "../../tokens/subject.data";
+import {backChatHistorySubject, configurationChangeSubject} from "../../tokens/subject.data";
 import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
 import {TranslateModule} from "@ngx-translate/core";
+import {DynamicConfigService} from "../../services/dynamicConfig.service";
 export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
@@ -27,6 +28,10 @@ export const MagicDataId = -2;
     NzSkeletonModule,
     RouterOutlet,
     TranslateModule,
+  ],
+  providers: [
+    ThemeSwitcherService,
+    DynamicConfigService
   ]
 })
 export class ChatPageComponent implements OnInit {
@@ -34,7 +39,7 @@ export class ChatPageComponent implements OnInit {
   toggleSidebar(): void {
     this.sidebarService.switch();
   }
-
+  configuration: Configuration | undefined;
   historyTitles: ChatHistoryTitle[] | undefined;
   constructor(@Inject(sizeReportToken) private sizeReportService: SizeReportService,
     @Inject(sideBarToken) public sidebarService: SidebarService,
@@ -43,7 +48,14 @@ export class ChatPageComponent implements OnInit {
               private chatDataService: ChatDataService,
               private dbService: DbService,
               @Inject(backChatHistorySubject) private backHistoryObservable: Subject<ChatHistoryTitle>,
-  ) {
+              private dynamicConfigService: DynamicConfigService,
+              private configurationService: ConfigurationService,
+              @Inject(configurationChangeSubject) private configObservable: Observable<Configuration>
+              ) {
+    this.initThemeAndLanguage();
+    this.configObservable.subscribe(()=>{
+      this.initThemeAndLanguage();
+    });
     this.backHistoryObservable.subscribe(async (historyTitle) => {
       if(historyTitle.dataId===MagicDataId) return;
       const existingItem = this.historyTitles!.find(item => item.dataId === historyTitle.dataId);
@@ -53,7 +65,11 @@ export class ChatPageComponent implements OnInit {
       }
     });
   }
-
+  initThemeAndLanguage(){
+    this.configuration = this.configurationService.configuration!;
+    let configDynamic = this.dynamicConfigService.getDynamicConfig(this.configuration);
+    this.dynamicConfigService.initDynamic(configDynamic);
+  }
   async ngOnInit() {
     this.sizeReportService.width = window.innerWidth;
     this.sizeReportService.height = window.innerHeight;

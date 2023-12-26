@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {systemPromptChangeSubject} from "../../tokens/subject.data";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-prompt-store',
@@ -35,7 +36,8 @@ import {systemPromptChangeSubject} from "../../tokens/subject.data";
     NzFormModule,
     FormsModule,
     NzSkeletonModule,
-    NzInputModule
+    NzInputModule,
+    TranslateModule
   ],
   standalone: true
 })

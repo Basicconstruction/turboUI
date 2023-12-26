@@ -1,11 +1,13 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-copied-button',
   templateUrl: './copied-button.component.html',
   imports: [
-    NzButtonModule
+    NzButtonModule,
+    TranslateModule
   ],
   standalone: true
 })

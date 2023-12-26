@@ -6,6 +6,7 @@ import {NgForOf, NgTemplateOutlet} from "@angular/common";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {RouterLink} from "@angular/router";
 import {NzCardModule} from "ng-zorro-antd/card";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-system-word-choice',
@@ -17,7 +18,8 @@ import {NzCardModule} from "ng-zorro-antd/card";
     NzButtonModule,
     RouterLink,
     NzCardModule,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    TranslateModule
   ],
   standalone: true
 })

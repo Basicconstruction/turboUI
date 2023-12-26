@@ -1,35 +1,35 @@
 <nz-modal [(nzVisible)]="exportVisible"
-          nzTitle="导出系统预设"
+          [nzTitle]="'prompts.exportSystemPreset' | translate"
           (nzOnCancel)="exportClose()"
           (nzOnOk)="exportClose()"
           [nzFooter]="[]"
-    >
+>
   <ng-container *nzModalContent>
     <app-export-prompts></app-export-prompts>
   </ng-container>
 </nz-modal>
 <nz-modal [(nzVisible)]="importVisible"
-          nzTitle="导入系统预设"
+          [nzTitle]="'prompts.importSystemPreset' | translate"
           (nzOnCancel)="importClose()"
           (nzOnOk)="importClose()"
           [nzFooter]="[]"
-    >
+>
   <ng-container *nzModalContent>
     <app-import-prompts></app-import-prompts>
   </ng-container>
 </nz-modal>
 <nz-modal [(nzVisible)]="createVisible"
-          nzTitle="新建系统预设信息"
+          [nzTitle]="'prompts.createSystemPresetInfo' | translate"
           (nzOnCancel)="createClose()"
           (nzOnOk)="createClose()"
           [nzFooter]="[]"
-          >
+>
   <ng-container *nzModalContent>
     <app-create-prompt (close)="createClose()"></app-create-prompt>
   </ng-container>
 </nz-modal>
 <nz-modal [(nzVisible)]="lookVisible"
-          nzTitle="查看系统预设信息"
+          [nzTitle]="'prompts.viewSystemPresetInfo' | translate"
           (nzOnCancel)="lookClose()"
           (nzOnOk)="lookClose()"
           [nzFooter]="[]"
@@ -39,11 +39,11 @@
   </ng-container>
 </nz-modal>
 <div class="d-flex flex-column w-100 h-100 bg-theme2 text-theme2">
-  <div class="overflow-auto flex-grow-1 position-relative"  #settingPanel>
+  <div class="overflow-auto flex-grow-1 position-relative" #settingPanel>
     <div class="d-flex bg-theme2 flex-row sticky-top justify-content-between z-1">
       <div class="d-flex flex-column p-2 mx-2">
         <div style="font-size: 20px;font-weight: bold;">
-          预设管理
+          {{ 'prompts.presetManagement' | translate }}
         </div>
       </div>
       <div class="p-2 mx-0 my-auto px-4">
@@ -58,16 +58,16 @@
           <nz-row>
             <nz-col>
               <button nz-button class="rounded-3"
-                (click)="exportVisible = true"
-                >
-                导出
+                      (click)="exportVisible = true"
+              >
+                {{ 'prompts.export' | translate }}
               </button>
             </nz-col>
             <nz-col class="ms-2">
               <button nz-button class="rounded-3"
-                (click)="importVisible = true"
-                >
-                导入
+                      (click)="importVisible = true"
+              >
+                {{ 'prompts.import' | translate }}
               </button>
             </nz-col>
           </nz-row>
@@ -75,10 +75,10 @@
         <div class="d-flex flex-row align-items-center">
           <input nz-input [(ngModel)]="filterText"
                  (ngModelChange)="filter()"
-                 class="flex-grow-1 h-input" placeholder="输入关键字进行查找">
+                 class="flex-grow-1 h-input" [placeholder]="'prompts.keywordSearch' | translate">
           <button (click)="createVisible = true"
-            nz-button class="flex-grow-0 ms-2 rounded-3">
-            新建
+                  nz-button class="flex-grow-0 ms-2 rounded-3">
+            {{'prompts.createNew' | translate}}
           </button>
         </div>
       </nz-card>
@@ -86,24 +86,24 @@
         <div class="d-flex flex-row-reverse m-2">
           <div>
             <button nz-button (click)="deleteAllFilterPrompts()">
-              全部删除
+              {{'prompts.deleteAll' | translate}}
             </button>
           </div>
         </div>
-        @if(filterPrompts.length===0){
-          这里什么都没有哦
+        @if (filterPrompts.length === 0) {
+          {{'prompts.nothing' | translate}}
           <nz-skeleton></nz-skeleton>
         }
         <div class="d-flex flex-column">
-          @for(prompt of filterPrompts; track prompt.id){
+          @for (prompt of filterPrompts; track prompt.id) {
             <nz-card>
               <div class="d-flex flex-row align-items-center justify-content-between">
                 <nz-col>
                   <div>
-                    {{prompt.title}}
+                    {{ prompt.title }}
                   </div>
                   <div>
-                    {{prompt.content.substring(0,20)}}...
+                    {{ prompt.content.substring(0, 20) }}...
                   </div>
                 </nz-col>
                 <nz-col>
@@ -111,12 +111,12 @@
                     <button nz-button class="rounded-3 ms-1 mb-1"
                             (click)="lookModalOpen(prompt.id)"
                     >
-                      查看
+                      {{'prompts.view' | translate}}
                     </button>
                     <button nz-button class="rounded-3 ms-1 mb-1"
                             (click)="deletePrompt(prompt.id)"
                     >
-                      删除
+                      {{'prompts.delete' | translate}}
                     </button>
                   </nz-row>
                 </nz-col>

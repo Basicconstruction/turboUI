@@ -5,6 +5,7 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {FormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {ClipboardModule, ClipboardService} from "ngx-clipboard";
+import {TranslateModule} from "@ngx-translate/core";
 
 export const turboMask = "Turbo://";
 @Component({
@@ -16,7 +17,8 @@ export const turboMask = "Turbo://";
     NzFormModule,
     FormsModule,
     NzButtonModule,
-    ClipboardModule
+    ClipboardModule,
+    TranslateModule
   ],
   providers: [
   ]

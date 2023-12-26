@@ -1,6 +1,6 @@
 <div class="d-flex flex-row-reverse">
   <nz-col class="d-flex align-items-center">
-    简易加密: <input class="mx-1" type="checkbox" [(ngModel)]="lock">
+    {{'settings.encrypt' | translate}}: <input class="mx-1" type="checkbox" [(ngModel)]="lock">
   </nz-col>
 </div>
 <div>
@@ -11,5 +11,5 @@
   </textarea>
 </div>
 <button nz-button (click)="copyConfig()" >
-  复制到剪切板
+  {{'settings.copyToClipboard' | translate}}
 </button>

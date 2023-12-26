@@ -1,0 +1,25 @@
+settings
+{{'settings.' | translate}}
+'settings.' | translate
+
+
+{{'prompts.' | translate}}
+'prompts.' | translate
+
+
+
+{{'ball.' | translate}}
+'ball.' | translate
+
+
+
+{{'banner.' | translate}}
+'banner.' | translate
+
+
+{{'dialog.' | translate}}
+'dialog.' | translate
+
+
+{{'chat-main.' | translate}}
+'chat-main.' | translate

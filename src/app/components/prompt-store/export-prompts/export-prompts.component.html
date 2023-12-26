@@ -1,7 +1,7 @@
 <div class="d-flex flex-row-reverse">
   <nz-col class="d-flex align-items-center mb-2">
     <button nz-button (click)="exportToFile()">
-      导出到文件
+      {{'prompts.exportToFile' | translate}}
     </button>
   </nz-col>
 </div>
@@ -13,5 +13,5 @@
   </textarea>
 </div>
 <button nz-button (click)="copyToClipboard()" >
-  复制到剪切板
+  {{'prompts.copyToClipboard' | translate}}
 </button>

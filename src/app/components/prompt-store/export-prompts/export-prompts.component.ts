@@ -5,6 +5,7 @@ import {ClipboardModule, ClipboardService} from "ngx-clipboard";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {FormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-export-prompts',
@@ -14,7 +15,8 @@ import {FormsModule} from "@angular/forms";
     NzButtonModule,
     NzFormModule,
     ClipboardModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   standalone: true
 })

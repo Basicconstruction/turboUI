@@ -1,5 +1,5 @@
 @defer (on immediate) {
-  <nz-modal [(nzVisible)]="isVisible" nzTitle="编辑"
+  <nz-modal [(nzVisible)]="isVisible" [nzTitle]="'chat-main.edit' | translate"
             (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
       <app-model-editor [chatModel]="editModel"></app-model-editor>
@@ -9,7 +9,7 @@
   <div></div>
 }
 @defer (on immediate) {
-  <nz-modal [(nzVisible)]="choiceVisible" nzTitle="选择系统提示词"
+  <nz-modal [(nzVisible)]="choiceVisible" [nzTitle]="'ball.selectSystemPrompt' | translate"
             [nzFooter]="[]"
             (nzOnCancel)="handleChoiceClose()"
             (nzOnOk)="handleChoiceClose()">
@@ -25,7 +25,7 @@
 }
 @defer (on immediate ) {
   <nz-modal [(nzVisible)]="systemPromptManagerVisible"
-            nzTitle="管理系统上下文"
+            [nzTitle]="'ball.manageSystemContext' | translate"
             [nzFooter]="[]"
             (nzOnCancel)="handleManagerClose()"
             (nzOnOk)="handleManagerClose()">
@@ -49,8 +49,8 @@
   @if (showChoice) {
     <div
       class="position-fixed choice d-flex flex-column">
-      <button class="rounded-2 my-2" nz-button (click)="manageSystemContext()">管理系统上下文</button>
-      <button class="rounded-2" nz-button (click)="addSystemInfo()">添加系统信息</button>
+      <button class="rounded-2 my-2" nz-button (click)="manageSystemContext()">{{'ball.manageSystemContext' | translate}}</button>
+      <button class="rounded-2" nz-button (click)="addSystemInfo()">{{'ball.addSystemInfo' | translate}}</button>
     </div>
   }
 

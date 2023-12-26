@@ -1,11 +1,11 @@
 <nz-row class="align-items-center my-1 bg-theme2 text-theme2">
   <nz-col>
     <nz-col class="mx-1">
-      低保真度或高保真度图像理解
+      {{'banner.fidelity' | translate}}
     </nz-col>
     <nz-col>
       <nz-select class="select big"  [(ngModel)]="configuration!.chatConfiguration.detail">
-        <nz-option-group nzLabel="保真度">
+        <nz-option-group [nzLabel]="'banner.fidelity' | translate">
           <nz-option *ngFor="let detail of details" [nzValue]="detail" [nzLabel]="detail"></nz-option>
         </nz-option-group>
       </nz-select>

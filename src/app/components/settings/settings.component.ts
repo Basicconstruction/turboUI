@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {ConfigurationService} from "../../share-datas";
-import {Configuration} from "../../models";
+import {Configuration, DynamicConfig} from "../../models";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {Subject} from "rxjs";
 import {
@@ -32,8 +32,14 @@ import {configurationChangeSubject} from "../../tokens/subject.data";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {themes, ThemeSwitcherService} from "../../services";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {DynamicConfigService} from "../../services/dynamicConfig.service";
 export const languages: string[] = [
   'zh','en','jp'
+];
+export const displayLanguages: { value: string, label: string }[] = [
+  { value: 'zh', label: '简体中文' },
+  { value: 'en', label: 'English' },
+  { value: 'jp', label: '日本語' }
 ];
 @Component({
   selector: 'app-settings',
@@ -50,12 +56,12 @@ export const languages: string[] = [
     NzToolTipModule, TranslateModule,
   ],
   providers: [
-    ThemeSwitcherService
+    ThemeSwitcherService,
+    DynamicConfigService
   ]
 })
 export class SettingsComponent {
-  theme: string | undefined;
-  language: string = 'zh';
+  dynamicConfig: DynamicConfig;
   configuration: Configuration;
   sizes: string[] = sizes;
   image_response_formats: string[] = image_response_formats;
@@ -71,19 +77,22 @@ export class SettingsComponent {
               private notification: NzNotificationService,
               @Inject(configurationChangeSubject) private configurationObserver: Subject<boolean>,
               private renderer: Renderer2,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private dynamicConfigService: DynamicConfigService) {
     this.configuration = this.configurationService.configuration!;
+    let configDynamic = this.dynamicConfigService.getDynamicConfig(this.configuration);
+    if(configDynamic===undefined){
+      this.dynamicConfig = this.dynamicConfigService.getDefaultDynamicConfig();
+    }else{
+      this.dynamicConfig = configDynamic;
+    }
     this.configurationObserver.subscribe((change) => {
       if (change) {
         // 响应更改
         this.configuration = this.configurationService.configuration!;
       }
     });
-    translate.addLangs(['en', 'zh']);
-    translate.setDefaultLang('zh');
 
-    const browserLang = translate.getBrowserLang()!;
-    translate.use(browserLang.match(/en|zh/) ? browserLang : 'zh');
   }
 
   async resetConfiguration() {
@@ -144,12 +153,17 @@ export class SettingsComponent {
   protected readonly themes = themes;
 
   themeChange() {
-    this.themeSwitcherService.load(this.theme);
+    this.themeSwitcherService.load(this.dynamicConfig.theme);
+    this.dynamicConfigService.setDynamicConfig(this.configuration,this.dynamicConfig);
   }
 
   protected readonly languages = languages;
 
   languageChange($event: string) {
-    this.translate.use(this.language);
+    this.translate.use(this.dynamicConfig.language!);
+    this.dynamicConfig.languageIsSet = true;
+    this.dynamicConfigService.setDynamicConfig(this.configuration,this.dynamicConfig);
   }
+
+  protected readonly displayLanguages = displayLanguages;
 }

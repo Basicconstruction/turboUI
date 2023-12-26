@@ -10,10 +10,10 @@
 <div class="d-flex flex-column">
   <div class="m-auto">
     <button nz-button [routerLink]="['/chat','prompts']">
-      查看全部
+      {{'ball.viewAll' | translate}}
     </button>
     <button class="mx-2" nz-button (click)="release()">
-      跳过选择
+      {{'ball.skipSelection' | translate}}
     </button>
   </div>
   <nz-card class="w-100 my-2 scrollable-list">

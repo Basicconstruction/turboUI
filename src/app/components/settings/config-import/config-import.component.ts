@@ -6,6 +6,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {turboMask} from "../config-export/config-export.component";
 import * as Buffer from 'buffer';
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {TranslateModule} from "@ngx-translate/core";
 @Component({
   selector: 'app-config-import',
   templateUrl: './config-import.component.html',
@@ -14,7 +15,8 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
   imports: [
     ClipboardModule,
     FormsModule,
-    NzButtonModule
+    NzButtonModule,
+    TranslateModule
   ]
 })
 export class ConfigImportComponent {
