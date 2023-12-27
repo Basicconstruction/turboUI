@@ -3,8 +3,13 @@
     "new-chat": "新しいチャット",
     "settings": "設定",
     "prompts": "プリセット",
-    "copyrightStatement": "著作権声明",
     "delete": "削除"
+  },
+  "account": {
+    "copyrightStatement": "著作権声明",
+    "signIn": "ログイン",
+    "signOut": "サインアウト",
+    "self": "口座情報"
   },
   "settings": {
     "self": "設定",

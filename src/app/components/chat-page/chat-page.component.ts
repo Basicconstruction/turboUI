@@ -8,12 +8,13 @@ import {Router, RouterOutlet} from "@angular/router";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {ChatHistoryComponent} from "../chat-history/chat-history.component";
-import {LoginLabelComponent} from "../login-label/login-label.component";
+import {AccountLabelComponent} from "../accounts/account-label/account-label.component";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {backChatHistorySubject, configurationChangeSubject} from "../../tokens/subject.data";
 import {sideBarToken, sizeReportToken} from "../../tokens/singleton";
 import {TranslateModule} from "@ngx-translate/core";
 import {DynamicConfigService} from "../../services/dynamicConfig.service";
+import {SignInPageComponent} from "../accounts/sign-in-page/sign-in-page.component";
 export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
@@ -24,10 +25,11 @@ export const MagicDataId = -2;
     NzButtonModule,
     NzIconModule,
     ChatHistoryComponent,
-    LoginLabelComponent,
+    AccountLabelComponent,
     NzSkeletonModule,
     RouterOutlet,
     TranslateModule,
+    SignInPageComponent,
   ],
   providers: [
     ThemeSwitcherService,

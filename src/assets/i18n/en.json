@@ -2,9 +2,14 @@
   "chat-history": {
     "new-chat": "New Chat",
     "settings": "Settings",
-    "prompts": "Presets",
-    "copyrightStatement": "Copyright",
+    "prompts": "Prompts",
     "delete": "Delete"
+  },
+  "account": {
+    "copyrightStatement": "Copyright",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "self": "Account information"
   },
   "settings": {
     "self": "Settings",
@@ -148,5 +153,5 @@
     "selectFile": "Select File",
     "edit": "Edit"
   },
-  "help": "Need help?"
+  "help": "How can I help you today?"
 }

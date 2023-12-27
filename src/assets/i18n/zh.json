@@ -3,8 +3,13 @@
     "new-chat": "新的聊天",
     "settings": "设置",
     "prompts": "预设",
-    "copyrightStatement": "版权声明",
     "delete": "删除"
+  },
+  "account": {
+    "copyrightStatement": "版权声明",
+    "signIn": "登录",
+    "signOut": "登出",
+    "self": "账号信息"
   },
   "settings": {
     "self": "设置",

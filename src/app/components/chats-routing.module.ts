@@ -26,9 +26,9 @@ const routes: Routes = [
         }
       },
       {
-        path: "login",
-        loadComponent: ()=>import("./login-page/login-page.component")
-          .then(m=>m.LoginPageComponent),
+        path: "account",
+        loadChildren: ()=>import("./accounts/account.module")
+          .then(m=>m.AccountModule)
       },
       {
         path: "prompts",

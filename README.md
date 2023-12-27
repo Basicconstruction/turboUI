@@ -126,3 +126,23 @@ v2.01
 ![img_7.png](img_7.png)
 移动设备: 
 ![img_10.png](img_10.png)
+本软件包含turbo(turbo-light),turbo-proxy,turboUI.  
+本软件使用的开源组件包括： 
+turbo:  
+.net https://dotnet.microsoft.com/zh-cn/  
+avalonia https://docs.avaloniaui.net/zh-Hans/docs/welcome  
+turbo-light:  
+.net https://dotnet.microsoft.com/zh-cn/  
+turbo-proxy:  
+python  
+tornado  
+openai  
+ujson等  
+turboUI：  
+Angular https://angular.cn/docs  
+ng-zorro https://ng.ant.design/docs/introduce/zh  
+idb@7.1.1  
+bootstrap  
+本软件或软件包是一个开源软件，但是并不保留所使用图标等资源的版权。  
+图标大多来自于，ng-zorro 图标，openai官网，维基百科，阿里图标库 以及网络上的其他网站。
+软件仅供学习交流，教育，用于其他用途，请自行审查版权。  

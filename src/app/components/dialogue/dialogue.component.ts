@@ -120,29 +120,29 @@ export class DialogueComponent {
   protected readonly DisplayType = DisplayType;
 
   getIcon(role: string | undefined, type: ShowType | undefined) {
-    if(role===undefined) return "assets/";
+    if(role===undefined) return "assets/svgs";
     if(role===UserRole){
-      return 'assets/programmer.png';
+      return 'assets/svgs/programmer.png';
     }else if(role===SystemRole){
-      return 'assets/system.svg';
+      return 'assets/svgs/system.svg';
     }
-    if(type===undefined) return 'assets/chat-gpt.png';
+    if(type===undefined) return 'assets/svgs/chat-gpt.png';
     switch (type){
       case ShowType.promiseVision:
       case ShowType.staticVision:
-        return "assets/vision.svg";
+        return "assets/svgs/vision.svg";
       case ShowType.staticImage:
       case ShowType.promiseImage:
-        return "assets/dall.svg";
+        return "assets/svgs/dall.svg";
       case ShowType.staticSpeech:
       case ShowType.promiseSpeech:
-        return "assets/tts.svg";
+        return "assets/svgs/tts.svg";
       case ShowType.staticTranscription:
       case ShowType.promiseTranscription:
-        return "assets/stt.png";
+        return "assets/svgs/stt.png";
 
     }
-    return "assets/chat-gpt.png";
+    return "assets/svgs/chat-gpt.png";
   }
   isHover: boolean = false;
 

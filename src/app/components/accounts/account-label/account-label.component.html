@@ -1,0 +1,7 @@
+<div class="p-2 loginBox bg-theme text-theme1 d-flex justify-content-center align-items-center">
+  @if (isLogin) {
+    <button class="bg-theme w-100 " nz-button (click)="openAccount()">{{ 'account.self' | translate }}</button>
+  } @else {
+    <button class="bg-theme w-100" nz-button (click)="openSignIn()">{{ 'account.signIn' | translate }}</button>
+  }
+</div>

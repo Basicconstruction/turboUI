@@ -1,0 +1,28 @@
+import {NgModule} from "@angular/core";
+import {RouterModule, Routes} from "@angular/router";
+import {SignInPageComponent} from "./sign-in-page/sign-in-page.component";
+const routes: Routes = [
+  {
+    path: "", loadComponent: ()=> import('./account/account.component').then(m=>m.AccountComponent),
+    children: [
+      {
+        path: "", pathMatch: "full",redirectTo: "account-info",
+      },
+      {
+        path: "account-info", loadComponent: ()=>import("./account-information/account-information.component")
+          .then(m=>m.AccountInformationComponent),
+      },
+      {
+        path: "sign-in", loadComponent: ()=>import("./sign-in-page/sign-in-page.component")
+          .then(m=>m.SignInPageComponent),
+      }
+    ]
+  }
+]
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class AccountRoutingModule {
+
+}
