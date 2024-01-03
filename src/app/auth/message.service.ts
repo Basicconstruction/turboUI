@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 export class MessageService{
   private hubConnection: signalR.HubConnection | undefined;
   constructor(private http: HttpClient) {
-    this.connect();
+    // this.connect();
   }
   connect(){
     this.hubConnection = new signalR.HubConnectionBuilder()

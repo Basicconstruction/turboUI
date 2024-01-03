@@ -9,7 +9,11 @@
     "copyrightStatement": "版权声明",
     "signIn": "登录",
     "signOut": "登出",
-    "self": "账号信息"
+    "self": "账号信息",
+    "rememberMe": "记住它",
+    "forgotPassword": "我忘记了密码",
+    "registerNow": "立即注册",
+    "or": "或者"
   },
   "settings": {
     "self": "设置",

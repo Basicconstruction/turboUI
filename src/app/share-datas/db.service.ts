@@ -3,7 +3,6 @@ import {DBSchema, IDBPDatabase, openDB} from "idb";
 import {ChatHistory, ChatHistoryTitle, Configuration, SystemPromptItem} from "../models";
 import {CONFIGURATION} from "../models/configuration.interface";
 import {ChatInterface} from "../models";
-import {timeToWait} from "./configuration.service";
 import {DatasModule} from "./datas.module";
 @Injectable({
   providedIn: DatasModule

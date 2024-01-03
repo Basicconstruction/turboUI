@@ -15,6 +15,14 @@ const routes: Routes = [
       {
         path: "sign-in", loadComponent: ()=>import("./sign-in-page/sign-in-page.component")
           .then(m=>m.SignInPageComponent),
+      },
+      {
+        path: "register", loadComponent: ()=>import("./register/register.component")
+          .then(m=>m.RegisterComponent),
+      },
+      {
+        path: "forgot-me-password", loadComponent: ()=>import("./forgot-my-password/forgot-my-password.component")
+          .then(m=>m.ForgotMyPasswordComponent)
       }
     ]
   }

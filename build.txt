@@ -1,7 +1,7 @@
 ng build --output-path docs --base-href /turboUI/
 https://angular.cn/guide/deployment
 ng build --stats-json
-
+--skip-tests
 //
 dependencies
  npm r katex

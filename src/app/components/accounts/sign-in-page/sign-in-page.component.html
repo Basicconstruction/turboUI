@@ -1,3 +1,34 @@
-<nz-card>
-  <button nz-button (click)="login()">{{'account.signIn' | translate}}</button>
-</nz-card>
+<div class="bg-theme2 text-theme2 h-100 d-flex justify-content-center">
+  <nz-card class="col-10 col-sm-9 col-lg-9 col-xl-7 border-0">
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row class="login-form-margin">
+        <div nz-col [nzSpan]="12">
+          <label nz-checkbox formControlName="remember">
+            <span>{{'account.rememberMe' | translate}}</span>
+          </label>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <a class="login-form-forgot" [routerLink]="['../forgot-me-password']">{{'account.forgotPassword' | translate}}</a>
+        </div>
+      </div>
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" >{{'account.signIn' | translate}}</button>
+      <a [routerLink]="['../register']" class="login-form-register">{{'account.registerNow' | translate}}</a>
+    </form>
+  </nz-card>
+</div>
+
+
