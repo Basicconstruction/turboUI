@@ -1,1 +1,56 @@
-<p>register works!</p>
+<div class="bg-theme2 text-theme2 h-100 d-flex justify-content-center">
+  <nz-card class="col-10 col-sm-9 col-lg-9 col-xl-7 border-0">
+    <form nz-form [formGroup]="validateForm" class="register-form" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label>{{ 'account.email' | translate }}</label>
+        <input class="form-control" name="email" formControlName="email"
+               [placeholder]="'account.pleaseEmail' | translate">
+        @if (validateForm.controls['email'].invalid && validateForm.controls['email'].dirty) {
+          <li>
+            {{ 'account.pleaseEmail' | translate }}
+          </li>
+        }
+      </div>
+      <div class="form-group">
+        <label>{{ 'account.userName' | translate }}</label>
+        <input class="form-control" name="userName" formControlName="userName"
+               [placeholder]="'account.pleaseUserName' | translate">
+        @if (validateForm.controls['userName'].invalid && validateForm.controls['userName'].dirty) {
+          <li>
+            {{ 'account.userTip' | translate }}
+          </li>
+        }
+      </div>
+      <div class="form-group">
+        <label>{{ 'account.password' | translate }}</label>
+        <input class="form-control" type="password" name="password" formControlName="password"
+               [placeholder]="'account.pleasePassword' | translate">
+        @if (validateForm.controls['password'].invalid && validateForm.controls['password'].dirty) {
+          <li>
+            {{ 'account.passwordTip' | translate }}
+          </li>
+        }
+      </div>
+      <div class="form-group">
+        <label>{{ 'account.confirmPassword' | translate }}</label>
+        <input class="form-control" type="password" name="confirm" formControlName="confirm"
+               [placeholder]="'account.pleaseConfirmPassword' | translate">
+        @if (validateForm.controls['confirm'].invalid && validateForm.controls['confirm'].dirty) {
+          <li>
+            {{ 'account.pleaseConfirmPassword' | translate }}
+          </li>
+        } @else if (validateForm.value.confirm !== validateForm.value.password) {
+          <li>
+            {{ 'account.notWith' | translate }}
+          </li>
+        }
+      </div>
+      <button class="btn btn-primary mt-2" type="submit"
+      >{{ 'account.registerNow' | translate }}
+      </button>
+      <div class="d-flex flex-row-reverse">
+        <a [routerLink]="['../sign-in']">{{ 'account.haveAccount' | translate }}</a>
+      </div>
+    </form>
+  </nz-card>
+</div>

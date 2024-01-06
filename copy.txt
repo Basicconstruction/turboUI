@@ -2,6 +2,9 @@ settings
 {{'settings.' | translate}}
 'settings.' | translate
 
+{{'account.' | translate}}
+'account.' | translate
+
 
 {{'prompts.' | translate}}
 'prompts.' | translate

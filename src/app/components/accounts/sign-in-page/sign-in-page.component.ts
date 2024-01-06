@@ -34,14 +34,13 @@ import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
   styleUrl: './sign-in-page.component.css'
 })
 export class SignInPageComponent {
-  message: string = "登录成功，正在返回";
   validateForm: FormGroup<{
     userName: FormControl<string>;
     password: FormControl<string>;
     remember: FormControl<boolean>;
   }> = this.fb.group({
-    userName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+    userName: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(20)]],
+    password: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]],
     remember: [true]
   });
   constructor(private authService: AuthService, private router: Router,
@@ -64,12 +63,5 @@ export class SignInPageComponent {
       });
     }
   }
-  // login(){
-  //   this.authService.login()
-  //   this.messageService.sendMessageToServer("hello world");
-  //   if(this.authService.isLogin){
-  //     this.router.navigate(['/chat','account','account-info'])
-  //   }
-  // }
 
 }

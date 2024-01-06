@@ -13,7 +13,20 @@
     "rememberMe": "记住它",
     "forgotPassword": "我忘记了密码",
     "registerNow": "立即注册",
-    "or": "或者"
+    "or": "或者",
+    "haveAccount": "我已经有账号了",
+    "userName": "用户名",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "pleaseUserName": "请输入你的用户名",
+    "pleaseEmail": "请输入你的邮箱",
+    "pleasePassword": "请输入密码",
+    "pleaseConfirmPassword": "请再一次输入你的密码",
+    "validating": "验证中",
+    "userTip": "用户名在3-20位之间",
+    "passwordTip": "密码在6-20位之间",
+    "notWith": "两次密码不一致"
   },
   "settings": {
     "self": "设置",

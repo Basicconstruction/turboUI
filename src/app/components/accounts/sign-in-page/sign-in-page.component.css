@@ -1,16 +1,5 @@
-.login-form {
-  min-width: 250px;
-  max-width: 500px;
-}
 
-.login-form-margin {
-  margin: 16px 0 8px;
-}
-
-.login-form-forgot, .login-form-register {
-  float: right;
-}
-
-.login-form-button {
-  width: 100%;
+li{
+  font-size: 12px;
+  color: red;
 }
