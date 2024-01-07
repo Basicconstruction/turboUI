@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import * as signalR from "@aspnet/signalr";
 import {HttpClient} from "@angular/common/http";
+import {AuthModule} from "./auth.module";
 
 @Injectable({
   providedIn: "root"

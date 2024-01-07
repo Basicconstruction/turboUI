@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzCardComponent} from "ng-zorro-antd/card";
-import {NzColDirective} from "ng-zorro-antd/grid";
+import {NzColDirective, NzRowDirective} from "ng-zorro-antd/grid";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {
@@ -12,6 +12,8 @@ import {
 } from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {RouterLink} from "@angular/router";
+import {VerificationService} from "../../../auth/vertification.service";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'app-register',
@@ -28,7 +30,8 @@ import {RouterLink} from "@angular/router";
     NzFormItemComponent,
     NzFormControlComponent,
     NzInputDirective,
-    NzButtonComponent
+    NzButtonComponent,
+    NzRowDirective
   ],
   standalone: true
 })
@@ -44,10 +47,29 @@ export class RegisterComponent {
     password: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]],
     confirm: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]]
   });
-
+  code: string | undefined;
+  codeUrl: string | undefined;
+  generateVerificationCode() {
+    this.verificationService.generateVerificationCode()
+      .subscribe(
+        {
+          next: (value:any) => {
+            this.code = value.code;
+            this.codeUrl = 'data:image/jpeg;base64,' + value.img;
+          }
+        }
+      );
+  }
+  @ViewChild("vCode")
+  vCode: ElementRef |undefined;
   submitForm(): void {
     if (this.validateForm.valid&&this.validateForm.value.confirm===this.validateForm.value.password) {
-      console.log('submit', this.validateForm.value);
+      if(this.code?.toLowerCase()!==this.vCode?.nativeElement.value.toLowerCase()){
+        this.message.error("验证码错误");
+        this.generateVerificationCode();
+        return;
+      }
+
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -60,16 +82,18 @@ export class RegisterComponent {
 
 
 
-  constructor(private fb: NonNullableFormBuilder) {
+  constructor(private fb: NonNullableFormBuilder,
+              private verificationService: VerificationService,
+              private message: NzMessageService) {
     // @ts-ignore
     this.validateForm.setValidators(this.passwordMatchValidator);
+    this.generateVerificationCode();
   }
   private passwordMatchValidator(group: FormGroup) {
     // @ts-ignore
     const password = group.get('password').value;
     // @ts-ignore
     const confirm = group.get('confirm').value;
-
     return password === confirm ? null : { passwordMatch: true };
   }
 }

@@ -8,13 +8,14 @@ import { zh_CN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChatModule} from "./components/chat.module";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {CLIPBOARD_OPTIONS, ClipboardButtonComponent, MarkdownModule, MARKED_OPTIONS} from "ngx-markdown";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TokenInterceptorService} from "./auth/token.interceptor.service";
 
 registerLocaleData(zh);
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,6 +60,11 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

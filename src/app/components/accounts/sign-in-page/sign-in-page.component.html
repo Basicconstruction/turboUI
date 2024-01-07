@@ -29,6 +29,16 @@
           <a class="login-form-forgot" [routerLink]="['../forgot-me-password']">{{'account.forgotPassword' | translate}}</a>
         </div>
       </div>
+      <div class="form-group m-2">
+        <nz-row>
+          <nz-col class="my-2">
+            <label class="me-2"><img [src]="codeUrl" width="200" height="50" alt="验证码" (click)="generateVerificationCode()"> </label>
+          </nz-col>
+          <nz-col class="d-flex justify-content-center align-items-center my-2">
+            <input type="text" #vCode style="height: 40px">
+          </nz-col>
+        </nz-row>
+      </div>
       <button class="btn btn-primary" >{{'account.signIn' | translate}}</button>
       <div class="d-flex flex-row-reverse">
         <a [routerLink]="['../register']" class="login-form-register">{{'account.registerNow' | translate}}</a>
