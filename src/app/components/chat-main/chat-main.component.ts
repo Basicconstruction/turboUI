@@ -37,6 +37,7 @@ import {OpenaiService} from "../../fetch";
 import {backChatHistorySubject, chatSessionSubject, configurationChangeSubject} from "../../tokens/subject.data";
 import {contextMemoryToken, lastSessionToken, sideBarToken, sizeReportToken} from "../../tokens/singleton";
 import {TranslateModule} from "@ngx-translate/core";
+import {TurboService} from "../../fetch/turbo.service";
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -70,6 +71,7 @@ import {TranslateModule} from "@ngx-translate/core";
     ChatContextHandler,
     ShowTypeService,
     OpenaiService,
+    TurboService,
     ModelFetchService,
     {
       provide: contextMemoryToken, useValue: new ContextMemoryService()
