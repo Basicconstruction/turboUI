@@ -11,9 +11,10 @@ import {
   Validators
 } from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {VerificationService} from "../../../auth/vertification.service";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {RegisterService} from "../../../auth/register.service";
 
 @Component({
   selector: 'app-register',
@@ -69,6 +70,16 @@ export class RegisterComponent {
         this.generateVerificationCode();
         return;
       }
+      this.registerService.register({
+        userName: this.validateForm.value.userName,
+        password: this.validateForm.value.password,
+        email: this.validateForm.value.email
+      }).subscribe({
+        next: data=>{
+          this.message.success("注册成功")
+          this.router.navigate(["/chat","account","sign-in"])
+        }
+      })
 
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -84,7 +95,9 @@ export class RegisterComponent {
 
   constructor(private fb: NonNullableFormBuilder,
               private verificationService: VerificationService,
-              private message: NzMessageService) {
+              private message: NzMessageService,
+              private registerService: RegisterService,
+              private router: Router) {
     // @ts-ignore
     this.validateForm.setValidators(this.passwordMatchValidator);
     this.generateVerificationCode();
