@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ConfigurationService} from "../share-datas";
-import {ChatVisionPacket, Message, RequestType, VisionMessage} from "../models";
+import {ChatVisionPacket, Message, VisionMessage} from "../models";
 
 import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {ChatPacket, ImagePacket, SpeechPacket, TranscriptionPacket} from "../models";
@@ -19,7 +19,6 @@ export class OpenaiService {
     if (!authorizationToken) authorizationToken = '';
     let requestBody: any;
     requestBody = {
-      type: RequestType.Chat,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -33,7 +32,6 @@ export class OpenaiService {
         top_p: config?.chatConfiguration.top_p
       }
     };
-    // console.log(requestBody)
     return this.fetchChatBase(url,requestBody,authorizationToken);
   }
   fetchChatVision(mp: ChatVisionPacket,model?: string): Observable<string> {
@@ -45,7 +43,6 @@ export class OpenaiService {
     if (!authorizationToken) authorizationToken = '';
     let requestBody: any;
     requestBody = {
-      type: RequestType.Chat,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -154,7 +151,6 @@ export class OpenaiService {
     if (!authorizationToken) authorizationToken = '';
     let requestBody: any;
     requestBody = {
-      type: RequestType.Image,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -184,7 +180,6 @@ export class OpenaiService {
     }
     let requestBody: any;
     requestBody = {
-      type: RequestType.Speech,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: {
@@ -220,7 +215,6 @@ export class OpenaiService {
       temperature: config?.transcriptionConfiguration.temperature,
     };
     requestBody = {
-      type: RequestType.Transcription,
       baseUrl: config?.baseUrl + '/v1',
       apiKey: config?.apiKey,
       body: body,
