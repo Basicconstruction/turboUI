@@ -4,12 +4,13 @@ import { User } from "../models/accounts/user";
 import {catchError} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {AuthModule} from "./auth.module";
+import {provide} from "./base.provider";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  private url = "https://localhost:44301/api/account/login";
+  private url = `${provide()}/api/account/login`;
   private tokenKey = 'auth_token';
   private userKey: string = "auth_user";
   public user: User | undefined;

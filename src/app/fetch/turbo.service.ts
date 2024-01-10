@@ -12,12 +12,13 @@ import {
 } from "../models";
 import {Observable} from "rxjs";
 import {AuthService} from "../auth";
+import {provide} from "../auth/base.provider";
 
 @Injectable({
   providedIn: "root"
 })
 export class TurboService {
-  baseUrl: string = "https://localhost:44301/api/ai";
+  baseUrl: string = `${provide()}/api/ai`;
 
   constructor(private configurationService: ConfigurationService,
               private http: HttpClient,
@@ -177,7 +178,6 @@ export class TurboService {
       voice: config?.speechConfiguration.voice,
       speed: config?.speechConfiguration.speed,
       response_format: config?.speechConfiguration.response_format,
-
     }
     formData.append('packet', JSON.stringify(requestBody));
     return this.fetchUpload(url, formData);

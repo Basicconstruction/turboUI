@@ -40,27 +40,27 @@ export class StaticRequestComponent {
     }
 
     if(type.startsWith("audio")){
-      return "assets/audio";
+      return "assets/svgs/audio";
     }
     if (type.startsWith("text")) {
       const fileExtension = fileName.split('.').pop(); // 获取文件后缀
       switch (fileExtension) {
         case 'cs':
-          return 'assets/csharp.svg'; // C# 文件的 icon 地址
+          return 'assets/svgs/csharp.svg'; // C# 文件的 icon 地址
         case 'java':
-          return 'assets/java.svg'; // Java 文件的 icon 地址
+          return 'assets/svgs/java.svg'; // Java 文件的 icon 地址
         case 'py':
-          return 'assets/py.svg'; // Python 文件的 icon 地址
+          return 'assets/svgs/py.svg'; // Python 文件的 icon 地址
         case 'ts':
-          return 'assets/ts.svg'; // TypeScript 文件的 icon 地址
+          return 'assets/svgs/ts.svg'; // TypeScript 文件的 icon 地址
         case 'txt':
         case 'text':
-          return 'assets/plaintext.svg'; // 普通文本文件的 icon 地址
+          return 'assets/svgs/plaintext.svg'; // 普通文本文件的 icon 地址
         default:
-          return 'assets/code.svg'; // 其他文本文件的 icon 地址
+          return 'assets/svgs/code.svg'; // 其他文本文件的 icon 地址
       }
     }
-    return "assets/file.svg";
+    return "assets/svgs/file.svg";
   }
 
 
