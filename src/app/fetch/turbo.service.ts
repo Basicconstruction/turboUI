@@ -11,12 +11,17 @@ import {
   VisionMessage
 } from "../models";
 import {Observable} from "rxjs";
+import {AuthService} from "../auth";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class TurboService {
   baseUrl: string = "https://localhost:44301/api/ai";
 
-  constructor(private configurationService: ConfigurationService, private http: HttpClient) {
+  constructor(private configurationService: ConfigurationService,
+              private http: HttpClient,
+              private authService: AuthService) {
 
   }
 
@@ -59,7 +64,8 @@ export class TurboService {
       fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.authService.token}`
         },
         body: JSON.stringify(requestBody)
       }).then(response => {
