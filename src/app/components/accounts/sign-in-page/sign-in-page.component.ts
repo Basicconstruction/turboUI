@@ -18,10 +18,7 @@ import {NzFormControlComponent, NzFormDirective} from "ng-zorro-antd/form";
 import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
 import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {HttpErrorResponse} from "@angular/common/http";
-import {catchError} from "rxjs";
-import {VerificationService} from "../../../auth/vertification.service";
-import {Element} from "@angular/compiler";
+import {VerificationService} from "../../../auth";
 
 @Component({
   standalone: true,
@@ -75,7 +72,7 @@ export class SignInPageComponent {
       this.authService.login(username!,password!)
         .subscribe({
           next: response => {
-            console.log(response)
+            // console.log(response)
             this.authService.restore({name: username!, id: response.id,password: password!}, response.token);
             this.router.navigate(["/chat","account","account-info"])
             }

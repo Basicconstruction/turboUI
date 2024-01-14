@@ -5,7 +5,7 @@ import {SidebarService} from "../../../services";
 import {Router, RouterLink} from "@angular/router";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {TranslateModule} from "@ngx-translate/core";
-import {MessageService} from "../../../auth/message.service";
+import {MessageService} from "../../../auth";
 
 @Component({
   selector: 'app-account-label',

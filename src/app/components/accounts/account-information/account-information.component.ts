@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 import {NzMessageService} from "ng-zorro-antd/message";
-import {VerificationService} from "../../../auth/vertification.service";
+import {VerificationService} from "../../../auth";
 import {catchError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {NzNotificationService} from "ng-zorro-antd/notification";
 import {NzCardComponent} from "ng-zorro-antd/card";
 import {AuthService} from "../../../auth";
+import {Role} from "../../../models/accounts/role";
+import {CallService} from "../../../auth/call.service";
 
 @Component({
   selector: 'app-account-information',
@@ -21,10 +22,11 @@ export class AccountInformationComponent {
   constructor(private message: NzMessageService,
               private verificationService: VerificationService,
               private router: Router,
-              private notification: NzNotificationService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private call:CallService) {
 
   }
+  roles: Role[] | undefined;
   get user(){
     return this.authService.user;
   }
@@ -33,7 +35,6 @@ export class AccountInformationComponent {
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401 || err.status === 403) {
-            // this.notification.error("身份信息已经过期，请重新登录", "");
             this.message.error("身份信息已经过期，请重新登录");
             this.router.navigate(["/chat", "account", "sign-in"]);
           }
@@ -45,7 +46,15 @@ export class AccountInformationComponent {
       })
     ).subscribe({
       next: value => {
+        this.fetchRolesOfThisUser();
         console.log("ok")
+      }
+    })
+  }
+  fetchRolesOfThisUser(){
+    this.call.getRolesByUserId(this.user?.id!).subscribe({
+      next: roles =>{
+        this.roles = roles;
       }
     })
   }

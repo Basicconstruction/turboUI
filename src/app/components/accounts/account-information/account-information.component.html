@@ -12,6 +12,11 @@
     昵称： {{user?.nickname===undefined?"无":user?.nickname}}
   </div>
   <div class="m-1 fs-u">
-    会员信息： 普通会员
+    身份:
+    @if(user!==undefined){
+      @for(role of roles!;track role.roleId){
+        {{role.name}}
+      }
+    }
   </div>
 </nz-card>

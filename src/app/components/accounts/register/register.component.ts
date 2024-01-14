@@ -12,9 +12,8 @@ import {
 } from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {Router, RouterLink} from "@angular/router";
-import {VerificationService} from "../../../auth/vertification.service";
+import {VerificationService, RegisterService} from "../../../auth";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {RegisterService} from "../../../auth/register.service";
 
 @Component({
   selector: 'app-register',

@@ -3,20 +3,19 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { User } from "../models/accounts/user";
 import {catchError} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {AuthModule} from "./auth.module";
-import {provide} from "./base.provider";
+import {CallService} from "./call.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  private url = `${provide()}/api/account/login`;
   private tokenKey = 'auth_token';
   private userKey: string = "auth_user";
   public user: User | undefined;
   public token: string | undefined;
 
-  constructor(private http: HttpClient,private message: NzMessageService) {
+  constructor(private http: HttpClient,private message: NzMessageService,
+              private call: CallService) {
     this.resume();
   }
   resume(){
@@ -34,7 +33,7 @@ export class AuthService {
       username: username,
       password: password
     };
-    return this.http.post<any>(this.url, body).pipe(
+    return this.call.login(body).pipe(
       catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401 || error.status === 403) {
@@ -47,8 +46,7 @@ export class AuthService {
         }
         throw error;
       })
-    )
-      ;
+    );
   }
 
   restore(user: User, token: string) {

@@ -15,7 +15,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {CLIPBOARD_OPTIONS, ClipboardButtonComponent, MarkdownModule, MARKED_OPTIONS} from "ngx-markdown";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {TokenInterceptorService} from "./auth/token.interceptor.service";
+import {TokenInterceptorService} from "./auth";
 
 registerLocaleData(zh);
 export function HttpLoaderFactory(http: HttpClient) {
