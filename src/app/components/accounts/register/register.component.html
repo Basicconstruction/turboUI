@@ -12,10 +12,10 @@
         }
       </div>
       <div class="form-group">
-        <label>{{ 'account.userName' | translate }}</label>
-        <input class="form-control" name="userName" formControlName="userName"
-               [placeholder]="'account.pleaseUserName' | translate">
-        @if (validateForm.controls['userName'].invalid && validateForm.controls['userName'].dirty) {
+        <label>{{ 'account.username' | translate }}</label>
+        <input class="form-control" name="username" formControlName="username"
+               [placeholder]="'account.pleaseUsername' | translate">
+        @if (validateForm.controls['username'].invalid && validateForm.controls['username'].dirty) {
           <li>
             {{ 'account.userTip' | translate }}
           </li>

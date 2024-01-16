@@ -2,9 +2,9 @@
   <nz-card class="col-10 col-sm-9 col-lg-9 col-xl-7 border-0">
     <form novalidate [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <div class="form-group">
-        <label>{{'account.userName' | translate}}</label>
-        <input class="form-control" name="userName" formControlName="userName">
-        @if (validateForm.controls['userName'].invalid && validateForm.controls['userName'].dirty) {
+        <label>{{'account.username' | translate}}</label>
+        <input class="form-control" name="username" formControlName="username">
+        @if (validateForm.controls['username'].invalid && validateForm.controls['username'].dirty) {
           <li>
             {{ 'account.userTip' | translate }}
           </li>

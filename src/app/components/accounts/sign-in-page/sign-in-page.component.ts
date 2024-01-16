@@ -44,11 +44,11 @@ import {VerificationService} from "../../../auth";
 })
 export class SignInPageComponent {
   validateForm: FormGroup<{
-    userName: FormControl<string>;
+    username: FormControl<string>;
     password: FormControl<string>;
     remember: FormControl<boolean>;
   }> = this.fb.group({
-    userName: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(20)]],
+    username: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(20)]],
     password: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]],
     remember: [true]
   });
@@ -67,7 +67,7 @@ export class SignInPageComponent {
         this.generateVerificationCode();
         return;
       }
-      let username = this.validateForm.value.userName;
+      let username = this.validateForm.value.username;
       let password = this.validateForm.value.password!;
       this.authService.login(username!,password!)
         .subscribe({

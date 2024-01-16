@@ -37,12 +37,12 @@ import {NzMessageService} from "ng-zorro-antd/message";
 })
 export class RegisterComponent {
   validateForm: FormGroup<{
-    userName: FormControl<string>;
+    username: FormControl<string>;
     email: FormControl<string>;
     password: FormControl<string>;
     confirm: FormControl<string>;
   }> = this.fb.group({
-    userName: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
+    username: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]],
     confirm: ['', [Validators.required,Validators.minLength(6), Validators.maxLength(20)]]
@@ -70,7 +70,7 @@ export class RegisterComponent {
         return;
       }
       this.registerService.register({
-        userName: this.validateForm.value.userName,
+        username: this.validateForm.value.username,
         password: this.validateForm.value.password,
         email: this.validateForm.value.email
       }).subscribe({
