@@ -10,12 +10,12 @@ import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ChatModule} from "./components/chat.module";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {CLIPBOARD_OPTIONS, ClipboardButtonComponent, MarkdownModule, MARKED_OPTIONS} from "ngx-markdown";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {TokenInterceptorService} from "./auth";
+import {ChatModule} from "./user_pages/chat.module";
+import {TokenInterceptorService} from "./share/roots";
 
 registerLocaleData(zh);
 export function HttpLoaderFactory(http: HttpClient) {

@@ -6,10 +6,16 @@ const routes: Routes = [
     path: "", pathMatch: "full", redirectTo: "/chat",
   },
   {
-    path: "chat", loadChildren: () => import("./components/chat.module").then(m=>m.ChatModule)
+    path: "chat", loadChildren: () => import("./user_pages/chat.module").then(m=>m.ChatModule)
   },
+  // {
+  //   path: "image-studio",
+  // },
+  // {
+  //   path: 'admin',
+  // },
   {
-    path: "**", loadComponent: () => import("./components/error-page/./error-page.component")
+    path: "**", loadComponent: () => import("./user_pages/error-page/./error-page.component")
       .then(m=>m.ErrorPageComponent)
   },
 
