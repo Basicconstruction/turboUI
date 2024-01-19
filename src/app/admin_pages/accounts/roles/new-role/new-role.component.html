@@ -1,0 +1,14 @@
+<form novalidate [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <div class="form-group mb-1">
+    <label>身份名</label>
+    <input class="form-control" name="name" formControlName="name">
+    @if (validateForm.controls['name'].invalid && validateForm.controls['name'].dirty) {
+      <li>
+        身份名要求长度2-15
+      </li>
+    }
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button class="btn btn-primary" type="submit">添加</button>
+  </div>
+</form>

@@ -1,0 +1,73 @@
+<nz-modal [(nzVisible)]="newRoleVisible"
+          [nzFooter]="[]"
+          [nzTitle]="'添加身份'"
+          (nzOnCancel)="newRoleVisible = false"
+          (nzOnOk)="newRoleVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-new-role (close)="tackleClose($event)"></app-new-role>
+  </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="editRoleVisible"
+          [nzFooter]="[]"
+          [nzTitle]="'添加身份'"
+          (nzOnCancel)="editRoleVisible = false"
+          (nzOnOk)="editRoleVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-edit-role (close)="tackleEditClose($event)" [role]="editRole!"></app-edit-role>
+  </ng-container>
+</nz-modal>
+
+<div class="overflow-y-scroll h-100">
+  <div class="d-flex flex-row-reverse sticky-top z-1 bg-white">
+    <div class="my-1">
+      <button class="btn btn-primary mx-1" (click)="newRoleVisible = true">添加</button>
+      <button class="btn btn-primary mx-1"
+              (click)="refresh()"
+      >刷新</button>
+    </div>
+  </div>
+  <table class="table table-sm table-striped table-bordered">
+    <thead>
+    <th scope="col">身份ID</th>
+    <th scope="col">身份名称</th>
+    <th>操作</th>
+    </thead>
+
+    @if(roles===undefined){
+      <nz-skeleton></nz-skeleton>
+    }@else{
+      <tbody>
+        @for(role of roles!; track role.roleId){
+          <tr>
+            <td>{{role.roleId}}</td>
+            <td>{{role.name}}</td>
+            <td>
+              <div class="d-flex">
+                <button class="btn btn-primary mx-1" (click)="editARole(role)">
+                  编辑
+                </button>
+                <button class="btn btn-warning mx-1"
+                        nz-popconfirm
+                        nzPopconfirmTitle="确定要删除这个身份吗,这将删除所有与该身份关联的关系?"
+                        nzPopconfirmPlacement="bottom"
+                        (nzOnConfirm)="delete(role.roleId)">
+                  删除
+                </button>
+                <button class="btn btn-secondary mx-1"
+                        nz-tooltip nzTooltipTitle="查看具有该身份的账户"
+                  [routerLink]="['../account-management']" [queryParams]="{ roleId: role.roleId }"
+                  >
+                  关联账户
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    }
+
+  </table>
+</div>
+

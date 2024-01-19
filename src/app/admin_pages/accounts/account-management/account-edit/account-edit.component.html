@@ -1,0 +1,73 @@
+<div class="overflow-y-scroll h-100">
+  <div class="d-flex flex-row-reverse me-3">
+    <button class="btn btn-primary" (click)="goBack()">返回</button>
+  </div>
+  <form novalidate [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label>用户Id</label>
+      <input readonly class="form-control" name="accountId" formControlName="accountId">
+    </div>
+    <div class="form-group">
+      <label>用户名</label>
+      <input class="form-control" name="username" formControlName="username">
+      @if (validateForm.controls['username'].invalid && validateForm.controls['username'].dirty) {
+        <li>
+          用户名在3-20位之间
+        </li>
+      }
+    </div>
+    <div class="form-group">
+      <label>密码</label>
+      <input class="form-control" name="password" formControlName="password">
+      @if (validateForm.controls['password'].invalid && validateForm.controls['password'].dirty) {
+        <li>
+          密码在6-20位之间
+        </li>
+      }
+    </div>
+    <div class="form-group">
+      <label>邮箱</label>
+      <input class="form-control" name="email" formControlName="email">
+      @if (validateForm.controls['email'].invalid && validateForm.controls['email'].dirty) {
+        <li>
+          请输入你的邮箱
+        </li>
+      }
+    </div>
+    <div class="form-group">
+      <label>身份</label>
+      <div class="d-flex justify-content-start">
+        @for(role of roles;track role!.roleId){
+          <div
+            class="border-black border-1 solid m-1 rounded-3 p-2"
+            (click)="action(role)"
+            nz-tooltip nzTooltipTitle='移除'
+          >{{role.name}}</div>
+        }
+      </div>
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <button class="btn btn-primary me-3" (click)="fetchRoles(true)">刷新</button>
+    </div>
+    <div>
+      <div>所有的身份</div>
+      <div class="d-flex justify-content-start">
+        @if(allRoles!==undefined){
+          @for(role of allRoles;track role!.roleId){
+            <div
+              class="border-black border-1 solid m-1 rounded-3 p-2"
+              [class.active]="active(role.roleId)"
+              nz-tooltip [nzTooltipTitle]='actionTip(role.roleId)'
+              (click)="action(role)"
+            >{{role.name}}</div>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="d-flex flex-row-reverse">
+      <button class="btn btn-primary me-3" type="submit">更改</button>
+    </div>
+  </form>
+</div>
+

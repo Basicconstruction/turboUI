@@ -1,0 +1,58 @@
+<div class="overflow-y-scroll h-100">
+  <div class="d-flex flex-row-reverse sticky-top z-1">
+    <div class="my-1">
+      <button class="btn btn-primary mx-1" [routerLink]="['create']" [queryParams]="{returnUrl: '/accounts/account-management'}">添加</button>
+      <button class="btn btn-primary mx-1"
+              (click)="refresh()"
+      >刷新</button>
+    </div>
+  </div>
+  <table class="table table-sm table-striped table-bordered">
+    <thead>
+    <th scope="col">账户ID</th>
+    <th scope="col">用户名</th>
+    <th scope="col">邮箱</th>
+    <th scope="col">密码</th>
+    <th scope="col">身份</th>
+    <th>操作</th>
+    </thead>
+
+    @if(accounts===undefined){
+      <nz-skeleton></nz-skeleton>
+    }@else{
+      <tbody>
+        @for(account of accounts!; track account.accountId){
+          <tr>
+            <td>{{account.accountId}}</td>
+            <td>{{account.username}}</td>
+            <td>{{account.email}}</td>
+            <td>{{account.password}}</td>
+            <td>
+              @if(account.userRoles!==undefined){
+                @for(role of account.userRoles; track role.roleId){
+                  {{role.name}}
+                }
+              }
+            </td>
+            <td>
+              <div class="d-flex">
+                <button class="btn btn-primary mx-1" [routerLink]="['edit',''+account.accountId]" [queryParams]="{returnUrl: '/accounts//account-management'}">
+                  编辑
+                </button>
+                <button class="btn btn-warning mx-1"
+                        nz-popconfirm
+                        nzPopconfirmTitle="确定要删除这个账户?此操作不可逆！"
+                        nzPopconfirmPlacement="bottom"
+                        (nzOnConfirm)="delete(account.accountId)">
+                  删除
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    }
+
+  </table>
+
+</div>

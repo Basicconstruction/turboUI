@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {catchError} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {User} from "../models/accounts";
 import {AuthCallService} from "./auth-call.service";
-import {User} from "../../user_anything/models/accounts";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +14,7 @@ export class AuthService {
   public user: User | undefined;
   public token: string | undefined;
 
-  constructor(private http: HttpClient,private message: NzMessageService,
+  constructor(private message: NzMessageService,
               private call: AuthCallService) {
     this.resume();
   }
@@ -48,7 +48,9 @@ export class AuthService {
       })
     );
   }
-
+  store(){
+    this.restore(this.user!,this.token!);
+  }
   restore(user: User, token: string) {
     this.user = user;
     this.token = token;

@@ -1,7 +1,7 @@
 import {provide} from "../roots";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Role} from "../../user_anything/models/accounts";
+import {Role} from "../models/accounts";
 
 @Injectable(
   {
@@ -27,7 +27,10 @@ export class AuthCallService {
   generateVerificationCode(){
     return this.http.get(`${provide()}/api/verification/generate`);
   }
-  getRolesByUserId(id: number){
-    return this.http.get<Role[]>(`${provide()}/api/role?userId=${id}`);
+  getRolesWithUserId(userId?: number){
+    if(userId===undefined){
+      return this.http.get<Role[]>(`${provide()}/api/role`);
+    }
+    return this.http.get<Role[]>(`${provide()}/api/role?userId=${userId}`);
   }
 }

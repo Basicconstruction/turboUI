@@ -11,13 +11,15 @@ const routes: Routes = [
   // {
   //   path: "image-studio",
   // },
-  // {
-  //   path: 'admin',
-  // },
   {
-    path: "**", loadComponent: () => import("./user_pages/error-page/./error-page.component")
-      .then(m=>m.ErrorPageComponent)
+    path: 'admin',
+    loadChildren: ()=> import('./admin_pages/admin.module')
+      .then(m=>m.AdminModule)
   },
+  // {
+  //   path: "**", loadComponent: () => import("./user_pages/error-page/./error-page.component")
+  //     .then(m=>m.ErrorPageComponent)
+  // },
 
 ];
 

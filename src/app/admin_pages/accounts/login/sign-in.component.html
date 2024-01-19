@@ -1,0 +1,50 @@
+<div class="bg-theme2 text-theme2 h-100 d-flex justify-content-center">
+  <nz-card class="col-10 col-sm-9 col-lg-9 col-xl-7 border-0">
+    <form novalidate [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label>{{'account.userName' | translate}}</label>
+        <input class="form-control" name="userName" formControlName="userName">
+        @if (validateForm.controls['userName'].invalid && validateForm.controls['userName'].dirty) {
+          <li>
+            {{ 'account.userTip' | translate }}
+          </li>
+        }
+      </div>
+      <div class="form-group">
+        <label>{{'account.password' | translate}}</label>
+        <input class="form-control" type="password" name="password" formControlName="password">
+        @if (validateForm.controls['password'].invalid && validateForm.controls['password'].dirty) {
+          <li>
+            {{ 'account.passwordTip' | translate }}
+          </li>
+        }
+      </div>
+      <div nz-row class="m-2 d-flex justify-content-between">
+        <div >
+          <label nz-checkbox formControlName="remember">
+            <span>{{'account.rememberMe' | translate}}</span>
+          </label>
+        </div>
+        <div>
+          <a class="login-form-forgot" [routerLink]="['../forgot-me-password']">{{'account.forgotPassword' | translate}}</a>
+        </div>
+      </div>
+      <div class="form-group m-2">
+        <nz-row>
+          <nz-col class="my-2">
+            <label class="me-2"><img [src]="codeUrl" width="200" height="50" alt="验证码" (click)="generateVerificationCode()"> </label>
+          </nz-col>
+          <nz-col class="d-flex justify-content-center align-items-center my-2">
+            <input type="text" #vCode style="height: 40px">
+          </nz-col>
+        </nz-row>
+      </div>
+      <button class="btn btn-primary" >{{'account.signIn' | translate}}</button>
+      <div class="d-flex flex-row-reverse">
+        <a [routerLink]="['../register']" class="login-form-register">{{'account.registerNow' | translate}}</a>
+      </div>
+    </form>
+  </nz-card>
+</div>
+
+
