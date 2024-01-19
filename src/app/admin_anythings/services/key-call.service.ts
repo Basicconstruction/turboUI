@@ -13,36 +13,36 @@ export class KeyCallService{
   }
   getModelsWithKey(keyId?: number){
     if(keyId===undefined){
-      return this.http.get<Model[]>(`${provide()}/api/model`);
+      return this.http.get<Model[]>(`${provide()}api/model`);
     }
-    return this.http.get<Model[]>(`${provide()}/api/model?keyId=${keyId}`);
+    return this.http.get<Model[]>(`${provide()}api/model?keyId=${keyId}`);
   }
   deleteModel(modelId: number){
-    return this.http.delete<any>(`${provide()}/api/model/${modelId}`);
+    return this.http.delete<any>(`${provide()}api/model/${modelId}`);
   }
   addModel(name: string){
-    return this.http.post<any>(`${provide()}/api/model`,{name: name});
+    return this.http.post<any>(`${provide()}api/model`,{name: name});
   }
   updateModel(model: Model){
-    return this.http.post<any>(`${provide()}/api/model`,model);
+    return this.http.post<any>(`${provide()}api/model`,model);
   }
   getKeyById(keyId: number){
-    return this.http.get<SupplierKey>(`${provide()}/api/key/${keyId}`);
+    return this.http.get<SupplierKey>(`${provide()}api/key/${keyId}`);
   }
   getKeysWithModel(modelId?: number){
     if(modelId===undefined){
-      return this.http.get<SupplierKey[]>(`${provide()}/api/key`);
+      return this.http.get<SupplierKey[]>(`${provide()}api/key`);
     }
-    return this.http.get<SupplierKey[]>(`${provide()}/api/key?modelId=${modelId}`);
+    return this.http.get<SupplierKey[]>(`${provide()}api/key?modelId=${modelId}`);
   }
   deleteKey(keyId: number){
-    return this.http.delete<any>(`${provide()}/api/key/${keyId}`);
+    return this.http.delete<any>(`${provide()}api/key/${keyId}`);
   }
   addKey(key: SupplierKey){
-    return this.http.post<any>(`${provide()}/api/key`,key);
+    return this.http.post<any>(`${provide()}api/key`,key);
   }
   updateKey(key: SupplierKey){
-    return this.http.put<any>(`${provide()}/api/key/${key.supplierKeyId}`,key);
+    return this.http.put<any>(`${provide()}api/key/${key.supplierKeyId}`,key);
   }
 
 

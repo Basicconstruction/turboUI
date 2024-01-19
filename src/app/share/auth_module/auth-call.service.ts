@@ -15,22 +15,16 @@ export class AuthCallService {
   }
 
   login(body: any) {
-    return this.http.post<any>(`${provide()}/api/auth/login`, body);
+    return this.http.post<any>(`${provide()}api/auth/login`, body);
   }
 
   register(body: any) {
-    return this.http.post(`${provide()}/api/auth/register`,body);
+    return this.http.post(`${provide()}api/auth/register`,body);
   }
   check_token(){
-    return this.http.get<any>(`${provide()}/api/verification/check-token`);
+    return this.http.get<any>(`${provide()}api/verification/check-token`);
   }
   generateVerificationCode(){
-    return this.http.get(`${provide()}/api/verification/generate`);
-  }
-  getRolesWithUserId(userId?: number){
-    if(userId===undefined){
-      return this.http.get<Role[]>(`${provide()}/api/role`);
-    }
-    return this.http.get<Role[]>(`${provide()}/api/role?userId=${userId}`);
+    return this.http.get(`${provide()}api/verification/generate`);
   }
 }

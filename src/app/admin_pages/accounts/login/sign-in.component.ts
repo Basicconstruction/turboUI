@@ -71,7 +71,7 @@ export class SignInPageComponent {
         .subscribe({
           next: response => {
             this.authService.restore({name: username!, id: response.id,password: password!}, response.token);
-            this.router.navigate(["/accounts","account-info"])
+            this.router.navigate(['admin',"accounts","account-info"])
           }
         });
 

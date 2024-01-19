@@ -8,6 +8,7 @@ import {NzCardComponent} from "ng-zorro-antd/card";
 import {AuthService} from "../../../share/auth_module";
 import {AuthCallService} from "../../../share/auth_module/auth-call.service";
 import {Role} from "../../../share/models/accounts";
+import {AccountCallService} from "../../../admin_anythings/services";
 
 @Component({
   selector: 'app-account-information',
@@ -23,7 +24,8 @@ export class AccountInformationComponent {
               private verificationService: VerificationService,
               private router: Router,
               private authService: AuthService,
-              private call:AuthCallService) {
+              private call: AccountCallService
+              ) {
 
   }
   roles: Role[] | undefined;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {AdminComponent} from "./admin_pages/admin.component";
 
 const routes: Routes = [
   {
@@ -8,18 +9,28 @@ const routes: Routes = [
   {
     path: "chat", loadChildren: () => import("./user_pages/chat.module").then(m=>m.ChatModule)
   },
-  // {
-  //   path: "image-studio",
-  // },
   {
     path: 'admin',
-    loadChildren: ()=> import('./admin_pages/admin.module')
-      .then(m=>m.AdminModule)
+    component: AdminComponent,
+    children: [
+      {
+        path: '', pathMatch: 'full', redirectTo: 'accounts'
+      },
+      {
+        path: 'accounts', loadChildren: () =>
+          import('./admin_pages/accounts/account.module').then(m => m.AccountModule)
+      },
+      {
+        path: 'secrets', loadChildren: ()=>
+          import('./admin_pages/secrets/secret.module')
+            .then(m=>m.SecretModule)
+      }
+    ]
   },
-  // {
-  //   path: "**", loadComponent: () => import("./user_pages/error-page/./error-page.component")
-  //     .then(m=>m.ErrorPageComponent)
-  // },
+  {
+    path: "**", loadComponent: () => import("./user_pages/error-page/./error-page.component")
+      .then(m=>m.ErrorPageComponent)
+  },
 
 ];
 
