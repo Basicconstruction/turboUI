@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AuthGuard} from "../../share/guards/auth.guard";
+import {AdminAuthGuard} from "../../admin_anythings/guards";
 
 const routes: Routes = [
   {
@@ -24,7 +24,7 @@ const routes: Routes = [
           import('./account-management/account-create/account-create.component')
             .then(c=>c.AccountCreateComponent),
         canActivate: [
-          AuthGuard
+          AdminAuthGuard
         ]
       },
       {
@@ -32,7 +32,7 @@ const routes: Routes = [
           import('./account-management/account-edit/account-edit.component')
             .then(c=>c.AccountEditComponent),
         canActivate: [
-          AuthGuard
+          AdminAuthGuard
         ]
       }
     ]
@@ -42,7 +42,7 @@ const routes: Routes = [
       import('./account-info/account-info.component')
         .then(c=>c.AccountInfoComponent),
     canActivate: [
-      AuthGuard
+      AdminAuthGuard
     ]
   },
   {

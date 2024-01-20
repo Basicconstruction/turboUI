@@ -35,7 +35,7 @@ export class AccountInfoComponent {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401 || err.status === 403) {
             this.message.error("身份信息已经过期，请重新登录");
-            this.router.navigate(["/accounts", "sign-in"]);
+            this.router.navigate(["/admin","accounts", "sign-in"]);
           }
         } else {
           this.message.error("网络错误")

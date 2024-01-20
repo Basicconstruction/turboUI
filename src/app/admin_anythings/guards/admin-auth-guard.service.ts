@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
-import {AuthService} from "../auth_module";
+import {AuthService} from "../../share/auth_module";
+
 
 @Injectable({
   providedIn: "root"
 })
-export class AuthGuard{
+export class AdminAuthGuard {
   constructor(private message: NzMessageService,
               private authService: AuthService,
               private router: Router) {
@@ -17,8 +18,7 @@ export class AuthGuard{
       return true;
     }else{
       this.message.error("还没有登录哦");
-      console.log(route)
-      this.router.navigate(['/accounts/sign-in']);
+      this.router.navigate(['/admin/accounts/sign-in']);
       return false;
     }
   }
