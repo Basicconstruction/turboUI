@@ -9,6 +9,7 @@ import {AuthService} from "../../../share/auth_module";
 import {AuthCallService} from "../../../share/auth_module/auth-call.service";
 import {Role} from "../../../share/models/accounts";
 import {AccountCallService} from "../../../admin_anythings/services";
+import {user_routes} from "../../../user_anything/routes";
 
 @Component({
   selector: 'app-account-information',
@@ -38,7 +39,7 @@ export class AccountInformationComponent {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401 || err.status === 403) {
             this.message.error("身份信息已经过期，请重新登录");
-            this.router.navigate(["/chat", "account", "sign-in"]);
+            this.router.navigate(user_routes.sign_in);
           }
 
         } else {

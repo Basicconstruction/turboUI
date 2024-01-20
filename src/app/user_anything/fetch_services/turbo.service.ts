@@ -18,7 +18,7 @@ import {provide} from "../../share/roots";
   providedIn: "root"
 })
 export class TurboService {
-  baseUrl: string = `${provide()}/api/ai`;
+  baseUrl: string = `${provide()}api/ai`;
 
   constructor(private configurationService: ConfigurationService,
               private http: HttpClient,

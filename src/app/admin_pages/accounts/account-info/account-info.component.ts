@@ -6,6 +6,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {NzCardComponent} from "ng-zorro-antd/card";
 import {AuthService, VerificationService} from "../../../share/auth_module";
 import {AccountCallService} from "../../../admin_anythings/services";
+import {admin_routes} from "../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-account-info',
@@ -35,7 +36,7 @@ export class AccountInfoComponent {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401 || err.status === 403) {
             this.message.error("身份信息已经过期，请重新登录");
-            this.router.navigate(["/admin","accounts", "sign-in"]);
+            this.router.navigate(admin_routes.sign_in);
           }
         } else {
           this.message.error("网络错误")

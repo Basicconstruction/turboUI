@@ -7,6 +7,7 @@ import {RouterLink} from "@angular/router";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {TranslateModule} from "@ngx-translate/core";
 import {SystemPromptItem} from "../../../user_anything/models";
+import {user_routes} from "../../../user_anything/routes";
 
 @Component({
   selector: 'app-system-word-choice',
@@ -37,4 +38,6 @@ export class SystemWordChoiceComponent{
     this.chooseSystemPrompt.emit(info);
     this.close.emit(true);
   }
+
+  protected readonly user_routes = user_routes;
 }

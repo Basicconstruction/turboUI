@@ -1,1 +1,1 @@
-export {key_routes} from './admin.routes';
+export {admin_routes} from './admin.routes';

@@ -12,6 +12,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AccountCallService} from "../../../../admin_anythings/services";
 import {Role} from "../../../../share/models/accounts";
+import {admin_routes} from "../../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-account-edit',
@@ -108,7 +109,7 @@ export class AccountEditComponent {
         .subscribe({
           next: (msg:any) =>{
             this.message.success('更改账户成功');
-            this.router.navigate(['/accounts','account-management']);
+            this.router.navigate(admin_routes.management);
           },
           error: (err: any) => {
             this.message.error(err.error);

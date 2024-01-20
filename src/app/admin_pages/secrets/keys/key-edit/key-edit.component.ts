@@ -13,6 +13,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {ActivatedRoute, Router} from "@angular/router";
 import {KeyCallService} from "../../../../admin_anythings/services";
 import {Model, ModelFee} from "../../../../admin_anythings/models/keys";
+import {admin_routes} from "../../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-key-edit',
@@ -105,7 +106,7 @@ export class KeyEditComponent {
         .subscribe({
           next: () =>{
             this.message.success('更改密钥成功');
-            this.router.navigate(['/secrets','keys']);
+            this.router.navigate(admin_routes.keys);
           },
           error: (err: any) => {
             this.message.error(err.error);

@@ -18,6 +18,7 @@ import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {TranslateModule} from "@ngx-translate/core";
 import {AuthService, VerificationService} from "../../../share/auth_module";
+import {admin_routes} from "../../../admin_anythings/routes";
 @Component({
   selector: 'app-accounts',
   templateUrl: './sign-in.component.html',
@@ -71,7 +72,7 @@ export class SignInPageComponent {
         .subscribe({
           next: response => {
             this.authService.restore({name: username!, id: response.id,password: password!}, response.token);
-            this.router.navigate(['admin',"accounts","account-info"])
+            this.router.navigate(admin_routes.account_info)
           }
         });
 

@@ -5,6 +5,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {NzPopconfirmDirective} from "ng-zorro-antd/popconfirm";
 import {Account} from "../../../admin_anythings/models/accounts";
 import {AccountCallService} from "../../../admin_anythings/services";
+import {admin_routes} from "../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-account-management',
@@ -64,4 +65,5 @@ export class AccountManagementComponent implements OnInit{
       });
     }
 
+  protected readonly admin_routes = admin_routes;
 }

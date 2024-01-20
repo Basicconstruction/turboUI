@@ -14,6 +14,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {Router, RouterLink} from "@angular/router";
 import {VerificationService, RegisterService} from "../../../share/auth_module";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {user_routes} from "../../../user_anything/routes";
 
 @Component({
   selector: 'app-register',
@@ -76,7 +77,7 @@ export class RegisterComponent {
       }).subscribe({
         next: data=>{
           this.message.success("注册成功")
-          this.router.navigate(["/chat","account","sign-in"])
+          this.router.navigate(user_routes.sign_in)
         }
       })
 

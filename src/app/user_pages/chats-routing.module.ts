@@ -26,7 +26,7 @@ const routes: Routes = [
         }
       },
       {
-        path: "account",
+        path: "accounts",
         loadChildren: ()=>import("./accounts/account.module")
           .then(m=>m.AccountModule)
       },

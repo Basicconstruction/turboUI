@@ -4,7 +4,7 @@ import {AdminAuthGuard} from "../../admin_anythings/guards";
 
 const routes: Routes = [
   {
-    path: '', redirectTo:'sign-in',pathMatch: "full"
+    path: '', redirectTo:'account-info',pathMatch: "full"
   },
   {
     path: 'sign-in', loadComponent: ()=>

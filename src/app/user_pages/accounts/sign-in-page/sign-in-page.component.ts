@@ -19,6 +19,7 @@ import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
 import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {VerificationService} from "../../../share/auth_module";
+import {user_routes} from "../../../user_anything/routes";
 
 @Component({
   standalone: true,
@@ -74,7 +75,7 @@ export class SignInPageComponent {
           next: response => {
             // console.log(response)
             this.authService.restore({name: username!, id: response.id,password: password!}, response.token);
-            this.router.navigate(["/chat","account","account-info"])
+            this.router.navigate(user_routes.account_info)
             }
         });
 

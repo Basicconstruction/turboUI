@@ -6,6 +6,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {KeyExhibitComponent} from "./key-exhibit/key-exhibit.component";
 import {SupplierKey} from "../../../admin_anythings/models/keys";
 import {KeyCallService} from "../../../admin_anythings/services";
+import {admin_routes} from "../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-keys',
@@ -54,4 +55,6 @@ export class KeysComponent {
       }
     });
   }
+
+  protected readonly admin_routes = admin_routes;
 }

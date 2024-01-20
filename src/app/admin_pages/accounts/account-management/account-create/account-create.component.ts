@@ -12,6 +12,7 @@ import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AccountCallService} from "../../../../admin_anythings/services";
 import {Role} from "../../../../share/models/accounts";
+import {admin_routes} from "../../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-account-create',
@@ -88,7 +89,7 @@ export class AccountCreateComponent {
         .subscribe({
           next: () =>{
             this.message.success('创建账户成功');
-            this.router.navigate(['/accounts','account-management']);
+            this.router.navigate(admin_routes.management);
           },
           error: (err: any) => {
             this.message.error(err.error);

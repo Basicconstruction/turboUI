@@ -19,6 +19,7 @@ import {
   Configuration
 } from "../../user_anything/models";
 import {ChatHistoryTitleAction, ChatHistoryTitleActionInfo} from "../../user_anything/models/operations";
+import {user_routes} from "../../user_anything/routes";
 export const MagicDataId = -2;
 @Component({
   selector: 'app-chat-page',
@@ -109,7 +110,7 @@ export class ChatPageComponent implements OnInit {
     if(this.sizeReportService.miniPhoneView()){
       this.sidebarService.close();
     }
-    this.router.navigate(['/chat','settings']).then(
+    this.router.navigate(user_routes.settings).then(
       ()=>{
 
       }
@@ -119,7 +120,7 @@ export class ChatPageComponent implements OnInit {
     if(this.sizeReportService.miniPhoneView()){
       this.sidebarService.close();
     }
-    this.router.navigate(['/chat','prompts']).then(
+    this.router.navigate(user_routes.prompts).then(
       ()=>{
 
       }

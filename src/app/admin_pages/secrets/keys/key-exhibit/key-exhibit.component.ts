@@ -5,6 +5,7 @@ import {RouterLink} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {KeyCallService} from "../../../../admin_anythings/services";
 import {SupplierKey} from "../../../../admin_anythings/models/keys";
+import {admin_routes} from "../../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-key-exhibit',
@@ -36,4 +37,6 @@ export class KeyExhibitComponent {
         }
       })
   }
+
+  protected readonly admin_routes = admin_routes;
 }

@@ -14,6 +14,7 @@ import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
 import {KeyCallService} from "../../../../admin_anythings/services";
 import {Model, ModelFee} from "../../../../admin_anythings/models/keys";
+import {admin_routes} from "../../../../admin_anythings/routes";
 
 @Component({
   selector: 'app-key-create',
@@ -89,7 +90,7 @@ export class KeyCreateComponent {
         .subscribe({
           next: () =>{
             this.message.success('创建密钥成功');
-            this.router.navigate(['/secrets','keys']);
+            this.router.navigate(admin_routes.keys);
           },
           error: (err: any) => {
             this.message.error(err.error);

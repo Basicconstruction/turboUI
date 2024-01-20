@@ -1,3 +1,6 @@
-export const key_routes = '';
-// 修整全局路由,便于统一修改，优化user操作，小登录关闭侧边栏，添加回退按钮
-//
+export const admin_routes = {
+  sign_in: ["/admin","accounts", "sign-in"],
+  management: ['/admin','accounts','account-management'],
+  account_info: ['/admin',"accounts","account-info"],
+  keys: ['/admin','secrets','keys']
+};
