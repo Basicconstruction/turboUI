@@ -1,14 +1,10 @@
 ### 在csdn阅读
 使用介绍和简要的设计目的  
 http://t.csdnimg.cn/6P2FF  
-### 预览或者体验：  
 
-https:  
-前端地址  
-.net with iis(full pwa) https://turbo.atpgroup.work  
-后端地址  
- 
-iis with python https://pp.atpgroup.work
+由于服务器即将过期，并不再续费，已经注销服务器域名备案。停止预览。要想使用请直接下载最新版本，并在本地运行。
+后续版本与本版本有很大的不同，删除了很多，甚至大部分功能。
+
 
 推荐的API 提供商（中转服务商）（无赞助关系）  
 - ChatAnyWhere https://peiqi.shop/
