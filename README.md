@@ -7,13 +7,15 @@ http://t.csdnimg.cn/6P2FF
 
 
 推荐的API 提供商（中转服务商）（无赞助关系）  
-- ChatAnyWhere https://peiqi.shop/
+- ChatAnyWhere 
 - AiHubMix https://aihubmix.com/
 
 优点： 服务稳定，价格稳定（相对便宜且稳定），明确的计费系统，较为完整的模型支持。  
 ChatAnyWhere 用户数量大，最低充值金额（￥30），超低gpt3.5模型（近乎最低价）  
 AiHubMix 最低充值金额更小（￥3.5），更完整的文档。  
 
+### 更 -新，
+服务端部分 https://github.com/Basicconstruction/turboai-server （private at 2024.4.15.11.52）
 ### 展示效果
 
 ![img_12.png](img_12.png)
